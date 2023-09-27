@@ -17,10 +17,29 @@
                 </div>
             </div>
             <div class="col-12 col-md-6">
+                <div class="form-group{{ $errors->has('tipodocumento_id') ? ' has-error' : '' }}">
+                <label for="">Tipo Documento</label>
+                {!! Form::select('tipodocumento_id', $tipodocs, $empleado->tipodocumento_id, ['id' => 'tipodocumento_id', 'class' => 'form-control', 'required' => 'required','placeholder'=>'Seleccione una opción']) !!}
+                <small class="text-danger">{{ $errors->first('tipodocumento_id') }}</small>
+                </div>
+                {{-- <div class="form-group">
+                    {{ Form::label('Tipo Documento') }}
+                    {{ Form::text('tipodocumento_id', $empleado->tipodocumento_id, ['class' => 'form-control' . ($errors->has('tipodocumento_id') ? ' is-invalid' : ''), 'placeholder' => 'Tipo Documento']) }}
+                    {!! $errors->first('tipodocumento_id', '<div class="invalid-feedback">:message</div>') !!}
+                </div> --}}
+            </div>
+            <div class="col-12 col-md-6">
                 <div class="form-group">
-                    {{ Form::label('cedula') }}
-                    {{ Form::text('cedula', $empleado->cedula, ['class' => 'form-control' . ($errors->has('cedula') ? ' is-invalid' : ''), 'placeholder' => 'Cedula']) }}
+                    {{ Form::label('Nro. Documento') }}
+                    {{ Form::text('cedula', $empleado->cedula, ['class' => 'form-control' . ($errors->has('cedula') ? ' is-invalid' : ''), 'placeholder' => 'Nro. Documento']) }}
                     {!! $errors->first('cedula', '<div class="invalid-feedback">:message</div>') !!}
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    {{ Form::label('nacionalidad') }}
+                    {{ Form::text('nacionalidad', $empleado->nacionalidad, ['class' => 'form-control' . ($errors->has('nacionalidad') ? ' is-invalid' : ''), 'placeholder' => 'Nacionalidad']) }}
+                    {!! $errors->first('nacionalidad', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
             <div class="col-12 col-md-6">
@@ -49,7 +68,7 @@
                     {{ Form::label('area') }}
                     {{-- {{ Form::text('area_id', $empleado->area_id, ['class' => 'form-control' . ($errors->has('area_id') ? ' is-invalid' : ''), 'placeholder' => 'Area Id']) }} --}}
 
-                    {!! Form::select('area_id', $areas, $empleado->area_id, ['class' => 'form-control', 'required' => 'required']) !!}
+                    {!! Form::select('area_id', $areas, $empleado->area_id, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Seleccione una opción']) !!}
 
                     {!! $errors->first('area_id', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
@@ -66,7 +85,7 @@
                             <input class="form-check-input" type="checkbox" name="generarusuario">
                             <label class="form-check-label">Generar usuario</label> <br><small
                                 class="text-info">(Tomando datos del correo
-                                y cedula)</small>
+                                y Nro. Documento)</small>
                         </div>
                     @endif
                 </div>

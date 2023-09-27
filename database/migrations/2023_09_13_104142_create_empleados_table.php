@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nombres');
             $table->string('apellidos');
+            $table->foreignId('tipodocumento_id')->nullable()->constrained();
             $table->string('cedula',25);
+            $table->string('nacionalidad')->nullable();
             $table->string('direccion');
             $table->string('telefono',50);
             $table->string('email',100);

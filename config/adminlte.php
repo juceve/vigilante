@@ -337,6 +337,16 @@ return [
             'icon'    => 'fas fa-fw fa-cog',
             'submenu' => [
                 [
+                    'text' => 'Oficinas',
+                    'url'  => 'admin/oficinas',
+                    'icon' => 'fas fa-fw fa-list'
+                ],
+                [
+                    'text' => 'Clientes',
+                    'url'  => 'admin/clientes',
+                    'icon' => 'fas fa-fw fa-address-book'
+                ],
+                [
                     'text' => 'Empleados',
                     'url'  => 'admin/empleados',
                     'icon' => 'fas fa-fw fa-users'
@@ -353,7 +363,7 @@ return [
                 ],
             ],
         ],
-       
+
     ],
 
     /*

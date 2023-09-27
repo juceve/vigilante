@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Area
+ * Class Tipodocumento
  *
  * @property $id
- * @property $nombre
+ * @property $name
  * @property $created_at
  * @property $updated_at
  *
@@ -16,11 +16,11 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Area extends Model
+class Tipodocumento extends Model
 {
     
     static $rules = [
-		'nombre' => 'required',
+		'name' => 'required',
     ];
 
     protected $perPage = 20;
@@ -30,7 +30,7 @@ class Area extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre','template'];
+    protected $fillable = ['name'];
 
 
     /**
@@ -38,7 +38,7 @@ class Area extends Model
      */
     public function empleados()
     {
-        return $this->hasMany('App\Models\Empleado', 'area_id', 'id');
+        return $this->hasMany('App\Models\Empleado', 'tipodocumento_id', 'id');
     }
     
 

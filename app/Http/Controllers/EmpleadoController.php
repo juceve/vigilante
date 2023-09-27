@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use App\Models\Empleado;
+use App\Models\Tipodocumento;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 /**
  * Class EmpleadoController
@@ -35,7 +37,8 @@ class EmpleadoController extends Controller
     {
         $empleado = new Empleado();
         $areas = Area::all()->pluck('nombre', 'id');
-        return view('admin.empleado.create', compact('empleado', 'areas'));
+        $tipodocs = Tipodocumento::all()->pluck('name', 'id');
+        return view('admin.empleado.create', compact('empleado', 'areas','tipodocs'));
     }
 
     /**
@@ -51,11 +54,12 @@ class EmpleadoController extends Controller
         $empleado = Empleado::create($request->all());
 
         if ($request->generarusuario == 'on') {
+            $area = Area::find($request->area_id);
             $usuario = User::create([
                 "name" => $empleado->nombres . " " . $empleado->apellidos,
                 "email" => $empleado->email,
                 "password" => bcrypt($empleado->cedula),
-                "template" => "ADMIN",
+                "template" => $area->template,
                 "status" => true
             ]);
             $empleado->user_id = $usuario->id;
@@ -103,19 +107,34 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, Empleado $empleado)
     {
-        request()->validate(Empleado::$rules);
-
+        request()->validate([
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'cedula' => 'required|min:3',
+            'direccion' => 'required',
+            'telefono' => 'required',
+            'email' => ['required', Rule::unique('empleados')->ignore($empleado)],
+        ]);
+        $area = Area::find($request->area_id);
         $empleado->update($request->all());
         if ($request->generarusuario == 'on') {
+
             $usuario = User::create([
                 "name" => $empleado->nombres . " " . $empleado->apellidos,
                 "email" => $empleado->email,
                 "password" => bcrypt($empleado->cedula),
-                "template" => "ADMIN",
+                "template" => $area->template,
                 "status" => true
             ]);
             $empleado->user_id = $usuario->id;
             $empleado->save();
+        }
+        else {
+            if ($empleado->user_id) {
+                $user = User::find($empleado->user_id);
+                $user->template = $area->template;
+                $user->save();
+            }
         }
 
         return redirect()->route('empleados.index')

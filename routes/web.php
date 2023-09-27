@@ -1,14 +1,17 @@
 <?php
 
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OficinaController;
 use App\Http\Controllers\RegistroguardiaController;
 use App\Http\Controllers\UserController;
 use App\Http\Livewire\Vigilancia\HombreVivo;
 use App\Http\Livewire\Vigilancia\Novedades;
 use App\Http\Livewire\Vigilancia\Panico;
 use App\Http\Livewire\Vigilancia\Ronda;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -41,4 +44,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');
     Route::resource('admin/empleados',EmpleadoController::class)->names('empleados');
     Route::resource('admin/areas',AreaController::class)->names('areas');
+    Route::resource('admin/oficinas',OficinaController::class)->names('oficinas');
+    Route::resource('admin/clientes',ClienteController::class)->names('clientes');
 });

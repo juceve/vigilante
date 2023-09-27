@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
 @section('title')
-    Areas
+    Clientes
 @endsection
 @section('content_header')
-    <h4>Areas</h4>
+    <h4>Clientes</h4>
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -15,42 +15,40 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                Listado de Areas
+                                Listado de Clientes
                             </span>
 
                             <div class="float-right">
-                                <a href="{{ route('areas.create') }}" class="btn btn-info btn-sm float-right"
+                                <a href="{{ route('clientes.create') }}" class="btn btn-info btn-sm float-right"
                                     data-placement="left">
                                     Nuevo <i class="fas fa-plus"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    {{-- @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p>{{ $message }}</p>
-                        </div>
-                    @endif --}}
 
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover dataTable">
-                                <thead class="thead table-info">
+                                <thead class="thead">
                                     <tr>
-                                        <th>No</th>
+                                        <th>No</th>                                        
+										<th>Nombre</th>
+										<th>Dirección</th>
+										<th>Oficina</th>
 
-                                        <th>Nombre</th>
-                                        <th>Plantilla</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($areas as $area)
+                                    @foreach ($clientes as $cliente)
                                         <tr>
                                             <td>{{ ++$i }}</td>
+                                            
+											<td>{{ $cliente->nombre }}</td>
+											<td>{{ $cliente->direccion }}</td>
+											<td>{{ $cliente->oficina->nombre }}</td>
 
-                                            <td>{{ $area->nombre }}</td>
-                                            <td>{{ $area->template }}</td>
                                             <td align="right">
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-secondary btn-sm dropdown-toggle"
@@ -60,13 +58,13 @@
                                                     </button>
                                                     <div class="dropdown-menu" role="menu" style="">
                                                         <form
-                                                            action="{{ route('areas.destroy', $area->id) }}"method="POST" class="delete"
+                                                            action="{{ route('clientes.destroy', $cliente->id) }}"method="POST" class="delete"
                                                             onsubmit="return false">
                                                             <a class="dropdown-item"
-                                                                href="{{ route('areas.show', $area->id) }}"><i
+                                                                href="{{ route('clientes.show', $cliente->id) }}"><i
                                                                     class="fa fa-fw fa-eye text-secondary"></i> Info</a>
                                                             <a class="dropdown-item"
-                                                                href="{{ route('areas.edit', $area->id) }}"><i
+                                                                href="{{ route('clientes.edit', $cliente->id) }}"><i
                                                                     class="fa fa-fw fa-edit text-secondary"></i> Editar</a>
 
                                                             @csrf
@@ -86,7 +84,6 @@
                         </div>
                     </div>
                 </div>
-                {!! $areas->links() !!}
             </div>
         </div>
     </div>

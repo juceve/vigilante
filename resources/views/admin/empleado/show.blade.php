@@ -37,8 +37,17 @@
                             {{ $empleado->apellidos }}
                         </div>
                         <div class="form-group">
-                            <strong>Cedula:</strong>
+                            <strong>Tipo Doc.:</strong>
+                            {{ $empleado->tipodocumento_id?$empleado->tipodocumento->name:'' }}
+                        </div>
+                        <div class="form-group">
+                            <strong>Nro. Doc.:</strong>
                             {{ $empleado->cedula }}
+                        </div>
+
+                        <div class="form-group">
+                            <strong>Nacionalidad:</strong>
+                            {{ $empleado->nacionalidad }}
                         </div>
                         <div class="form-group">
                             <strong>Direccion:</strong>
