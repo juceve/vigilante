@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cliente extends Model
 {
@@ -19,11 +20,12 @@ class Cliente extends Model
 		'telefonocontacto' => 'required',
 		'oficina_id' => 'required',
 		'observaciones' => 'required',
+        'status' => 'required',
     ];
 
     protected $perPage = 20;
 
-    protected $fillable = ['nombre','tipodocumento_id','nrodocumento','direccion','uv','manzano','latitud','longitud','personacontacto','telefonocontacto','oficina_id','observaciones'];
+    protected $fillable = ['nombre','tipodocumento_id','nrodocumento','direccion','uv','manzano','latitud','longitud','personacontacto','telefonocontacto','oficina_id','observaciones','status'];
 
     public function oficina()
     {
@@ -33,7 +35,10 @@ class Cliente extends Model
     public function tipodocumento()
     {
         return $this->hasOne('App\Models\Tipodocumento', 'id', 'tipodocumento_id');
-    }
-    
+    }    
 
+    public function turnos(): HasMany
+    {
+        return $this->hasMany(Turno::class);
+    }
 }

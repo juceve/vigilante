@@ -94,8 +94,8 @@ class EmpleadoController extends Controller
     {
         $empleado = Empleado::find($id);
         $areas = Area::all()->pluck('nombre', 'id');
-
-        return view('admin.empleado.edit', compact('empleado', 'areas'));
+        $tipodocs = Tipodocumento::all()->pluck('name', 'id');
+        return view('admin.empleado.edit', compact('empleado', 'areas', 'tipodocs'));
     }
 
     /**

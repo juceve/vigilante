@@ -88,11 +88,19 @@
                     <small class="text-danger">{{ $errors->first('oficina_id') }}</small>
                 </div>
             </div>
+            
             <div class="col col-12 col-md-6">
                 <div class="form-group">
                     {{ Form::label('observaciones') }}
                     {{ Form::text('observaciones', $cliente->observaciones, ['class' => 'form-control' . ($errors->has('observaciones') ? ' is-invalid' : ''), 'placeholder' => 'Observaciones']) }}
                     {!! $errors->first('observaciones', '<div class="invalid-feedback">:message</div>') !!}
+                </div>
+            </div>
+            <div class="col col-12 col-md-6">
+                <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
+                {!! Form::label('status', 'Estado') !!}
+                {!! Form::select('status', ['1' => 'Activo','0'=>'Inactivo'], $cliente->status, ['id' => 'status', 'class' => 'form-control', 'required' => 'required', 'placeholder' => 'Seleccione una opcion']) !!}
+                <small class="text-danger">{{ $errors->first('status') }}</small>
                 </div>
             </div>
             <div class="col col-12 mb-2">

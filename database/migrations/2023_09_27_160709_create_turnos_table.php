@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipodocumentos', function (Blueprint $table) {
+        Schema::create('turnos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('shortname',10);
+            $table->string('nombre');
+            $table->foreignId('cliente_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('horainicio');
+            $table->string('horafin');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipodocumentos');
+        Schema::dropIfExists('turnos');
     }
 };

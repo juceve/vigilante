@@ -132,6 +132,8 @@
             telefono.classList.add('greyscale');
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(success);
+            }else{
+                console.log('No entro');
             }
         }
 

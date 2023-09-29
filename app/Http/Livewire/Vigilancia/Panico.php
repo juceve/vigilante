@@ -48,7 +48,7 @@ class Panico extends Component
 
 
     public function registroPanico($coord)
-    {
+    {        
         if ($coord) {
             DB::beginTransaction();
             try {

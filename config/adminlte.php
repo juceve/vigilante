@@ -306,13 +306,19 @@ return [
         //     'type' => 'sidebar-menu-search',
         //     'text' => 'search',
         // ],
-        ['header' => 'Páginas'],
         [
             'text'   => 'Inicio',
             'icon'   => 'fas fa-fw fa-home',
             'route'  => 'home',
             // 'can'  => 'manage-blog',
         ],
+        ['header' => 'Operativa'],
+        [
+            'text'  =>  'Registro de Actividad',
+            'route' =>  'admin.regactividad',
+            'icon'  =>  'fas fa-shield-alt'
+        ],
+        
         // [
         //     'text'        => 'pages',
         //     'url'         => 'admin/pages',
@@ -333,6 +339,16 @@ return [
         // ],
         ['header' => 'Mantenimiento'],
         [
+            'text' => 'Clientes',
+            'url'  => 'admin/clientes',
+            'icon' => 'fas fa-fw fa-address-book'
+        ],
+        [
+            'text' => 'Empleados',
+            'url'  => 'admin/empleados',
+            'icon' => 'fas fa-fw fa-users'
+        ],
+        [
             'text'    => 'Configuraciones',
             'icon'    => 'fas fa-fw fa-cog',
             'submenu' => [
@@ -341,16 +357,7 @@ return [
                     'url'  => 'admin/oficinas',
                     'icon' => 'fas fa-fw fa-list'
                 ],
-                [
-                    'text' => 'Clientes',
-                    'url'  => 'admin/clientes',
-                    'icon' => 'fas fa-fw fa-address-book'
-                ],
-                [
-                    'text' => 'Empleados',
-                    'url'  => 'admin/empleados',
-                    'icon' => 'fas fa-fw fa-users'
-                ],
+
                 [
                     'text' => 'Areas Laborales',
                     'url'  => 'admin/areas',

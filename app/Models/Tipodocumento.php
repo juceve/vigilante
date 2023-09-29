@@ -21,6 +21,7 @@ class Tipodocumento extends Model
     
     static $rules = [
 		'name' => 'required',
+
     ];
 
     protected $perPage = 20;
@@ -30,7 +31,7 @@ class Tipodocumento extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name','shortname'];
 
 
     /**

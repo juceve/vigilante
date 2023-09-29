@@ -34,7 +34,7 @@
                                     <tr>
                                         <th>No</th>
 
-                                        <th>Nombe</th>
+                                        <th>Nombre</th>
                                         <th>Direccion</th>
 
                                         <th></th>
@@ -45,7 +45,7 @@
                                         <tr>
                                             <td>{{ ++$i }}</td>
 
-                                            <td>{{ $oficina->nombe }}</td>
+                                            <td>{{ $oficina->nombre }}</td>
                                             <td>{{ $oficina->direccion }}</td>
 
                                             <td align="right">

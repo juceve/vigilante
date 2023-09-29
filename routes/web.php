@@ -7,6 +7,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OficinaController;
 use App\Http\Controllers\RegistroguardiaController;
 use App\Http\Controllers\UserController;
+use App\Http\Livewire\Admin\PuntosControl;
+use App\Http\Livewire\Admin\Regactividad;
+use App\Http\Livewire\Admin\TurnoCliente;
+
 use App\Http\Livewire\Vigilancia\HombreVivo;
 use App\Http\Livewire\Vigilancia\Novedades;
 use App\Http\Livewire\Vigilancia\Panico;
@@ -40,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('vigilancia/ronda', Ronda::class)->name('vigilancia.ronda');
     Route::get('vigilancia/hombre-vivo', HombreVivo::class)->name('vigilancia.hombre-vivo');
     Route::get('vigilancia/novedades', Novedades::class)->name('vigilancia.novedades');
+    Route::get('admin/registro-actividad',Regactividad::class)->name('admin.regactividad');
+    Route::get('admin/turnos-cliente/{cliente_id}',TurnoCliente::class)->name('admin.turnos-cliente');
+    Route::get('admin/puntos-control/{turno_id}',PuntosControl::class)->name(('puntoscontrol'));
 
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');
     Route::resource('admin/empleados',EmpleadoController::class)->names('empleados');

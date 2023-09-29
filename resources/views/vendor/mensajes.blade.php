@@ -79,4 +79,35 @@
             }
         })
     });
+
+    Livewire.on('dataTableRender', () => {
+        $(".dataTable").dataTable({
+            "destroy": true,
+            order: [
+                [0, 'desc']
+            ],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+            },
+        })
+    })
+
+    Livewire.on('success', message => {
+            // Swal.fire('Excelente!',message,'success');  
+            Swal.fire({
+                icon: 'success',
+                title: 'Excelente',
+                text: message,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        });
+        Livewire.on('error', message => {
+            Swal.fire('Error!', message, 'error');
+
+        });
+        Livewire.on('warning', message => {
+            Swal.fire('Atención!', message, 'warning');
+        });
 </script>
+

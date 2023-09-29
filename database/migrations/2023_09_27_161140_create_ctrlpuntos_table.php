@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipodocumentos', function (Blueprint $table) {
+        Schema::create('ctrlpuntos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('shortname',10);
+            $table->string('nombre')->nullable();
+            $table->string('hora');
+            $table->string('latitud');
+            $table->string('longitud');
+            $table->foreignId('turno_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipodocumentos');
+        Schema::dropIfExists('ctrlpuntos');
     }
 };

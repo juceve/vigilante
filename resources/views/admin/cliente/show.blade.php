@@ -72,6 +72,14 @@
                                     <strong>Observaciones:</strong>
                                     {{ $cliente->observaciones }}
                                 </div>
+                                <div class="form-group">
+                                    <strong>Estado:</strong>
+                                    @if ($cliente->status)
+                                        <span class="badge badge-pill badge-success">Activo</span>
+                                    @else
+                                        <span class="badge badge-pill badge-secondary">Inactivo</span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
 

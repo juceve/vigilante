@@ -2,9 +2,9 @@
     <div class="box-body">
         
         <div class="form-group">
-            {{ Form::label('nombe') }}
-            {{ Form::text('nombe', $oficina->nombe, ['class' => 'form-control' . ($errors->has('nombe') ? ' is-invalid' : ''), 'placeholder' => 'Nombe']) }}
-            {!! $errors->first('nombe', '<div class="invalid-feedback">:message</div>') !!}
+            {{ Form::label('nombre') }}
+            {{ Form::text('nombre', $oficina->nombre, ['class' => 'form-control' . ($errors->has('nombre') ? ' is-invalid' : ''), 'placeholder' => 'Nombre']) }}
+            {!! $errors->first('nombre', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('direccion') }}
