@@ -43,7 +43,7 @@
                                         <th>Apellidos</th>
 
                                         <th>Area</th>
-
+                                        <th>Oficina</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -55,7 +55,7 @@
                                             <td>{{ $empleado->nombres }}</td>
                                             <td>{{ $empleado->apellidos }}</td>
                                             <td>{{ $empleado->area->nombre }}</td>
-
+                                            <td>{{ $empleado->oficina->nombre }}</td>
                                             <td align="right">
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-secondary btn-sm dropdown-toggle"

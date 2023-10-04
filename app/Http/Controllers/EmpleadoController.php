@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use App\Models\Empleado;
+use App\Models\Oficina;
 use App\Models\Tipodocumento;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,7 +39,8 @@ class EmpleadoController extends Controller
         $empleado = new Empleado();
         $areas = Area::all()->pluck('nombre', 'id');
         $tipodocs = Tipodocumento::all()->pluck('name', 'id');
-        return view('admin.empleado.create', compact('empleado', 'areas','tipodocs'));
+        $oficinas = Oficina::all()->pluck('nombre', 'id');
+        return view('admin.empleado.create', compact('empleado', 'areas','tipodocs','oficinas'));
     }
 
     /**
@@ -95,7 +97,8 @@ class EmpleadoController extends Controller
         $empleado = Empleado::find($id);
         $areas = Area::all()->pluck('nombre', 'id');
         $tipodocs = Tipodocumento::all()->pluck('name', 'id');
-        return view('admin.empleado.edit', compact('empleado', 'areas', 'tipodocs'));
+        $oficinas = Oficina::all()->pluck('nombre', 'id');
+        return view('admin.empleado.edit', compact('empleado', 'areas', 'tipodocs','oficinas'));
     }
 
     /**

@@ -28,7 +28,7 @@ class PuntosControl extends Component
 
     public function render()
     {
-        $puntos = Ctrlpunto::where('turno_id', $this->turno_id)->get();
+        $puntos = Ctrlpunto::where('turno_id', $this->turno_id)->orderBy('hora','ASC')->get();
         $turno = Turno::find($this->turno_id);
         $cliente = $turno->cliente;
         foreach ($puntos as $punto) {
@@ -42,6 +42,7 @@ class PuntosControl extends Component
 
     public function registrarPunto($data)
     {
+        $this->emit('loading');
         DB::beginTransaction();
         try {
             $punto = Ctrlpunto::create([
@@ -53,23 +54,28 @@ class PuntosControl extends Component
             ]);
 
             DB::commit();
+            $this->emit('unLoading');
             $this->emit('success', 'Punto registrado correctamente');
         } catch (\Throwable $th) {
 
             DB::rollBack();
+            $this->emit('unLoading');
             $this->emit('error', 'Ha ocurrido un error');
         }
     }
 
     public function delete($id)
     {
+        $this->emit('loading');
         DB::beginTransaction();
         try {
             $punto = Ctrlpunto::find($id)->delete();
             DB::commit();
+             $this->emit('unLoading');
             redirect()->route('puntoscontrol',$this->turno_id)->with('success','Punto eliminado correctamente.');
         } catch (\Throwable $th) {
             DB::rollBack();
+             $this->emit('unLoading');
             $this->emit('error', 'Ha ocurrido un error');
         }
     }

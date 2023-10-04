@@ -50,6 +50,19 @@ class User extends Authenticatable
         return "";
     }
 
+    public function empleados()
+    {
+        return $this->hasMany('App\Models\Empleado', 'user_id', 'id');
+    }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function registroguardias()
+    {
+        return $this->hasMany('App\Models\Registroguardia', 'user_id', 'id');
+    }
+
     public function adminlte_profile_url()
     {
         return 'admin/profile';

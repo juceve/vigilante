@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    {{ $ctrlpunto->name ?? "{{ __('Show') Ctrlpunto" }}
+    {{ $designacione->name ?? "{{ __('Show') Designacione" }}
 @endsection
 
 @section('content')
@@ -11,34 +11,34 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">{{ __('Show') }} Ctrlpunto</span>
+                            <span class="card-title">{{ __('Show') }} Designacione</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('ctrlpuntos.index') }}"> {{ __('Back') }}</a>
+                            <a class="btn btn-primary" href="{{ route('designaciones.index') }}"> {{ __('Back') }}</a>
                         </div>
                     </div>
 
                     <div class="card-body">
                         
                         <div class="form-group">
-                            <strong>Nombre:</strong>
-                            {{ $ctrlpunto->nombre }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Hora:</strong>
-                            {{ $ctrlpunto->hora }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Latitud:</strong>
-                            {{ $ctrlpunto->latitud }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Longitud:</strong>
-                            {{ $ctrlpunto->longitud }}
+                            <strong>Empleado Id:</strong>
+                            {{ $designacione->empleado_id }}
                         </div>
                         <div class="form-group">
                             <strong>Turno Id:</strong>
-                            {{ $ctrlpunto->turno_id }}
+                            {{ $designacione->turno_id }}
+                        </div>
+                        <div class="form-group">
+                            <strong>Fechainicio:</strong>
+                            {{ $designacione->fechaInicio }}
+                        </div>
+                        <div class="form-group">
+                            <strong>Fechafin:</strong>
+                            {{ $designacione->fechaFin }}
+                        </div>
+                        <div class="form-group">
+                            <strong>Estado:</strong>
+                            {{ $designacione->estado }}
                         </div>
 
                     </div>

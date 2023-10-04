@@ -124,8 +124,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="mapaPrincipal()"><i
-                                class="fas fa-times-circle"></i> Cerrar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            onclick="mapaPrincipal()"><i class="fas fa-times-circle"></i> Cerrar</button>
 
                         <button class="btn btn-info" onclick='registrar()'>
                             <i class="fas fa-save"></i> Registrar
@@ -179,7 +179,7 @@
 
         });
 
-        function mapaPrincipal(){
+        function mapaPrincipal() {
             var arr1 = "{{ $pnts }}";
             arr1 = arr1.split('$');
             const puntos = [];
@@ -187,28 +187,28 @@
                 const pt = arr1[i].split("|");
                 puntos[i] = pt;
             }
-            if (puntos.length > 0) {
-                var locCenter = {
-                    lat: puntos[0][1],
-                    lng: puntos[0][2],
-                }
 
-                var mapa2 = new google.maps.Map(document.getElementById('mapa2'), {
-                    zoom: 18,
-                    center: new google.maps.LatLng(locCenter.lat, locCenter.lng)
-                });
-var i = 0;
-                while (i < puntos.length ) {
-                                      
-                    let punto = puntos[i];i++  
-                    new google.maps.Marker({
-                        position: new google.maps.LatLng(punto[1], punto[2]),
-                        map: mapa2,
-                        title: punto[0],                        
-                        label: 'P'+ i,
-                    });
-                }
+            var locCenter = {
+                lat: {{ $cliente->latitud }},
+                lng: {{ $cliente->longitud }},
             }
+            var mapa2 = new google.maps.Map(document.getElementById('mapa2'), {
+                zoom: 18,
+                center: new google.maps.LatLng(locCenter.lat, locCenter.lng)
+            });
+            var i = 0;
+            while (i < puntos.length) {
+
+                let punto = puntos[i];
+                i++
+                new google.maps.Marker({
+                    position: new google.maps.LatLng(punto[1], punto[2]),
+                    map: mapa2,
+                    title: punto[0],
+                    label: 'P' + i,
+                });
+            }
+
         }
 
         function initMap() {
@@ -242,27 +242,27 @@ var i = 0;
             })
         }
 
-        function generarMapa2() {
-            var mapa = new google.maps.Map(document.getElementById('mapa2'), {
-                zoom: 18,
-                center: new google.maps.LatLng(coordenadas.lat, coordenadas.lng)
-            });
-            for (let i = 0; i < puntos.length; i++) {
-                const punto = puntos[i];
-                // new google.maps.Marker({
-                //     map: mapa2,
-                //     draggable: false,
-                //     title: punto[0],
-                //     position: new google.maps.LatLng(punto[1], punto[2])
-                // })
-            }
+        // function generarMapa2() {
+        //     var mapa = new google.maps.Map(document.getElementById('mapa2'), {
+        //         zoom: 18,
+        //         center: new google.maps.LatLng(coordenadas.lat, coordenadas.lng)
+        //     });
+        //     for (let i = 0; i < puntos.length; i++) {
+        //         const punto = puntos[i];
+        //         // new google.maps.Marker({
+        //         //     map: mapa2,
+        //         //     draggable: false,
+        //         //     title: punto[0],
+        //         //     position: new google.maps.LatLng(punto[1], punto[2])
+        //         // })
+        //     }
 
 
 
 
 
 
-        }
+        // }
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('API_MAPS') }}&callback=initMap&libraries=&v=weekly"

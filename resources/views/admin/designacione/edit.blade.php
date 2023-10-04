@@ -1,21 +1,24 @@
 @extends('adminlte::page')
 
 @section('title')
-    Información Oficina
+    Editar Designación
 @endsection
 @section('content_header')
-    <h4>Información Oficina</h4>
+    <h4>Editar Designación</h4>
 @endsection
 @section('content')
     <section class="content container-fluid">
-        <div class="row">
+        <div class="">
             <div class="col-md-12">
-                <div class="card">
+
+                @includeif('partials.errors')
+
+                <div class="card card-default">
                     <div class="card-header bg-info">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                Datos Oficina
+                                Formulario de Edición
                             </span>
 
                              <div class="float-right">
@@ -25,18 +28,14 @@
                               </div>
                         </div>
                     </div>
-
                     <div class="card-body">
-                        
-                        <div class="form-group">
-                            <strong>Nombre:</strong>
-                            {{ $oficina->nombre }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Direccion:</strong>
-                            {{ $oficina->direccion }}
-                        </div>
+                        <form method="POST" action="{{ route('designaciones.update', $designacione->id) }}"  role="form" enctype="multipart/form-data">
+                            {{ method_field('PATCH') }}
+                            @csrf
 
+                            @include('admin.designacione.form')
+
+                        </form>
                     </div>
                 </div>
             </div>

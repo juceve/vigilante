@@ -23,7 +23,7 @@ class Empleado extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombres','apellidos','tipodocumento_id','cedula','nacionalidad','direccion','telefono','email','area_id','user_id'];
+    protected $fillable = ['nombres','apellidos','tipodocumento_id','cedula','nacionalidad','direccion','telefono','email','area_id', 'oficina_id','user_id'];
 
 
     /**
@@ -48,6 +48,15 @@ class Empleado extends Model
     public function user()
     {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
+
+    public function oficina()
+    {
+        return $this->hasOne('App\Models\Oficina', 'id', 'oficina_id');
+    }
+
+    public function designaciones(){
+        return $this->hasMany(Designacione::class,'empleado_id','id');
     }
     
 

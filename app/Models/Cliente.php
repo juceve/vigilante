@@ -19,7 +19,6 @@ class Cliente extends Model
 		'personacontacto' => 'required',
 		'telefonocontacto' => 'required',
 		'oficina_id' => 'required',
-		'observaciones' => 'required',
         'status' => 'required',
     ];
 

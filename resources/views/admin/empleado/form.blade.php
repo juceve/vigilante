@@ -5,14 +5,14 @@
             <div class="col-12 col-md-6">
                 <div class="form-group">
                     {{ Form::label('nombres') }}
-                    {{ Form::text('nombres', $empleado->nombres, ['class' => 'form-control' . ($errors->has('nombres') ? ' is-invalid' : ''), 'placeholder' => 'Nombres']) }}
+                    {{ Form::text('nombres', $empleado->nombres, ['class' => 'form-control' . ($errors->has('nombres') ? ' is-invalid' : ''), 'placeholder' => 'Nombres', 'onKeyUp'=>"this.value=this.value.toUpperCase();"]) }}
                     {!! $errors->first('nombres', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
             <div class="col-12 col-md-6">
                 <div class="form-group">
                     {{ Form::label('apellidos') }}
-                    {{ Form::text('apellidos', $empleado->apellidos, ['class' => 'form-control' . ($errors->has('apellidos') ? ' is-invalid' : ''), 'placeholder' => 'Apellidos']) }}
+                    {{ Form::text('apellidos', $empleado->apellidos, ['class' => 'form-control' . ($errors->has('apellidos') ? ' is-invalid' : ''), 'placeholder' => 'Apellidos', 'onKeyUp'=>"this.value=this.value.toUpperCase()"]) }}
                     {!! $errors->first('apellidos', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
@@ -66,11 +66,15 @@
             <div class="col-12 col-md-6">
                 <div class="form-group">
                     {{ Form::label('area') }}
-                    {{-- {{ Form::text('area_id', $empleado->area_id, ['class' => 'form-control' . ($errors->has('area_id') ? ' is-invalid' : ''), 'placeholder' => 'Area Id']) }} --}}
-
                     {!! Form::select('area_id', $areas, $empleado->area_id, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Seleccione una opción']) !!}
-
                     {!! $errors->first('area_id', '<div class="invalid-feedback">:message</div>') !!}
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    {{ Form::label('oficina') }}                    
+                    {!! Form::select('oficina_id', $oficinas, $empleado->oficina_id, ['class' => 'form-control', 'required' => 'required', 'placeholder' => 'Seleccione una opción']) !!}
+                    {!! $errors->first('oficina_id', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
             <div class="col-12 col-md-6 ">

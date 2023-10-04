@@ -1,3 +1,26 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+
+<script>
+    Livewire.on('loading', () => {
+        $.blockUI({
+            message: '<h1 class="text-success"><div class="spinner-grow text-success" role="status"></div> Espere por favor...</h1>'
+        });
+    });
+    Livewire.on('unLoading', () => {
+        $.unblockUI();
+    });
+
+    function loading(){
+        $.blockUI({
+            message: '<h1 class="text-success"><div class="spinner-grow text-success" role="status"></div> Espere por favor...</h1>'
+        });
+    }
+
+    function unLoading(){
+        $.unblockUI();
+    }
+</script>
+
 @if (session('success'))
     <script>
         Swal.fire(
@@ -93,21 +116,20 @@
     })
 
     Livewire.on('success', message => {
-            // Swal.fire('Excelente!',message,'success');  
-            Swal.fire({
-                icon: 'success',
-                title: 'Excelente',
-                text: message,
-                showConfirmButton: false,
-                timer: 1500
-            })
-        });
-        Livewire.on('error', message => {
-            Swal.fire('Error!', message, 'error');
+        // Swal.fire('Excelente!',message,'success');  
+        Swal.fire({
+            icon: 'success',
+            title: 'Excelente',
+            text: message,
+            showConfirmButton: false,
+            timer: 1500
+        })
+    });
+    Livewire.on('error', message => {
+        Swal.fire('Error!', message, 'error');
 
-        });
-        Livewire.on('warning', message => {
-            Swal.fire('Atención!', message, 'warning');
-        });
+    });
+    Livewire.on('warning', message => {
+        Swal.fire('Atención!', message, 'warning');
+    });
 </script>
-

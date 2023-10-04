@@ -7,6 +7,26 @@
         <h4 class="text-secondary">Bienvenido!</h4>
         <h1 style="color: #1abc9c"><strong>{{ Auth::user()->name }}</strong></h1>
     </div>
+    <div class="container text-center mb-3">
+        @if ($designaciones)
+            <table class="table table-bordered text-info">
+                <tr>
+                    <th>
+                        <strong>{{ $designaciones->turno->cliente->nombre }}</strong>
+                    </th>
+                    <th>
+                        <strong>{{ $designaciones->turno->nombre }}</strong>
+                    </th>
+                </tr>
+            </table>
+        @else
+            <div class="alert alert-danger" role="alert">
+                No exiten asignaciones habilitadas.
+            </div>
+        @endif
+
+
+    </div>
     <section class="page-section portfolio p-0" id="portfolio">
         <div class="container">
             <!-- Portfolio Grid Items-->

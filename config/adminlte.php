@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only' => true,
     'use_full_favicon' => false,
 
     /*
@@ -318,7 +318,11 @@ return [
             'route' =>  'admin.regactividad',
             'icon'  =>  'fas fa-shield-alt'
         ],
-        
+        [
+            'text'  =>  'Designaciones',
+            'route' =>  'designaciones.index',
+            'icon'  =>  'fas fa-user-clock'
+        ],
         // [
         //     'text'        => 'pages',
         //     'url'         => 'admin/pages',

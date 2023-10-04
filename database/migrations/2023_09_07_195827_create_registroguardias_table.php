@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('latitud')->nullable();
             $table->string('longitud')->nullable();
             $table->boolean('visto')->default(false);
+            $table->integer('cliente_id');
             $table->timestamps();
         });
     }

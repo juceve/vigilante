@@ -12,6 +12,7 @@
            <div class="card-body">
             <span>Pantalla de Inicio</span>
            </div>
+           
         </div>
     </div>
 @endsection

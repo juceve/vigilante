@@ -38,7 +38,7 @@ class Registroguardia extends Model
      *
      * @var array
      */
-    protected $fillable = ['fechahora','prioridad','user_id','detalle','latitud','longitud','visto'];
+    protected $fillable = ['fechahora','prioridad','user_id','detalle','latitud','longitud','visto','cliente_id'];
 
 
     /**
@@ -52,5 +52,10 @@ class Registroguardia extends Model
     public function imgregistros():HasMany
     {
       return $this->hasMany(Imgregistro::class);
+    }
+
+    public function cliente()
+    {
+        return $this->hasOne('App\Models\Cliente', 'id', 'cliente_id');
     }
 }

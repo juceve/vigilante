@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('personacontacto');
             $table->string('telefonocontacto',50);
             $table->foreignId('oficina_id')->constrained();
-            $table->string('observaciones');
+            $table->string('observaciones')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
