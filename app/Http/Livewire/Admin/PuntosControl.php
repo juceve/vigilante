@@ -76,7 +76,8 @@ class PuntosControl extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
              $this->emit('unLoading');
-            $this->emit('error', 'Ha ocurrido un error');
+            // $this->emit('error', 'Ha ocurrido un error');
+            $this->emit('error', $th->getMessage());
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Vigilancia;
 
+use App\Models\Designacione;
 use App\Models\Imgregistro;
 use App\Models\Registroguardia;
 use DateTime;
@@ -15,7 +16,14 @@ use Intervention\Image\Image;
 class Panico extends Component
 {
     use WithFileUploads;
-    public $files = [], $informe = "", $conUbicacion = true;
+
+    public $files = [], $informe = "", $conUbicacion = true, $designacion = null;
+
+    public function mount()
+    {
+
+        $this->designacion = Designacione::where('fechaFin', '>=', date('Y-m-d'))->where('empleado_id', Auth::user()->id)->orderBy('fechaInicio', 'ASC')->first();
+    }
 
     public function render()
     {
@@ -48,7 +56,7 @@ class Panico extends Component
 
 
     public function registroPanico($coord)
-    {        
+    {
         if ($coord) {
             DB::beginTransaction();
             try {
@@ -59,6 +67,7 @@ class Panico extends Component
                     "detalle" => $this->informe,
                     "latitud" => $coord[0],
                     "longitud" => $coord[1],
+                    "cliente_id" => $this->designacion->turno->cliente->id
                 ]);
 
                 $x = 1;
@@ -71,6 +80,7 @@ class Panico extends Component
 
                     $imgreg = Imgregistro::create([
                         "registroguardia_id" => $registro->id,
+                        "plataforma" => "panico",
                         "url" => $path,
                         "tipo" => $arrF[1],
                     ]);
@@ -80,7 +90,8 @@ class Panico extends Component
                 return redirect()->route('home')->with('success', 'Registro de Pánico guardado correctamente.');
             } catch (\Throwable $th) {
                 DB::rollBack();
-                return redirect()->route('home')->with('error', 'Ha ocurrido un error');
+                // return redirect()->route('home')->with('error', 'Ha ocurrido un error');
+                $this->emit('error', $th->getMessage());
             }
         }
     }

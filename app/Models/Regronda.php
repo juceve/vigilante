@@ -68,6 +68,10 @@ class Regronda extends Model
     {
         return $this->hasOne('App\Models\Empleado', 'id', 'empleado_id');
     }
+
+    public function imgrondas(){
+        return $this->hasMany('App\Model\Imgronda','regronda_id','id');
+    }
     
 
 }

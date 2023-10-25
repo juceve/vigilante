@@ -5,24 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Imgregistro
+ * Class Imgronda
  *
  * @property $id
- * @property $registroguardia_id
+ * @property $regronda_id
  * @property $url
  * @property $tipo
  * @property $created_at
  * @property $updated_at
  *
- * @property Registroguardia $registroguardia
+ * @property Regronda $regronda
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Imgregistro extends Model
+class Imgronda extends Model
 {
     
     static $rules = [
-		'registroguardia_id' => 'required',
+		'regronda_id' => 'required',
 		'url' => 'required',
 		'tipo' => 'required',
     ];
@@ -34,15 +34,15 @@ class Imgregistro extends Model
      *
      * @var array
      */
-    protected $fillable = ['registroguardia_id',  'url','tipo'];
+    protected $fillable = ['regronda_id','url','tipo'];
 
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function registroguardia()
+    public function regronda()
     {
-        return $this->hasOne('App\Models\Registroguardia', 'id', 'registroguardia_id');
+        return $this->hasOne('App\Models\Regronda', 'id', 'regronda_id');
     }
     
 

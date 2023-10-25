@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Vigilancia;
 use App\Models\Ctrlpunto;
 use App\Models\Designaciondia;
 use App\Models\Designacione;
+use App\Models\Imgregistro;
+use App\Models\Imgronda;
 use App\Models\Regronda;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
@@ -87,17 +89,34 @@ class Ronda extends Component
                 "lngA" =>$this->lngA,
             ]);
 
+            $x = 1;
+                foreach ($this->files as $key => $file) {
+                    $arrF = explode('.', $file->getFilename());
+                    $name = date('YmdHis') . $x;
+
+                    $x++;
+                    $path = $file->storeAs('images/registros/ronda', $name . '.' . $arrF[1]);
+
+                    $imgreg = Imgronda::create([
+                        "regronda_id" => $registro->id,
+                        "url" => $path,
+                        "tipo" => $arrF[1],
+                    ]);
+                }
+
             DB::commit();
             redirect()->route('home')->with('success','Ronda registrada correctamente.');
         } catch (\Throwable $th) {
      
             DB::rollBack();
             $this->emit('error','Ha ocurrido un error');
+            // $this->emit('error',$th->getMessage());
         }
     }
 
     public function lecturaQr($resultado)
     {
+        dd($resultado);
         $punto = Ctrlpunto::find($resultado);
         $this->lat = $punto->latitud;
         $this->lng = $punto->longitud;

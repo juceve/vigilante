@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ctrlpuntos', function (Blueprint $table) {
+        Schema::create('imgrondas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->nullable();
-            $table->string('hora');
-            $table->string('latitud');
-            $table->string('longitud');
-            $table->foreignId('turno_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('regronda_id')->constrained();
+            $table->string('url');
+            $table->string('tipo');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ctrlpuntos');
+        Schema::dropIfExists('imgrondas');
     }
 };

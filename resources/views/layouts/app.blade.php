@@ -18,6 +18,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ asset('web/css/styles.css') }}" rel="stylesheet" />
     @yield('css')
+
     @livewireStyles
 
 </head>
@@ -63,6 +64,8 @@
     <div class="container-fluid" style="margin-top: 100px;">
         @yield('content')
     </div>
+
+ 
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
@@ -73,19 +76,7 @@
     @yield('js')
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
 
-    <script>
-        Livewire.on('loading', () => {
-            $.blockUI({
-                message: '<h1 class="text-success"><div class="spinner-grow text-success" role="status"></div> Espere por favor...</h1>'
-            });
-        });
-        Livewire.on('unLoading', () => {
-            $.unblockUI();
-        });
-
-    </script>
 
     @if (session('success'))
         <script>
@@ -118,56 +109,56 @@
     @endif
 
     <script>
-        $('.delete').submit(function(e) {
-            Swal.fire({
-                title: 'Eliminar el Registro de la BD',
-                text: "Esta seguro de realizar esta operación?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, continuar!',
-                cancelButtonText: 'No, cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
-                }
-            })
-        });
+        // $('.delete').submit(function(e) {
+        //     Swal.fire({
+        //         title: 'Eliminar el Registro de la BD',
+        //         text: "Esta seguro de realizar esta operación?",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Si, continuar!',
+        //         cancelButtonText: 'No, cancelar'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             this.submit();
+        //         }
+        //     })
+        // });
 
-        $('.anular').submit(function(e) {
-            Swal.fire({
-                title: 'Anular Venta',
-                text: "Esta seguro de realizar esta operación?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, continuar!',
-                cancelButtonText: 'No, cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
-                }
-            })
-        });
+        // $('.anular').submit(function(e) {
+        //     Swal.fire({
+        //         title: 'Anular Venta',
+        //         text: "Esta seguro de realizar esta operación?",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Si, continuar!',
+        //         cancelButtonText: 'No, cancelar'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             this.submit();
+        //         }
+        //     })
+        // });
 
-        $('.reset').submit(function(e) {
-            Swal.fire({
-                title: 'RESET PASSWORD',
-                text: "Esta seguro de realizar esta operación?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, continuar!',
-                cancelButtonText: 'No, cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
-                }
-            })
-        });
+        // $('.reset').submit(function(e) {
+        //     Swal.fire({
+        //         title: 'RESET PASSWORD',
+        //         text: "Esta seguro de realizar esta operación?",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Si, continuar!',
+        //         cancelButtonText: 'No, cancelar'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             this.submit();
+        //         }
+        //     })
+        // });
 
         Livewire.on('dataTableRender', () => {
             $(".dataTable").dataTable({
@@ -199,7 +190,7 @@
             Swal.fire('Atención!', message, 'warning');
         });
     </script>
-
+    
 </body>
 
 </html>
