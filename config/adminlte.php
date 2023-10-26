@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => '<b>VIGILANTE</b>',
-    'logo_img' => 'images/escudo1.png',
+    'logo' => 'BLACK <b>BIRD</b>',
+    'logo_img' => 'images/blackbird1.png',
     'logo_img_class' => 'brand-image elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Vigilante Logo',
+    'logo_img_alt' => 'Blackbird Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -86,8 +86,8 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'images/escudo1.png',
-            'alt' => 'Vigilante Logo',
+            'path' => 'images/blackbird1.png',
+            'alt' => 'Blackbird Logo',
             'class' => '',
             'width' => 50,
             'height' => 50,
@@ -109,11 +109,11 @@ return [
     'preloader' => [
         'enabled' => true,
         'img' => [
-            'path' => 'images/escudo1.png',
-            'alt' => 'Vigilante',
+            'path' => 'images/blackbird1.png',
+            'alt' => 'Blackbird',
             'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
+            'width' => 80,
+            'height' => 90,
         ],
     ],
 
