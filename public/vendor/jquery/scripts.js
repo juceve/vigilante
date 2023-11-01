@@ -4,4 +4,20 @@ $(".dataTable").dataTable({
     language: {
         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
     },
-})
+});
+
+$(".dataTableA").dataTable({
+    "destroy": true,
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+    },
+});
+
+$(".dataTableExport").DataTable({
+    "destroy": true,
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+    },
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+  }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');

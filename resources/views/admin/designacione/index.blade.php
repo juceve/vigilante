@@ -44,6 +44,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $i=0;
+                                    @endphp
                                     @foreach ($designaciones as $designacione)
                                         <tr>
                                             <td>{{ ++$i }}</td>
@@ -55,16 +58,22 @@
                                             <td>{{ $designacione->fechaInicio }}</td>
                                             <td>{{ $designacione->fechaFin }}</td>
 
-                                            <td>
+                                            <td align="right">
                                                 <form action="{{ route('designaciones.destroy', $designacione->id) }}"
                                                     method="POST" onsubmit="return false" class="delete">
-                                                    <a class="btn btn-sm btn-outline-success"
-                                                        href="{{ route('designaciones.edit', $designacione->id) }}" title="Editar"><i
-                                                            class="fa fa-fw fa-edit"></i></a>
+                                                    <a class="btn btn-sm btn-outline-info"
+                                                        href="{{ route('designaciones.show', $designacione->id) }}"
+                                                        title="Cumplimiento de Rondas">
+                                                        <i class="fas fa-street-view"></i>
+                                                    </a>
+                                                    <a class="btn btn-sm btn-outline-warning"
+                                                        href="{{ route('designaciones.edit', $designacione->id) }}"
+                                                        title="Editar"><i class="fa fa-fw fa-edit"></i></a>
+
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Eliminar de la DB"><i
-                                                            class="fa fa-fw fa-trash"></i></button>
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                        title="Eliminar de la DB"><i class="fa fa-fw fa-trash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -74,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $designaciones->links() !!}
+                {{-- {!! $designaciones->links() !!} --}}
             </div>
         </div>
     </div>

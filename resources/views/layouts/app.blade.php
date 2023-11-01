@@ -8,7 +8,7 @@
     <meta name="author" content="" />
     <title>@yield('title') | {{ strtoupper(config('app.name')) }}</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/escudo1.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/blackbird1.png') }}" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -27,8 +27,8 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('images/escudo1.png') }}"
-                    alt="logo" width="32" height="32"> {{ strtoupper(config('app.name')) }}</a>
+            <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('images/blackbird1.png') }}"
+                    alt="logo" width="50" height="54"> {{ strtoupper(config('app.name')) }}</a>
             @auth
                 <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"

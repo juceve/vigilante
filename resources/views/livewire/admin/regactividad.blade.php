@@ -1,9 +1,9 @@
 <div>
     @section('title')
-        Registro de Actividades
+        Registro de Pánico
     @endsection
     @section('content_header')
-        <h4>Registro de Actividades</h4>
+        <h4>Registro de Pánico</h4>
     @endsection
 
     <div class="container-fluid">
@@ -12,6 +12,29 @@
                 Listado de Actividad de Operadores
             </div>
             <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Inicio</span>
+                            </div>
+                            <input type="date" class="form-control" wire:model='fechaI'>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Final</span>
+                            </div>
+                            <input type="date" class="form-control" wire:model='fechaF'>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <button class="btn btn-info btn-block" wire:click='buscar'>Buscar <i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <hr>
                 <div class="table-responsive" wire.ignore.self>
                     <table class="table table-bordered dataTable">
                         <thead>
@@ -51,7 +74,8 @@
                                             @break
 
                                             @case('BAJA')
-                                                <span class="badge badge-pill badge-secondary">{{ $actividad->prioridad }}</span>
+                                                <span
+                                                    class="badge badge-pill badge-secondary">{{ $actividad->prioridad }}</span>
                                             @break
 
                                             @default
@@ -86,8 +110,9 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="messageView" tabindex="-1" aria-labelledby="messageViewLabel" aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="messageView" tabindex="-1" aria-labelledby="messageViewLabel" aria-hidden="true"
+        wire:ignore.self>
+        <div class="modal-dialog modal-xl modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="messageViewLabel">Detalles del Registro</h5>
@@ -128,10 +153,26 @@
                             </div>
                         </div>
                     </div>
+                    @if ($imagenes)
+                        <div class="row">
+                            @foreach ($imagenes as $item)
+                                <div class="col col-12 col-md-3">
+                                    <a href="#{{ $item->id }}">
+                                        <img src="{{ asset('storage/' . $item->url) }}" style="height: 100px;">
+                                    </a>
+                                    <article class="light-box" id="{{ $item->id }}">
+                                        {{-- <a href="#4" class="light-box-next"><i class="bi bi-arrow-left"></i></a> --}}
+                                        <img src="{{ asset('storage/' . $item->url) }}" class="img-fluid">
+                                        {{-- <a href="#2" class="light-box-next"><i class="bi bi-arrow-right"></i></a> --}}
+                                        <a href="#" class="light-box-close">X</a>
+                                    </article>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

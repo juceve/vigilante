@@ -54,6 +54,7 @@ class Designaciondia extends Model
     {
         return $this->hasOne('App\Models\Designacione', 'id', 'designacione_id');
     }
-    
+        
+
 
 }

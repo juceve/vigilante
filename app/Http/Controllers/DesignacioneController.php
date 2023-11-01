@@ -6,6 +6,7 @@ use App\Models\Designaciondia;
 use App\Models\Designacione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 /**
  * Class DesignacioneController
@@ -20,10 +21,9 @@ class DesignacioneController extends Controller
      */
     public function index()
     {
-        $designaciones = Designacione::paginate();
+        $designaciones = Designacione::all();
 
-        return view('admin.designacione.index', compact('designaciones'))
-            ->with('i', 0);
+        return view('admin.designacione.index', compact('designaciones'));
     }
 
     /**
@@ -62,10 +62,19 @@ class DesignacioneController extends Controller
     public function show($id)
     {
         $designacione = Designacione::find($id);
-
+        // $rondas = tablaRondas($designacione->id);
+        // dd($rondas);
         return view('admin.designacione.show', compact('designacione'));
     }
 
+    public function pdfRondas($id)
+    {
+        $designacione = Designacione::find($id);
+        $rondas = tablaRondas($id);
+        // return view('admin.designacione.pdfRonda', compact('designacione','rondas'));
+        $pdf = Pdf::loadView('admin.designacione.pdfRonda', compact('designacione','rondas'));
+        return $pdf->stream();
+    }
     /**
      * Show the form for editing the specified resource.
      *

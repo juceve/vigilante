@@ -120,7 +120,7 @@
 
         function generarMapa() {
             var mapa = new google.maps.Map(document.getElementById('mapa'), {
-                zoom: 12,
+                zoom: 17,
                 center: new google.maps.LatLng(coordenadas.lat, coordenadas.lng)
             });
 

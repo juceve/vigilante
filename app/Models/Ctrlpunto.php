@@ -22,30 +22,34 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Ctrlpunto extends Model
 {
-    
-    static $rules = [
-		'hora' => 'required',
-		'latitud' => 'required',
-		'longitud' => 'required',
-    ];
 
-    protected $perPage = 20;
+  static $rules = [
+    'hora' => 'required',
+    'latitud' => 'required',
+    'longitud' => 'required',
+  ];
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['nombre','hora','latitud','longitud','turno_id'];
+  protected $perPage = 20;
+
+  /**
+   * Attributes that should be mass-assignable.
+   *
+   * @var array
+   */
+  protected $fillable = ['nombre', 'hora', 'latitud', 'longitud', 'turno_id'];
 
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function turno()
-    {
-        return $this->hasOne('App\Models\Turno', 'id', 'turno_id');
-    }
-    
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasOne
+   */
+  public function turno()
+  {
+    return $this->hasOne('App\Models\Turno', 'id', 'turno_id');
+  }
 
+
+  public function regrondas()
+  {
+    return $this->hasMany('App\Models\Regronda', 'turno_id', 'id');
+  }
 }

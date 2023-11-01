@@ -22,11 +22,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Turno extends Model
 {
-    
+
     static $rules = [
-		'nombre' => 'required',
-		'horainicio' => 'required',
-		'horafin' => 'required',
+        'nombre' => 'required',
+        'horainicio' => 'required',
+        'horafin' => 'required',
     ];
 
     protected $perPage = 20;
@@ -36,7 +36,7 @@ class Turno extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre','cliente_id','horainicio','horafin'];
+    protected $fillable = ['nombre', 'cliente_id', 'horainicio', 'horafin'];
 
 
     /**
@@ -46,7 +46,7 @@ class Turno extends Model
     {
         return $this->hasOne('App\Models\Cliente', 'id', 'cliente_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -54,6 +54,4 @@ class Turno extends Model
     {
         return $this->hasMany('App\Models\Ctrlpunto', 'turno_id', 'id');
     }
-    
-
 }

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $ctrlpunto_id
  * @property $fecha
  * @property $hora
+ * @property $anotaciones
  * @property $latA
  * @property $lngA
  * @property $created_at
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Ctrlpunto $ctrlpunto
  * @property Designacione $designacione
  * @property Empleado $empleado
+ * @property Imgronda[] $imgrondas
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -42,7 +44,7 @@ class Regronda extends Model
      *
      * @var array
      */
-    protected $fillable = ['empleado_id','designacione_id','ctrlpunto_id','fecha','hora', 'anotaciones','latA','lngA'];
+    protected $fillable = ['empleado_id','designacione_id','ctrlpunto_id','fecha','hora','anotaciones','latA','lngA'];
 
 
     /**
@@ -68,9 +70,13 @@ class Regronda extends Model
     {
         return $this->hasOne('App\Models\Empleado', 'id', 'empleado_id');
     }
-
-    public function imgrondas(){
-        return $this->hasMany('App\Model\Imgronda','regronda_id','id');
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function imgrondas()
+    {
+        return $this->hasMany('App\Models\Imgronda', 'regronda_id', 'id');
     }
     
 

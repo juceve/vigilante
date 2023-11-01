@@ -48,6 +48,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $i=0;
+                                    @endphp
                                     @foreach ($empleados as $empleado)
                                         <tr>
                                             <td>{{ ++$i }}</td>
@@ -91,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $empleados->links() !!}
+                {{-- {!! $empleados->links() !!} --}}
             </div>
         </div>
     </div>

@@ -116,7 +116,7 @@ class Ronda extends Component
 
     public function lecturaQr($resultado)
     {
-        dd($resultado);
+        // dd($resultado);
         $punto = Ctrlpunto::find($resultado);
         $this->lat = $punto->latitud;
         $this->lng = $punto->longitud;

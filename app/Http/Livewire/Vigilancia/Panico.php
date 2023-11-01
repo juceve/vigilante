@@ -21,8 +21,10 @@ class Panico extends Component
 
     public function mount()
     {
-
-        $this->designacion = Designacione::where('fechaFin', '>=', date('Y-m-d'))->where('empleado_id', Auth::user()->id)->orderBy('fechaInicio', 'ASC')->first();
+        $empleado_id = Auth::user()->empleados[0]->id;
+        if ($empleado_id) {
+            $this->designacion = Designacione::where('fechaFin', '>=', date('Y-m-d'))->where('empleado_id', $empleado_id)->orderBy('fechaInicio', 'ASC')->first();
+        }
     }
 
     public function render()
@@ -44,7 +46,8 @@ class Panico extends Component
                     "detalle" => $data[3],
                     "latitud" => $data[0],
                     "longitud" => $data[1],
-                    "visto" => true
+                    "visto" => true,
+                    "cliente_id" => $this->designacion->turno->cliente->id
                 ]);
                 DB::commit();
             } catch (\Throwable $th) {
