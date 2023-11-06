@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Models\Designacione;
+use App\Models\Marcacione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,4 +48,6 @@ class HomeController extends Controller
             return view('admin.home',compact('clientes','colores','pts'));
         }
     }
+
+
 }

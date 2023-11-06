@@ -2,6 +2,8 @@
 
 use App\Models\Designaciondia;
 use App\Models\Designacione;
+use App\Models\Dialibre;
+use App\Models\Marcacione;
 use App\Models\Regronda;
 
 function tablaRondas($designacione_id)
@@ -72,4 +74,37 @@ function hayRetraso($hora_marcado, $hora_programada)
     } else {
         return false;
     }
+}
+
+function esDiaLibre($designacione_id)
+{
+    $dia = Dialibre::where([
+        ['fecha',date('Y-m-d')],
+        ['designacione_id',$designacione_id]
+    ])->get();
+    if ($dia->count() > 0) {
+        return true;    
+    }else{
+        return false;
+    }
+    
+}
+
+function yaMarque($designacione_id){
+    $marcacion = Marcacione::where([
+        ['designacione_id',$designacione_id],
+        ['fecha',date('Y-m-d')],
+    ])->get();
+
+    if ($marcacion->count() > 0) {
+        if($marcacion->count() == 2){
+            return 1;
+        }else{
+            return 2;
+        }
+        
+    } else {
+        return 0;
+    }
+    
 }

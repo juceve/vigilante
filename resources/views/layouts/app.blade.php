@@ -44,11 +44,13 @@
                         {{-- 
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded"
                                 href="#about">About</a></li> --}}
+
+
                         <li class="nav-item mx-0 mx-lg-1">
                             <a href="{{ route('logout') }}" class="nav-link py-3 px-0 px-lg-3 rounded"
                                 onclick="event.preventDefault();
                                           document.getElementById('logout-form').submit();">
-                                <span>Salir</span>
+                                <span>Cerrar Sesión</span>
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
@@ -65,7 +67,7 @@
         @yield('content')
     </div>
 
- 
+
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
@@ -74,9 +76,6 @@
     {{-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> --}}
 
     @yield('js')
-
-
-
 
     @if (session('success'))
         <script>
@@ -109,57 +108,6 @@
     @endif
 
     <script>
-        // $('.delete').submit(function(e) {
-        //     Swal.fire({
-        //         title: 'Eliminar el Registro de la BD',
-        //         text: "Esta seguro de realizar esta operación?",
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Si, continuar!',
-        //         cancelButtonText: 'No, cancelar'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             this.submit();
-        //         }
-        //     })
-        // });
-
-        // $('.anular').submit(function(e) {
-        //     Swal.fire({
-        //         title: 'Anular Venta',
-        //         text: "Esta seguro de realizar esta operación?",
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Si, continuar!',
-        //         cancelButtonText: 'No, cancelar'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             this.submit();
-        //         }
-        //     })
-        // });
-
-        // $('.reset').submit(function(e) {
-        //     Swal.fire({
-        //         title: 'RESET PASSWORD',
-        //         text: "Esta seguro de realizar esta operación?",
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Si, continuar!',
-        //         cancelButtonText: 'No, cancelar'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             this.submit();
-        //         }
-        //     })
-        // });
-
         Livewire.on('dataTableRender', () => {
             $(".dataTable").dataTable({
                 "destroy": true,
@@ -190,7 +138,9 @@
             Swal.fire('Atención!', message, 'warning');
         });
     </script>
-    
+
+
+
 </body>
 
 </html>

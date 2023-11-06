@@ -10,6 +10,7 @@ use App\Http\Controllers\RegistroguardiaController;
 use App\Http\Controllers\UserController;
 use App\Http\Livewire\Admin\Admrondas;
 use App\Http\Livewire\Admin\Designaciones;
+use App\Http\Livewire\Admin\Diaslibres;
 use App\Http\Livewire\Admin\PuntosControl;
 use App\Http\Livewire\Admin\Regactividad;
 use App\Http\Livewire\Admin\TurnoCliente;
@@ -40,6 +41,7 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // Route::get('/home/marcacion/{id}', [HomeController::class, 'marcar'])->name('marcacion');
     Route::get('admin/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('admin/users', [UserController::class, 'index'])->name('users');
     Route::get('vigilancia/panico', Panico::class)->name('vigilancia.panico');
@@ -51,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/puntos-control/{turno_id}', PuntosControl::class)->name(('puntoscontrol'));
     Route::get('admin/control-rondas', Admrondas::class)->name('control.rondas');
     Route::get('admin/designaciones/pdfRondas/{id}',[DesignacioneController::class,'pdfRondas'])->name('admin.designaciones.pdfRondas');
+    Route::get('admin/designaciones/diaslibres/{id}',Diaslibres::class)->name('designaciones.diaslibres');
     // Route::get('admin/designaciones',Designaciones::class)->name('designaciones');
 
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');

@@ -71,4 +71,9 @@ class Designacione extends Model
     {
         return $this->hasMany('App\Models\Regronda', 'designacione_id', 'id');
     }
+
+    public function marcaciones()
+    {
+        return $this->hasMany('App\Models\Marcacione', 'designacione_id', 'id');
+    }
 }

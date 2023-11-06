@@ -45,7 +45,7 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $i=0;
+                                        $i = 0;
                                     @endphp
                                     @foreach ($designaciones as $designacione)
                                         <tr>
@@ -59,7 +59,44 @@
                                             <td>{{ $designacione->fechaFin }}</td>
 
                                             <td align="right">
-                                                <form action="{{ route('designaciones.destroy', $designacione->id) }}"
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle"
+                                                        data-toggle="dropdown">Opciones</button>
+                                                    {{-- <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> --}}
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <div class="dropdown-menu" role="menu" style="">
+                                                        <form
+                                                            action="{{ route('designaciones.destroy', $designacione->id) }}"
+                                                            method="POST" onsubmit="return false" class="delete">
+
+                                                            <a class="dropdown-item"
+                                                            href="{{ route('designaciones.show', $designacione->id) }}"
+                                                            title="">
+                                                            <i class="fas fa-fw fa-street-view text-secondary"></i>
+                                                            Cumplimiento de Rondas
+                                                                </a>
+
+                                                            <a class="dropdown-item"
+                                                            href="{{ route('designaciones.edit', $designacione->id) }}"
+                                                            title=""><i class="fa fa-fw fa-edit text-secondary"></i> Editar
+                                                        </a>
+
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('designaciones.diaslibres', $designacione->id) }}">
+                                                                <i class="fas fa-fw fa-calendar-alt text-secondary"></i> Días libres</a>
+
+                                                            @csrf
+                                                            @method('DELETE')
+
+                                                            <button type="submit" class="dropdown-item">
+                                                                <i class="fas fa-fw fa-trash text-secondary"></i>
+                                                                Eliminar de la DB
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                {{-- <form action="{{ route('designaciones.destroy', $designacione->id) }}"
                                                     method="POST" onsubmit="return false" class="delete">
                                                     <a class="btn btn-sm btn-outline-info"
                                                         href="{{ route('designaciones.show', $designacione->id) }}"
@@ -74,7 +111,7 @@
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-outline-danger btn-sm"
                                                         title="Eliminar de la DB"><i class="fa fa-fw fa-trash"></i></button>
-                                                </form>
+                                                </form> --}}
                                             </td>
                                         </tr>
                                     @endforeach
