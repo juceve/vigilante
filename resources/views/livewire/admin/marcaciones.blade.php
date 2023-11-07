@@ -1,5 +1,5 @@
 <div>
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped dataTableA">
 
         <thead class="table-info">
             <tr align="center" style="vertical-align: middle">
@@ -79,14 +79,14 @@
                                 <label>Hora:</label>
                                 <input type="text" class="form-control bg-white" wire:model='hora' readonly>
                             </div>
-                            <div class="col-6 mb-3">
+                            {{-- <div class="col-6 mb-3">
                                 <label>Latitud:</label>
                                 <input type="text" class="form-control bg-white" wire:model='lat' readonly>
                             </div>
                             <div class="col-6 mb-3">
                                 <label>Longitud:</label>
                                 <input type="text" class="form-control bg-white" wire:model='lng' readonly>
-                            </div>
+                            </div> --}}
                             {{-- <div class="col-6 mb-3 mt-2">
                                 <a href="../ubicacion/{{ $lat }}/{{ $lng }}" target="__blank"
                                     class="btn btn-success btn-block">Ver Ubicación en el Mapa <i
@@ -98,8 +98,10 @@
                     </div>
                     <label>Ubicación:</label>
                     <div id="mapa1" style="width: 100%;height: 350px;">
-                        <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}"
-                            style="width: 100%; height: 100%" name="ubicacion"></iframe>
+                        @if ($lat && $lng)
+                            <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}"
+                                style="width: 100%; height: 100%" name="ubicacion"></iframe>
+                        @endif
                     </div>
 
                 </div>

@@ -1,5 +1,5 @@
 <div>
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped dataTableA">
 
         <thead class="table-info">
             <tr align="center" style="vertical-align: middle">

@@ -132,7 +132,7 @@
         <div class="modal-dialog modal-xl" wire:ignore.self>
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalEmpleadosLabel">Modal title</h5>
+                    <h5 class="modal-title" id="modalEmpleadosLabel">Seleccione un Operador</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -145,7 +145,7 @@
                                     <tr>
                                         <th>Nombres</th>
                                         <th>Apellidos</th>
-                                        <th>Doc. ID</th>
+                                        <th>No. Doc.</th>
                                         <th>Oficina</th>
                                         <th></th>
                                     </tr>
@@ -155,8 +155,8 @@
                                         <tr>
                                             <td>{{ $item->nombres }}</td>
                                             <td>{{ $item->apellidos }}</td>
-                                            <td>{{ $item->tipodocumento->shortname . ': ' . $item->cedula }}</td>
-                                            <td>{{ $item->oficina->nombre }}</td>
+                                            <td>{{ $item->cedula }}</td>
+                                            <td>{{ $item->oficina }}</td>
                                             <td align="right">
                                                 <button class="btn btn-sm btn-outline-success"
                                                     wire:click="$set('empleadoid', {{ $item->id }})"

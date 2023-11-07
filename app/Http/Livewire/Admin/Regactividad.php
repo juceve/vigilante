@@ -9,7 +9,7 @@ class Regactividad extends Component
 {
     public $prioridad = "", $fechahora = "", $user = "", $visto = "", $detalle = "", $imagenes = null;
 
-    public $fechaI = "", $fechaF = "", $actividades = null;
+    public $fechaI = "", $fechaF = "", $actividades = null, $lat = "", $lng = "";
 
     public function mount()
     {
@@ -25,7 +25,8 @@ class Regactividad extends Component
         return view('livewire.admin.regactividad')->extends('adminlte::page');
     }
 
-    public function buscar(){
+    public function buscar()
+    {
         $this->actividades = Registroguardia::whereDate('fechahora', '>=', $this->fechaI)
             ->whereDate('fechahora', '<=', $this->fechaF)
             ->get();
@@ -38,6 +39,8 @@ class Regactividad extends Component
         $this->imagenes = $registro->imgregistros;
         $this->prioridad = $registro->prioridad;
         $this->fechahora = $registro->fechahora;
+        $this->lat = $registro->latitud;
+        $this->lng = $registro->longitud;
         $this->user = $registro->user->name;
         if ($registro->visto) {
             $this->visto = 'Revisado';

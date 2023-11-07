@@ -46,7 +46,12 @@ class NuevaDesignacion extends Component
 
     public function render()
     {
-        $empleados = Empleado::all();
+        $empleados = DB::table('empleados')
+            ->join('areas', 'areas.id', '=', 'empleados.area_id')
+            ->join('oficinas','oficinas.id','=','empleados.oficina_id')
+            ->where('areas.template', '=', 'OPER')
+            ->select('empleados.*','oficinas.nombre as oficina')->get();
+
         return view('livewire.admin.nueva-designacion', compact('empleados'));
     }
 

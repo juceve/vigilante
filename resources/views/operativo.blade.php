@@ -8,25 +8,29 @@
         <h1 style="color: #1abc9c"><strong>{{ Auth::user()->name }}</strong></h1>
     </div>
     <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <small>Empresa: <b><span class="text-info">{{ $designaciones->turno->cliente->nombre }}</span></b></small>
+        @if ($designaciones)
+            <div class="row">
+                <div class="col-6">
+                    <small>Empresa: <b><span
+                                class="text-info">{{ $designaciones->turno->cliente->nombre }}</span></b></small>
+                </div>
+                <div class="col-6 text-end">
+                    <small>Turno: <b><span class="text-info">{{ $designaciones->turno->nombre }}</span></b></small>
+                </div>
             </div>
-            <div class="col-6 text-end">
-                <small>Turno: <b><span class="text-info">{{ $designaciones->turno->nombre }}</span></b></small>
-            </div>
-        </div>
+        @endif
         <div class="container text-center mb-3">
 
         </div>
     </div>
     <hr>
-    @if (esDiaLibre($designaciones->id))
-        <div class="alert alert-success text-center" role="alert">
-            HOY ES SU DIA LIBRE
-        </div>
-    @else
-        @if ($designaciones)
+
+    @if ($designaciones)
+        @if (esDiaLibre($designaciones->id))
+            <div class="alert alert-success text-center" role="alert">
+                HOY ES SU DIA LIBRE
+            </div>
+        @else
             @if (yaMarque($designaciones->id))
                 @if (yaMarque($designaciones->id) > 1)
                     <section class="page-section portfolio p-0" id="portfolio">
@@ -82,18 +86,20 @@
             @else
                 @livewire('vigilancia.marca-ingreso', ['designacione_id' => $designaciones->id])
             @endif
-        @else
-            <div class="alert alert-danger" role="alert">
-                No exiten asignaciones habilitadas.
-            </div>
+            <hr>
+            @if (yaMarque($designaciones->id))
+                @if (yaMarque($designaciones->id) > 1)
+                    @livewire('vigilancia.marca-salida', ['designacione_id' => $designaciones->id])
+                @endif
+            @endif
         @endif
+    @else
+        <div class="alert alert-danger text-center" role="alert">
+            No exiten asignaciones habilitadas.
+        </div>
     @endif
-    <hr>
-    @if (yaMarque($designaciones->id))
-        @if (yaMarque($designaciones->id) > 1)
-            @livewire('vigilancia.marca-salida', ['designacione_id' => $designaciones->id])
-        @endif
-    @endif
+
+
     <script>
         setTimeout(() => {
             location.reload();
