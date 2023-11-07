@@ -39,6 +39,7 @@
                                         <th>TURNO</th>
                                         <th>INICIO</th>
                                         <th>FINAL</th>
+                                        <th>ESTADO</th>
 
                                         <th></th>
                                     </tr>
@@ -57,6 +58,13 @@
                                             <td>{{ $designacione->turno->nombre }}</td>
                                             <td>{{ $designacione->fechaInicio }}</td>
                                             <td>{{ $designacione->fechaFin }}</td>
+                                            <td>
+                                                @if ($designacione->fechaFin < date('Y-m-d'))
+                                                    <span class="badge badge-pill badge-secondary">Inactivo</span>
+                                                @else
+                                                    <span class="badge badge-pill badge-success">Activo</span>
+                                                @endif
+                                            </td>
 
                                             <td align="right">
                                                 <div class="btn-group">
@@ -71,25 +79,34 @@
                                                             method="POST" onsubmit="return false" class="delete">
 
                                                             <a class="dropdown-item"
-                                                            href="{{ route('designaciones.show', $designacione->id) }}"
-                                                            title="">
-                                                            <i class="fas fa-fw fa-street-view text-secondary"></i>
-                                                            Cumplimiento de Rondas
-                                                                </a>
-
+                                                                href="{{ route('designaciones.show', $designacione->id) }}"
+                                                                title="">
+                                                                <i class="fas fa-fw fa-street-view text-secondary"></i>
+                                                                Rondas
+                                                            </a>
                                                             <a class="dropdown-item"
-                                                            href="{{ route('designaciones.edit', $designacione->id) }}"
-                                                            title=""><i class="fa fa-fw fa-edit text-secondary"></i> Editar
-                                                        </a>
+                                                                href="{{ route('marcaciones', $designacione->id) }}"
+                                                                title="">
+                                                                <i class="fas fa-user-clock text-secondary"></i>
+                                                                Asistencias
+                                                            </a>
 
                                                             <a class="dropdown-item"
                                                                 href="{{ route('designaciones.diaslibres', $designacione->id) }}">
-                                                                <i class="fas fa-fw fa-calendar-alt text-secondary"></i> Días libres</a>
+                                                                <i class="fas fa-fw fa-calendar-alt text-secondary"></i>
+                                                                Días libres</a>
+
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('designaciones.edit', $designacione->id) }}"
+                                                                title=""><i
+                                                                    class="fa fa-fw fa-edit text-secondary"></i> Editar
+                                                            </a>
 
                                                             @csrf
                                                             @method('DELETE')
 
-                                                            <button type="submit" class="dropdown-item">
+                                                            <button type="submit" class="dropdown-item"
+                                                               >
                                                                 <i class="fas fa-fw fa-trash text-secondary"></i>
                                                                 Eliminar de la DB
                                                             </button>

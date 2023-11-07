@@ -7,6 +7,7 @@ use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OficinaController;
 use App\Http\Controllers\RegistroguardiaController;
+use App\Http\Controllers\UbicacionController;
 use App\Http\Controllers\UserController;
 use App\Http\Livewire\Admin\Admrondas;
 use App\Http\Livewire\Admin\Designaciones;
@@ -54,7 +55,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/control-rondas', Admrondas::class)->name('control.rondas');
     Route::get('admin/designaciones/pdfRondas/{id}',[DesignacioneController::class,'pdfRondas'])->name('admin.designaciones.pdfRondas');
     Route::get('admin/designaciones/diaslibres/{id}',Diaslibres::class)->name('designaciones.diaslibres');
-    // Route::get('admin/designaciones',Designaciones::class)->name('designaciones');
+    Route::get('admin/marcaciones/{id}',[DesignacioneController::class,'marcaciones'])->name('marcaciones');
+    Route::get('admin/pdfMarcaciones/{id}',[DesignacioneController::class,'pdfMarcaciones'])->name('marcaciones.pdf');
+    Route::get('admin/ubicacion/{lat}/{lng}',[UbicacionController::class,'index'])->name('ubicacion');
 
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');
     Route::resource('admin/empleados', EmpleadoController::class)->names('empleados');

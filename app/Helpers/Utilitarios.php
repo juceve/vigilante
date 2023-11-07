@@ -28,34 +28,89 @@ function tablaRondas($designacione_id)
         $numeral = date('N', strtotime($actual->format('Y-m-d')));
         if ($diasL[$numeral]) {
             $fecha = $actual->format('Y-m-d');
-            $rondaA = [];
-            $rondaA[] = array($fecha, 0);
-            foreach ($ctrlpuntos as $punto) {
-                $ronda = Regronda::where([
-                    ['designacione_id', $designacione_id],
-                    ['fecha', $fecha],
-                    ['ctrlpunto_id', $punto->id]
-                ])->first();
+            if (!esDiaLibre2($designacione_id, $fecha)) {
+                $rondaA = [];
+                $rondaA[] = array($fecha, 0);
+                foreach ($ctrlpuntos as $punto) {
+                    $ronda = Regronda::where([
+                        ['designacione_id', $designacione_id],
+                        ['fecha', $fecha],
+                        ['ctrlpunto_id', $punto->id]
+                    ])->first();
 
-                if ($ronda) {
-                    if (hayRetraso($ronda->hora, $punto->hora)) {
-                        $rondaA[] = array($ronda->hora, 2, $ronda->id);
+                    if ($ronda) {
+                        if (hayRetraso($ronda->hora, $punto->hora)) {
+                            $rondaA[] = array($ronda->hora, 2, $ronda->id);
+                        } else {
+                            $rondaA[] = array($ronda->hora, 0, $ronda->id);
+                        }
                     } else {
-                        $rondaA[] = array($ronda->hora, 0, $ronda->id);
-                    }
-                } else {
-                    if ($fecha <= date('Y-m-d')) {
-                        $rondaA[] = array('X', 1, "");
-                    } else {
-                        $rondaA[] = array('--', 0, "");
+                        if ($fecha <= date('Y-m-d')) {
+                            $rondaA[] = array('X', 1, "");
+                        } else {
+                            $rondaA[] = array('--', 0, "");
+                        }
                     }
                 }
+                $rondas[] = $rondaA;
             }
-            $rondas[] = $rondaA;
         }
         $actual->modify('+1 day');
     }
     return $rondas;
+}
+
+function tablaMarcaciones($designacione_id)
+{
+    $designacione = Designacione::find($designacione_id);
+    $diaslaborables = Designaciondia::where('designacione_id', $designacione_id)
+        ->select('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo')
+        ->first();
+    $diaslaborables = $diaslaborables->toArray();
+    $horainicio = $designacione->turno->horainicio;
+    $horafin = $designacione->turno->horafin;
+
+
+    $diasL = array(
+        "",
+        $diaslaborables['lunes'], $diaslaborables['martes'], $diaslaborables['miercoles'],
+        $diaslaborables['jueves'], $diaslaborables['viernes'],
+        $diaslaborables['sabado'], $diaslaborables['domingo']
+    );
+    $marcaciones = [];
+    $actual = new DateTime($designacione->fechaInicio);
+    $final = new DateTime($designacione->fechaFin);
+
+    while ($actual <= $final) {
+        $numeral = date('N', strtotime($actual->format('Y-m-d')));
+        // dd($diasL[$numeral]);
+        if ($diasL[$numeral]) {
+            $fecha = $actual->format('Y-m-d');
+            if (!esDiaLibre2($designacione_id, $fecha)) {
+                $marcado = [];
+                $marcadoA = array($fecha, 0, 0, 0, 0);
+                $marcacionDia = Marcacione::where([
+                    ['fecha', $fecha],
+                    ['designacione_id', $designacione_id]
+                ])->get()->toArray();
+                if (count($marcacionDia) > 0) {
+                    $marcadoA[1] = $marcacionDia[0]['hora'];
+                    $marcadoA[3] = $marcacionDia[0]['id'];
+                    if (count($marcacionDia) > 1) {
+                        $marcadoA[2] = $marcacionDia[1]['hora'];
+                        $marcadoA[4] = $marcacionDia[1]['id'];
+                    }
+                } else {
+                    $marcadoA[1] = 1;
+                    $marcadoA[2] = 1;
+                }
+                $marcaciones[] = $marcadoA;
+            }
+        }
+
+        $actual->modify('+1 day');
+    }
+    return $marcaciones;
 }
 
 function hayRetraso($hora_marcado, $hora_programada)
@@ -79,32 +134,44 @@ function hayRetraso($hora_marcado, $hora_programada)
 function esDiaLibre($designacione_id)
 {
     $dia = Dialibre::where([
-        ['fecha',date('Y-m-d')],
-        ['designacione_id',$designacione_id]
+        ['fecha', date('Y-m-d')],
+        ['designacione_id', $designacione_id]
     ])->get();
     if ($dia->count() > 0) {
-        return true;    
-    }else{
+        return true;
+    } else {
         return false;
     }
-    
 }
 
-function yaMarque($designacione_id){
+
+function esDiaLibre2($designacione_id, $fecha)
+{
+    $dia = Dialibre::where([
+        ['fecha', $fecha],
+        ['designacione_id', $designacione_id]
+    ])->get();
+    if ($dia->count() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function yaMarque($designacione_id)
+{
     $marcacion = Marcacione::where([
-        ['designacione_id',$designacione_id],
-        ['fecha',date('Y-m-d')],
+        ['designacione_id', $designacione_id],
+        ['fecha', date('Y-m-d')],
     ])->get();
 
     if ($marcacion->count() > 0) {
-        if($marcacion->count() == 2){
+        if ($marcacion->count() == 2) {
             return 1;
-        }else{
+        } else {
             return 2;
         }
-        
     } else {
         return 0;
     }
-    
 }

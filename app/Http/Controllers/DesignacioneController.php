@@ -67,12 +67,25 @@ class DesignacioneController extends Controller
         return view('admin.designacione.show', compact('designacione'));
     }
 
+    public function marcaciones($id){
+        $designacione = Designacione::find($id);
+        return view('admin.designacione.marcaciones', compact('designacione'));
+    }
+
     public function pdfRondas($id)
     {
         $designacione = Designacione::find($id);
         $rondas = tablaRondas($id);
         // return view('admin.designacione.pdfRonda', compact('designacione','rondas'));
         $pdf = Pdf::loadView('admin.designacione.pdfRonda', compact('designacione','rondas'));
+        return $pdf->stream();
+    }
+    public function pdfMarcaciones($id)
+    {
+        $designacione = Designacione::find($id);
+        $marcaciones = tablaMarcaciones($id);
+        // return view('admin.designacione.pdfRonda', compact('designacione','rondas'));
+        $pdf = Pdf::loadView('admin.designacione.pdfMarcaciones', compact('designacione','marcaciones'));
         return $pdf->stream();
     }
     /**

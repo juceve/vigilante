@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Registro_Rondas_{{ date('His') }}</title>
+    <title>Registro_Marcaciones_{{ date('His') }}</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/bs3/bootstrap.min.css') }}">
 </head>
@@ -21,7 +21,7 @@
                 </p>
             </td>
             <td style="width: 60%; vertical-align: bottom">
-                <h4>REGISTRO DE RONDAS</h4>
+                <h4>REGISTRO DE MARCACIONES</h4>
                 <small>Del {{ $designacione->fechaInicio }} al {{ $designacione->fechaFin }}</small>
             </td>
             <td style="width: 20%"></td>
@@ -44,24 +44,52 @@
         </tr>
     </table>
     <br>
-    <h5 class="text-center">DETALLES</h5>
+<h5 class="text-center">DETALLES</h5>
     <table class="table table-bordered table-striped table-condensed" style="vertical-align: middle; font-size: 10px;">
 
         <thead class="">
             <tr class="active" align="center" style="vertical-align: middle">
                 <td><strong>FECHAS</strong></td>
-                @foreach ($designacione->turno->ctrlpuntos as $punto)
-                    <td><strong>{{ $punto->nombre }} <br> {{ $punto->hora }}</strong></td>
-                @endforeach
+
+                <td><strong>INGRESO <br> {{ $designacione->turno->horainicio }}</strong></td>
+                <td><strong>SALIDA <br> {{ $designacione->turno->horafin }}</strong></td>
             </tr>
         </thead>
         <tbody>
-            @if (count($rondas) > 0)
-                @foreach ($rondas as $ronda)
+            @if (count($marcaciones) > 0)
+                @foreach ($marcaciones as $marcado)
                     <tr align="center">
-                        @foreach ($ronda as $item)
-                                <td>{{ $item[0] }}</td>                           
-                        @endforeach
+                        <td>{{ $marcado[0] }}</td>
+                        <td>
+                            @switch($marcado[1])
+                                @case(0)
+                                    X
+                                @break
+
+                                @case(1)
+                                    --
+                                @break
+
+                                @default
+                                    {{$marcado[1]}}
+                            @endswitch
+                            
+                        </td>
+
+                        <td>
+                            @switch($marcado[2])
+                                @case(0)
+                                    X
+                                @break
+
+                                @case(1)
+                                    --
+                                @break
+
+                                @default
+                                   {{ $marcado[2]}}
+                            @endswitch
+                        </td>
                     </tr>
                 @endforeach
             @endif
