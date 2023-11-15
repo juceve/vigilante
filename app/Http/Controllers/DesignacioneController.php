@@ -88,6 +88,8 @@ class DesignacioneController extends Controller
         $pdf = Pdf::loadView('admin.designacione.pdfMarcaciones', compact('designacione','marcaciones'));
         return $pdf->stream();
     }
+
+   
     /**
      * Show the form for editing the specified resource.
      *
@@ -120,6 +122,7 @@ class DesignacioneController extends Controller
             $designacione->update([
                 "fechaInicio" => $request->fechaInicio,
                 "fechaFin" => $request->fechaFin,
+                "intervalo_hv" => $request->intervalo_hv,
             ]);
 
             $designaciondia = Designaciondia::where('designacione_id', $designacione->id)->first();

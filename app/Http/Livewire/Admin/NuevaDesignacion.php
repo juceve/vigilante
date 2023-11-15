@@ -6,6 +6,8 @@ use App\Models\Cliente;
 use App\Models\Designaciondia;
 use App\Models\Designacione;
 use App\Models\Empleado;
+use App\Models\Intervalo;
+use App\Models\Turno;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -13,7 +15,7 @@ class NuevaDesignacion extends Component
 {
     public $designacione = null;
     public $empleadoid = "", $empleado = null, $nombres = "", $clientes = null, $clienteid = "", $clienteSeleccionado = null;
-    public $turnoid = "", $fechaInicio = "", $fechaFin = "";
+    public $turnoid = "", $fechaInicio = "", $fechaFin = "", $intervalo_hv = 0;
     public $lunes = false, $martes = false, $miercoles = false, $jueves = false, $viernes = false, $sabado = false, $domingo = false;
 
     protected $rules = [
@@ -48,9 +50,9 @@ class NuevaDesignacion extends Component
     {
         $empleados = DB::table('empleados')
             ->join('areas', 'areas.id', '=', 'empleados.area_id')
-            ->join('oficinas','oficinas.id','=','empleados.oficina_id')
+            ->join('oficinas', 'oficinas.id', '=', 'empleados.oficina_id')
             ->where('areas.template', '=', 'OPER')
-            ->select('empleados.*','oficinas.nombre as oficina')->get();
+            ->select('empleados.*', 'oficinas.nombre as oficina')->get();
 
         return view('livewire.admin.nueva-designacion', compact('empleados'));
     }
@@ -66,7 +68,17 @@ class NuevaDesignacion extends Component
                 "turno_id" => $this->turnoid,
                 "fechaInicio" => $this->fechaInicio,
                 "fechaFin" => $this->fechaFin,
+                "intervalo_hv" => $this->intervalo_hv,
             ]);
+            $turno = Turno::find($this->turnoid);
+
+            $intervalo = crearIntervalo($turno->horainicio, $turno->horafin, $this->intervalo_hv);
+            foreach ($intervalo as $item) {
+                Intervalo::create([
+                    "designacione_id" => $designacion->id,
+                    "hora" =>$item,
+                ]);
+            }
 
             $dias = Designaciondia::create([
                 "designacione_id" => $designacion->id,
@@ -78,6 +90,8 @@ class NuevaDesignacion extends Component
                 "sabado" => $this->sabado,
                 "domingo" => $this->domingo,
             ]);
+
+
 
             DB::commit();
             redirect()->route('designaciones.index')->with('success', 'Designación registrada correctamente.');

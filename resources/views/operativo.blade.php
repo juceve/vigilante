@@ -58,11 +58,31 @@
                                 </div>
                                 <div class="col col-6 col-md-6 col-lg-4 mb-5">
                                     <div class="portfolio-item mx-auto border list-group-item-success text-center">
-                                        <a href="{{ route('vigilancia.hombre-vivo') }}">
-                                            <img class="w-50 py-4" src="{{ asset('web/assets/img/home/hombre-vivo.png') }}"
-                                                alt="..." />
-                                            <h6 class="text-success">HOMBRE VIVO</h6>
-                                        </a>
+                                        
+                                        @if ($intervalo = verificaHV($designaciones->id))
+                                            <a href="{{ route('vigilancia.hombre-vivo',$intervalo->id) }}">
+                                                <img class="w-50 py-4 temblor"
+                                                    src="{{ asset('web/assets/img/home/hombre-vivo.png') }}"
+                                                    alt="..." />
+
+                                                <img src="{{ asset('images/exclamation.png') }}"
+                                                    style="position:absolute;
+                                                top:0px;
+                                                left:0px;
+                                                border:none;
+                                                width: 50px;
+                                                float: right"
+                                                    class="temblor">
+                                                <h6 class="text-success">HOMBRE VIVO</h6>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('vigilancia.hombre-vivo',0) }}">
+                                                <img class="w-50 py-4"
+                                                    src="{{ asset('web/assets/img/home/hombre-vivo.png') }}"
+                                                    alt="..." />
+                                                <h6 class="text-success">HOMBRE VIVO</h6>
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col col-6 col-md-6 col-lg-4 mb-5">
@@ -75,6 +95,7 @@
                                     </div>
                                 </div>
                                 {{-- End Portfolio Items --}}
+                                
                             </div>
                         </div>
                     </section>

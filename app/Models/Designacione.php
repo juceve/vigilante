@@ -30,6 +30,7 @@ class Designacione extends Model
         'turno_id' => 'required',
         'fechaInicio' => 'required',
         'fechaFin' => 'required',
+        'intervalo_hv' => 'required',
         'estado' => 'required',
     ];
 
@@ -40,7 +41,7 @@ class Designacione extends Model
      *
      * @var array
      */
-    protected $fillable = ['empleado_id', 'turno_id', 'fechaInicio', 'fechaFin', 'estado'];
+    protected $fillable = ['empleado_id', 'turno_id', 'fechaInicio', 'fechaFin', 'intervalo_hv', 'estado'];
 
 
     /**
@@ -75,5 +76,9 @@ class Designacione extends Model
     public function marcaciones()
     {
         return $this->hasMany('App\Models\Marcacione', 'designacione_id', 'id');
+    }
+    public function intervalos()
+    {
+        return $this->hasMany('App\Models\Intervalo', 'designacione_id', 'id');
     }
 }

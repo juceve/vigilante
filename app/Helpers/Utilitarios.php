@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Livewire\Vigilancia\HombreVivo;
 use App\Models\Designaciondia;
 use App\Models\Designacione;
 use App\Models\Dialibre;
+use App\Models\Hombrevivo as ModelsHombrevivo;
+use App\Models\Intervalo;
 use App\Models\Marcacione;
 use App\Models\Regronda;
 
@@ -174,4 +177,95 @@ function yaMarque($designacione_id)
     } else {
         return 0;
     }
+}
+
+function crearIntervalo($horaI, $horaF, $intervalo)
+{
+    $inicio = date('Y-m-d ') . $horaI;
+    $final = date('Y-m-d ') . $horaF;
+    $inicio = new DateTime($inicio);
+    $final = new DateTime($final);
+    $int = "+" . $intervalo . " hour";
+    $intervalo = array();
+    while ($inicio <= $final) {
+        $inicio->modify($int);
+        if ($inicio < $final) {
+            $intervalo[] = $inicio->format('H:i');
+        }
+    }
+
+    return $intervalo;
+}
+
+function verificaHV($designacione_id)
+{
+    $designacione = Designacione::find($designacione_id);
+    $hora = date('H:') . '00';
+    $intervalo = Intervalo::where([
+        ['designacione_id', $designacione->id],
+        ['hora', $hora],
+    ])->first();
+    if ($intervalo) {
+        $marcado = ModelsHombrevivo::where([
+            ['intervalo_id', $intervalo->id],
+            ['fecha', date('Y-m-d')]
+        ])->first();
+        if ($marcado) {
+            return false;
+        } else {
+            return $intervalo;
+        }
+    } else {
+        return false;
+    }
+}
+
+function registrosHV($designacione_id)
+{
+    $designacione = Designacione::find($designacione_id);
+    $diaslaborables = Designaciondia::where('designacione_id', $designacione_id)
+        ->select('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo')
+        ->first();
+    $diaslaborables = $diaslaborables->toArray();
+    $intervalos = $designacione->intervalos;
+    $diasL = array(
+        "",
+        $diaslaborables['lunes'], $diaslaborables['martes'], $diaslaborables['miercoles'],
+        $diaslaborables['jueves'], $diaslaborables['viernes'],
+        $diaslaborables['sabado'], $diaslaborables['domingo']
+    );
+    $rondas = [];
+    $actual = new DateTime($designacione->fechaInicio);
+    $final = new DateTime($designacione->fechaFin);
+
+    while ($actual <= $final) {
+        $numeral = date('N', strtotime($actual->format('Y-m-d')));
+        if ($diasL[$numeral]) {
+            $fecha = $actual->format('Y-m-d');
+            if (!esDiaLibre2($designacione_id, $fecha)) {
+                $rondaA = [];
+                $rondaA[] = array($fecha, 0);
+                foreach ($intervalos as $intervalo) {
+                    $hv = ModelsHombrevivo::where([
+                        ['intervalo_id', $intervalo->id],
+                        ['fecha', $fecha]
+                    ])->first();
+
+                    if ($hv) {
+
+                        $rondaA[] = array($hv->hora, 0, $hv->id);
+                    } else {
+                        if ($fecha <= date('Y-m-d')) {
+                            $rondaA[] = array('X', 1, "");
+                        } else {
+                            $rondaA[] = array('--', 2, "");
+                        }
+                    }
+                }
+                $rondas[] = $rondaA;
+            }
+        }
+        $actual->modify('+1 day');
+    }
+    return $rondas;
 }

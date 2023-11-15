@@ -63,7 +63,7 @@
         </div>
     </nav>
     @livewireScripts
-    <div class="container-fluid" style="margin-top: 100px;">
+    <div class="container-fluid" style="margin-top: 120px;">
         @yield('content')
     </div>
 

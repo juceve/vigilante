@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('designaciones', function (Blueprint $table) {
+        Schema::create('intervalos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('empleado_id')->constrained();
-            $table->foreignId('turno_id')->constrained();
-            $table->date('fechaInicio');
-            $table->date('fechaFin');  
-            $table->integer('intervalo_hv');
-            $table->boolean('estado')->default(true);
+            $table->foreignId('designacione_id')->constrained();
+            $table->string('hora',5);
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('designaciones');
+        Schema::dropIfExists('intervalos');
     }
 };

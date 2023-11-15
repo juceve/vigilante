@@ -95,8 +95,8 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        @livewire('admin.inforonda',['designacione_id'=>$designacione->id])
-                       
+                        @livewire('admin.inforonda', ['designacione_id' => $designacione->id])
+
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -108,7 +108,5 @@
 @section('js')
     <script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
     @include('vendor.mensajes')
-    <script>
-       
-    </script>
+    <script></script>
 @endsection

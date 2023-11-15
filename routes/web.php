@@ -14,6 +14,7 @@ use App\Http\Livewire\Admin\Designaciones;
 use App\Http\Livewire\Admin\Diaslibres;
 use App\Http\Livewire\Admin\PuntosControl;
 use App\Http\Livewire\Admin\Regactividad;
+use App\Http\Livewire\Admin\Registroshv;
 use App\Http\Livewire\Admin\TurnoCliente;
 
 use App\Http\Livewire\Vigilancia\HombreVivo;
@@ -47,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/users', [UserController::class, 'index'])->name('users');
     Route::get('vigilancia/panico', Panico::class)->name('vigilancia.panico');
     Route::get('vigilancia/ronda', Ronda::class)->name('vigilancia.ronda');
-    Route::get('vigilancia/hombre-vivo', HombreVivo::class)->name('vigilancia.hombre-vivo');
+    Route::get('vigilancia/hombre-vivo/{intervalo}', HombreVivo::class)->name('vigilancia.hombre-vivo');
     Route::get('vigilancia/novedades', Novedades::class)->name('vigilancia.novedades');
     Route::get('admin/registro-actividad', Regactividad::class)->name('admin.regactividad');
     Route::get('admin/turnos-cliente/{cliente_id}', TurnoCliente::class)->name('admin.turnos-cliente');
@@ -58,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/marcaciones/{id}',[DesignacioneController::class,'marcaciones'])->name('marcaciones');
     Route::get('admin/pdfMarcaciones/{id}',[DesignacioneController::class,'pdfMarcaciones'])->name('marcaciones.pdf');
     Route::get('admin/ubicacion/{lat}/{lng}',[UbicacionController::class,'index'])->name('ubicacion');
+    Route::get('admin/registroshv/{id}',Registroshv::class)->name('registroshv');
 
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');
     Route::resource('admin/empleados', EmpleadoController::class)->names('empleados');

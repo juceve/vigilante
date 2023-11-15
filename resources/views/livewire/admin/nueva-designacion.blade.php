@@ -69,6 +69,15 @@
                     @enderror
                 </div>
             </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label>Intervalo Hrs:</label> <small>Alerta Hombre Vivo</small>
+                    <input type="number" class="form-control" wire:model.defer='intervalo_hv'>
+                    @error('intervalo_hv')
+                        <small class="text-danger"><i class="fas fa-exclamation-circle"></i> {{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
             <div class="col-12">
                 <label>Días laborales:</label>
                 <div class="row">

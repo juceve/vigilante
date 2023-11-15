@@ -28,6 +28,14 @@
                     {!! $errors->first('fechaFin', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label>Intervalo Hrs:</label> <small>Alerta Hombre Vivo</small>
+                    {{ Form::number('intervalo_hv', $designacione->intervalo_hv, ['class' => 'form-control' . ($errors->has('intervalo_hv') ? ' is-invalid' : ''), 'placeholder' => '']) }}
+                    {!! $errors->first('intervalo_hv', '<div class="invalid-feedback">:message</div>') !!}
+                </div>
+            </div>
+           
             <div class="col-12">
                 <label>Días laborales:</label>
                 <div class="row">

@@ -85,6 +85,12 @@
                                                                 Rondas
                                                             </a>
                                                             <a class="dropdown-item"
+                                                                href="{{ route('registroshv', $designacione->id) }}"
+                                                                title="">
+                                                                <i class="fas fa-fw fa-user-check text-secondary"></i>
+                                                                Hombre Vivo
+                                                            </a>
+                                                            <a class="dropdown-item"
                                                                 href="{{ route('marcaciones', $designacione->id) }}"
                                                                 title="">
                                                                 <i class="fas fa-user-clock text-secondary"></i>
