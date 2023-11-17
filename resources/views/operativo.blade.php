@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="col col-6 col-md-6 col-lg-4 mb-5">
                                     <div class="portfolio-item mx-auto border list-group-item-blue text-center">
-                                        <a href="{{ route('vigilancia.novedades') }}">
+                                        <a href="{{ route('vigilancia.novedades',$designaciones->id) }}">
                                             <img class="w-50 py-4" src="{{ asset('web/assets/img/home/news.png') }}"
                                                 alt="..." />
                                             <h6 class="text-blue">NOVEDADES</h6>

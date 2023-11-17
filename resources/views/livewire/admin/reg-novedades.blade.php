@@ -1,11 +1,10 @@
 <div>
     @section('title')
-        Registros de Hombre Vivo
+        Registro de Novedades
     @endsection
     @section('content_header')
-        <h4>Registros de Hombre Vivo</h4>
+        <h4>Registro de Novedades</h4>
     @endsection
-
     <section class="content container-fluid">
         <div class="">
             <div class="col-md-12">
@@ -17,11 +16,11 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                Detalles
+                                Detalle Designación
                             </span>
 
                             <div class="float-right">
-                                <a href="{{route('designaciones.index')}}" class="btn btn-info btn-sm float-right"
+                                <a href="{{ route('designaciones.index') }}" class="btn btn-info btn-sm float-right"
                                     data-placement="left">
                                     <i class="fas fa-arrow-left"></i> Volver
                                 </a>
@@ -80,14 +79,13 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col col-6">
-                                <h3 class="card-title">REGISTROS DE HOMBRE VIVO</h3>
+                                <h3 class="card-title">REGISTROS DE NOVEDADES</h3>
                             </div>
                             <div class="col col-6 text-right">
-                                {{-- <button href="{{ route('admin.designaciones.pdfHV', $designacione->id) }}"
-                                    target="_blank" class="btn btn-danger btn-sm">
+                                <a href="{{ route('pdfNovedades', $designacione->id) }}" target="_blank"
+                                    class="btn btn-danger btn-sm">
                                     <i class="fas fa-file-pdf"></i> PDF
-                                </button> --}}
-                                {{-- <button class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> XLS</button> --}}
+                                </a>
                             </div>
                         </div>
 
@@ -95,53 +93,47 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="table-responsive" wire:ignore>
-                            <table class="table table-bordered table-striped dataTableA" style="font-size: 12px;">
+                            <table class="table table-bordered table-striped dataTable">
 
                                 <thead class="table-info">
-                                    <tr align="center" style="vertical-align: middle">
-                                        <td><strong>FECHAS</strong></td>
-                                        @foreach ($designacione->intervalos as $punto)
-                                            <td><strong>{{ $punto->nombre }} <br> {{ $punto->hora }}</strong></td>
-                                        @endforeach
+                                    <tr align="center">
+                                        <th>Nro</th>
+                                        <th>FECHA</th>
+                                        <th>HORA</th>
+                                        <th>DETALLE</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (count($registros) > 0)
-                                        @foreach ($registros as $registro)
-                                            <tr align="center">
-                                                @foreach ($registro as $item)
-                                                    @if (strlen($item[0]) > 5)
-                                                        <td>{{ $item[0] }}</td>
-                                                    @else
-                                                        @switch($item[1])
-                                                            @case(1)
-                                                                <td><a class="text-danger" href="javascript:void(0);"
-                                                                        title="Sin Marcado">
-                                                                        &#10060;
-                                                                    </a></td>
-                                                            @break
+                                    @foreach ($designacione->novedades as $novedad)
+                                        <tr align="center">
+                                            <td>
+                                                {{ $i++ }}
+                                            </td>
 
-                                                            @case(2)
-                                                                <td>
-                                                                    {{ $item[0] }}
-                                                                </td>
-                                                            @break
-
-                                                            @case(0)
-                                                                <td><a class="text-success" href="javascript:void(0);"
-                                                                        title="Ver Info" data-toggle="modal"
-                                                                        data-target="#modalPunto"
-                                                                        wire:click="cargaPunto({{ $item[2] }})">
-                                                                        {{ $item[0] }}
-                                                                    </a></td>
-                                                            @break
-                                                        @endswitch
-                                                    @endif
-                                                @endforeach
-                                            </tr>
-                                        @endforeach
-                                    @endif
-
+                                            <td>
+                                                {{ $novedad->fecha }}
+                                            </td>
+                                            <td>
+                                                {{ $novedad->hora }}
+                                            </td>
+                                            <td align="left">
+                                                @if (strlen($novedad->contenido) > 30)
+                                                    {{ substr($novedad->contenido, 0, 30) . '...' }}
+                                                @else
+                                                    {{ $novedad->contenido }}
+                                                @endif
+                                            </td>
+                                            <td align="right">
+                                                <button class="btn btn-info btn-sm" data-toggle="modal"
+                                                    data-target="#messageView"
+                                                    wire:click='cargaDatos({{ $novedad->id }})'>
+                                                    <i class="fas fa-eye"></i>
+                                                    Detalles
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
 
                             </table>
@@ -153,44 +145,70 @@
         </div>
 
     </section>
+
     <!-- Modal -->
-    <div class="modal fade" id="modalPunto" tabindex="-1" aria-labelledby="modalPuntoLabel" aria-hidden="true"
+    <div class="modal fade" id="messageView" tabindex="-1" aria-labelledby="messageViewLabel" aria-hidden="true"
         wire:ignore.self>
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalPuntoLabel">Marcado de Hombre Vivo</h5>
+                    <h5 class="modal-title" id="messageViewLabel">Detalles del Registro</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-6 mb-3">
-                                <label>Fecha:</label>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Fecha</label>
                                 <input type="text" class="form-control bg-white" wire:model='fecha' readonly>
                             </div>
-                            <div class="col-6 mb-3">
-                                <label>Hora:</label>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>hora</label>
                                 <input type="text" class="form-control bg-white" wire:model='hora' readonly>
                             </div>
-                            <div class="col-12 mb-3">
-                                <label>Anotaciones:</label>
-                                <textarea rows="2" class="form-control bg-white" wire:model='anotaciones' readonly></textarea>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <label>Ubicación:</label>
-                                <div id="mapa1" style="width: 100%;height: 350px;">
-                                    @if ($lat && $lng)
-                                        <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}"
-                                            style="width: 100%; height: 100%" name="ubicacion"></iframe>
-                                    @endif
-
-                                </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Detalle</label>
+                                <textarea readonly rows="2" class="form-control bg-white" wire:model='contenido'></textarea>
                             </div>
                         </div>
                     </div>
+                    @if ($imagenes)
+                        <label>Capturas: </label>
+                        <div class="row">
+                            @foreach ($imagenes as $item)
+                                <div class="col col-12 col-md-3">
+                                    <a href="#{{ $item->id }}">
+                                        <img src="{{ asset('storage/' . $item->url) }}" style="height: 100px;">
+                                    </a>
+                                    <article class="light-box" id="{{ $item->id }}">
+
+                                        <img src="{{ asset('storage/' . $item->url) }}" class="img-fluid">
+
+                                        <a href="#" class="light-box-close">X</a>
+                                    </article>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                    <label>Ubicación:</label>
+                    <div id="mapa1" style="width: 100%;height: 350px;">
+                        @if ($lat && $lng)
+                            <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}"
+                                style="width: 100%; height: 100%" name="ubicacion"></iframe>
+                        @endif
+
+                    </div>
+
+
+
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

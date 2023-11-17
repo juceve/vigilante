@@ -96,6 +96,12 @@
                                                                 <i class="fas fa-user-clock text-secondary"></i>
                                                                 Asistencias
                                                             </a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('regnovedades', $designacione->id) }}"
+                                                                title="">
+                                                                <i class="fas fa-book text-secondary"></i>
+                                                                Novedades
+                                                            </a>
 
                                                             <a class="dropdown-item"
                                                                 href="{{ route('designaciones.diaslibres', $designacione->id) }}">

@@ -77,8 +77,14 @@ class Designacione extends Model
     {
         return $this->hasMany('App\Models\Marcacione', 'designacione_id', 'id');
     }
+    
     public function intervalos()
     {
         return $this->hasMany('App\Models\Intervalo', 'designacione_id', 'id');
+    }
+
+    public function novedades()
+    {
+        return $this->hasMany('App\Models\Novedade', 'designacione_id', 'id');
     }
 }

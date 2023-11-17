@@ -88,6 +88,14 @@ class DesignacioneController extends Controller
         $pdf = Pdf::loadView('admin.designacione.pdfMarcaciones', compact('designacione','marcaciones'));
         return $pdf->stream();
     }
+    public function pdfNovedades($id)
+    {
+        $designacione = Designacione::find($id);
+        $novedades = $designacione->novedades;
+        // return view('admin.designacione.pdfRonda', compact('designacione','rondas'));
+        $pdf = Pdf::loadView('admin.designacione.pdfNovedades', compact('designacione','novedades'));
+        return $pdf->stream();
+    }
 
    
     /**
