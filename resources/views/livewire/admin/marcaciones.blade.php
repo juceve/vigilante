@@ -1,4 +1,4 @@
-<div>
+<div wire:ignore>
     <table class="table table-bordered table-striped dataTableA">
 
         <thead class="table-info">

@@ -13,11 +13,13 @@ use App\Http\Controllers\UserController;
 use App\Http\Livewire\Admin\Admrondas;
 
 use App\Http\Livewire\Admin\Diaslibres;
+use App\Http\Livewire\Admin\GenDocs;
 use App\Http\Livewire\Admin\PuntosControl;
 use App\Http\Livewire\Admin\Regactividad;
 use App\Http\Livewire\Admin\Registroshv;
 use App\Http\Livewire\Admin\TurnoCliente;
 use App\Http\Livewire\Admin\RegNovedades;
+
 use App\Http\Livewire\Vigilancia\HombreVivo;
 use App\Http\Livewire\Vigilancia\Novedades;
 use App\Http\Livewire\Vigilancia\Panico;
@@ -63,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/ubicacion/{lat}/{lng}',[UbicacionController::class,'index'])->name('ubicacion');
     Route::get('admin/registroshv/{id}',Registroshv::class)->name('registroshv');
     Route::get('admin/reg-novedades/{id}',RegNovedades::class)->name('regnovedades');
+    Route::get('admin/gen-docs',GenDocs::class)->name('gendocs');
 
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');
     Route::resource('admin/empleados', EmpleadoController::class)->names('empleados');

@@ -56,9 +56,9 @@
 
                 </div>
 
-                @if ($resultados)
+                {{-- @if ($resultados)
                     @dump($resultados)
-                @endif
+                @endif --}}
             </div>
         </div>
     </div>
