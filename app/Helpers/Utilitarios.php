@@ -270,10 +270,22 @@ function registrosHV($designacione_id)
     return $rondas;
 }
 
-function fechaEs($fecha){
-    setlocale(LC_TIME, 'es_VE.UTF-8','esp');
+function fechaEs($fecha)
+{
+    setlocale(LC_TIME, 'es_VE.UTF-8', 'esp');
     $date = strtotime($fecha);
     $fecha = strftime('%e de %B de %Y', $date);
 
     return $fecha;
+}
+
+function ultDiaMes($fecha)
+{
+    $L = new DateTime($fecha);
+    $literal = $L->format('Y-m-t');
+    $literal = strtotime($literal);
+    setlocale(LC_TIME, 'es_VE.UTF-8', 'esp');
+    $literal = strftime('%e de %B de %Y', $literal);
+    
+    return $literal;
 }

@@ -16,7 +16,7 @@ return [
 
     'title' => '',
     'title_prefix' => '',
-    'title_postfix' => ' | VIGILANTE',
+    'title_postfix' => ' | BLACK BIRD',
 
     /*
     |--------------------------------------------------------------------------
