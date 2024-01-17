@@ -94,7 +94,7 @@
                         <hr>
                         <div class="form-group">
                             <label for="mapa">Ubicación del Domicilio:</label>
-                            <div id="mapa" class="border" style="width: 100%; height: 500px;"></div>
+                            <div id="mi_mapa" class="border" style="width: 100%; height: 500px;"></div>
                         </div>
                     </div>
 
@@ -104,40 +104,29 @@
         </div>
     </section>
 @endsection
+
+@section('plugins.OpenStreetMap', true)
 @section('js')
     <script>
-        function initMap() {
-            var latitud = {{ $cliente->latitud ? $cliente->latitud : '-17.7817999' }};
-            var longitud = {{ $cliente->longitud ? $cliente->longitud : '-63.1825485' }};
+        let map = L.map('mi_mapa').setView([{{ $cliente->latitud }}, {{ $cliente->longitud }}], 17)
 
-            coordenadas = {
-                lng: longitud,
-                lat: latitud,
-            }
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy;'
+        }).addTo(map);
 
-            generarMapa(coordenadas);
-        }
 
-        function generarMapa() {
-            var mapa = new google.maps.Map(document.getElementById('mapa'), {
-                zoom: 17,
-                center: new google.maps.LatLng(coordenadas.lat, coordenadas.lng)
-            });
+        var myIcon = L.icon({
+            iconUrl: "{{ asset('images/punt.png') }}",
+            iconSize: [35, 35],
+            iconAnchor: [35, 35],
+            popupAnchor: [-15, -30],
+        });
 
-            var marcador = new google.maps.Marker({
-                map: mapa,
-                draggable: false,
-                position: new google.maps.LatLng(coordenadas.lat, coordenadas.lng)
-            })
+        L.marker([{{ $cliente->latitud }}, {{ $cliente->longitud }}]).addTo(map);
+        // map.on('click', onMapClick)
 
-            marcador.addListener('dragend', function(event) {
-                document.getElementById('latitud').value = this.getPosition().lat();
-
-                document.getElementById('longitud').value = this.getPosition().lng();
-            })
-        }
+        // function onMapClick(e) {
+        //     alert("Posición: " + e.latlng)
+        // }
     </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('API_MAPS') }}&callback=initMap&libraries=&v=weekly"
-        defer></script>
 @endsection

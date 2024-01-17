@@ -150,41 +150,27 @@
     <script src="{{ asset('vendor/qr/index.js') }}"></script>
     @if ($proxpunto)
         <script>
-            var mapa;
+            let map;
+            initMap();
 
             function initMap() {
                 var latitud = {{ $cliente->latitud ? $cliente->latitud : '-17.7817999' }};
                 var longitud = {{ $cliente->longitud ? $cliente->longitud : '-63.1825485' }};
 
-                coordenadas = {
-                    lat: {{ $proxpunto->latitud }},
-                    lng: {{ $proxpunto->longitud }},
-                }
+                map = L.map('mapa').setView([latitud, longitud], 17)
 
-                punto = {
-                    lat: {{ $proxpunto->latitud }},
-                    lng: {{ $proxpunto->longitud }},
-                }
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy;'
+                }).addTo(map);
 
-                generarMapa(coordenadas, punto);
-
-
-            }
-
-            function generarMapa() {
-                mapa = new google.maps.Map(document.getElementById('mapa'), {
-                    zoom: 20,
-                    center: new google.maps.LatLng(coordenadas.lat, coordenadas.lng)
-                });
-
-                var marcador = new google.maps.Marker({
-                    map: mapa,
-                    position: new google.maps.LatLng(punto.lat, punto.lng)
-                })
+                L.marker([{{ $proxpunto->latitud }}, {{ $proxpunto->longitud }}], {
+                    title: 'Punto de Control'
+                }).addTo(map);
                 if (navigator.geolocation) {
                     let miUbicacion = navigator.geolocation.getCurrentPosition(success);
                 }
             }
+
 
             function success(geoLocationPosition) {
 
@@ -193,21 +179,24 @@
                     geoLocationPosition.coords.longitude,
                 ];
 
-                var marcador = new google.maps.Marker({
-                    map: mapa,
-                    position: new google.maps.LatLng(geoLocationPosition.coords.latitude, geoLocationPosition.coords
-                        .longitude),
-                    title: "Mi Ubicación",
-                    icon: {
-                        url: "{{ asset('images/local.png') }}"
-                    },
+                var greenIcon = new L.Icon({
+                    iconUrl: "{{ asset('images/img-maps/marker-icon-2x-green.png') }}",
+                    shadowUrl: "{{ asset('images/img-maps/marker-shadow.png') }}",
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
                 });
+
+                auxMarker = L.marker(data, {
+                    icon: greenIcon,
+                    title: 'Mi Ubicacion'
+                }).addTo(map);
+
 
                 Livewire.emit('ubicacionAprox', data);
             }
         </script>
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ env('API_MAPS') }}&callback=initMap&libraries=&v=weekly"
-            defer></script>
     @endif
 
     <script>

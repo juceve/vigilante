@@ -14,6 +14,7 @@ use App\Http\Livewire\Admin\Admrondas;
 
 use App\Http\Livewire\Admin\Diaslibres;
 use App\Http\Livewire\Admin\GenDocs;
+use App\Http\Livewire\Admin\Nuevoptctrl;
 use App\Http\Livewire\Admin\PuntosControl;
 use App\Http\Livewire\Admin\Regactividad;
 use App\Http\Livewire\Admin\Registroshv;
@@ -73,5 +74,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('admin/oficinas', OficinaController::class)->names('oficinas');
     Route::resource('admin/clientes', ClienteController::class)->names('clientes');
     Route::resource('admin/designaciones', DesignacioneController::class)->names('designaciones');
+
+    Route::get('/ubicacion/{lat}/{lng}',function(string $lat, string $lng){
+        return view('admin.ubicacion',compact('lat','lng'));
+    })->name('ubicacion');
     
+    Route::get('nuevoptctrl/{cliente_id}',Nuevoptctrl::class)->name('nuevoptctrl');
 });

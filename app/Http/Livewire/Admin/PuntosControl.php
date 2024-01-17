@@ -9,12 +9,13 @@ use Livewire\Component;
 
 class PuntosControl extends Component
 {
-    public $turno_id;
+    public $turno_id,$turno;
     public $nombre = "", $hora = "", $latitud = "", $longitud = "", $pnts="";
 
     public function mount($turno_id)
     {
         $this->turno_id = $turno_id;
+        $this->turno = Turno::find($turno_id);
     }
 
     protected $rules = [
@@ -24,7 +25,7 @@ class PuntosControl extends Component
         "longitud" => "required",
     ];
 
-    protected $listeners = ['registrarPunto', 'delete'];
+    protected $listeners = ['registrarPunto', 'delete','cargaLatLng'];
 
     public function render()
     {
@@ -40,16 +41,23 @@ class PuntosControl extends Component
         return view('livewire.admin.puntos-control', compact('puntos', 'turno', 'cliente'))->with('i', 1)->extends('adminlte::page');
     }
 
-    public function registrarPunto($data)
+    public function cargaLatLng($data){
+        $this->latitud = $data[0];
+        $this->longitud = $data[1];
+    }
+
+
+    public function registrarPunto()
     {
+        $this->validate();
         $this->emit('loading');
         DB::beginTransaction();
         try {
             $punto = Ctrlpunto::create([
-                "nombre" => $data[0],
-                "hora" => $data[1],
-                "latitud" => $data[2],
-                "longitud" => $data[3],
+                "nombre" => $this->nombre,
+                "hora" => $this->hora,
+                "latitud" => $this->latitud,
+                "longitud" => $this->longitud,
                 "turno_id" => $this->turno_id
             ]);
 

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Intervention\Image\Image;
+use Intervention\Image\Facades\Image;
 
 class Panico extends Component
 {
@@ -79,12 +79,19 @@ class Panico extends Component
                     $name = date('YmdHis') . $x;
 
                     $x++;
-                    $path = $file->storeAs('images/registros/panico', $name . '.' . $arrF[1]);
+                    // $path = $file->storeAs('images/registros/panico', $name . '.' . $arrF[1]);
+
+                    $path = storage_path().'\app\public\images\registros\panico/'.$name . '.' . $arrF[1];
+                    Image::make($file)
+                    ->resize(600, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })
+                    ->save($path);;
 
                     $imgreg = Imgregistro::create([
                         "registroguardia_id" => $registro->id,
                         "plataforma" => "panico",
-                        "url" => $path,
+                        "url" => 'images\registros\panico/'.$name . '.' . $arrF[1],
                         "tipo" => $arrF[1],
                     ]);
                 }

@@ -550,6 +550,21 @@ return [
                 ],
             ],
         ],
+        'OpenStreetMap' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//unpkg.com/leaflet@1.9.3/dist/leaflet.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//unpkg.com/leaflet@1.9.3/dist/leaflet.js',
+                ],
+            ],
+        ],
         'LightBox' => [
             'active' => true,
             'files' => [

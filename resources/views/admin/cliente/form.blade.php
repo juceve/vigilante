@@ -88,7 +88,7 @@
                     <small class="text-danger">{{ $errors->first('oficina_id') }}</small>
                 </div>
             </div>
-            
+
             <div class="col col-12 col-md-6">
                 <div class="form-group">
                     {{ Form::label('observaciones') }}
@@ -98,56 +98,59 @@
             </div>
             <div class="col col-12 col-md-6">
                 <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
-                {!! Form::label('status', 'Estado') !!}
-                {!! Form::select('status', ['1' => 'Activo','0'=>'Inactivo'], $cliente->status, ['id' => 'status', 'class' => 'form-control', 'required' => 'required', 'placeholder' => 'Seleccione una opcion']) !!}
-                <small class="text-danger">{{ $errors->first('status') }}</small>
+                    {!! Form::label('status', 'Estado') !!}
+                    {!! Form::select('status', ['1' => 'Activo', '0' => 'Inactivo'], $cliente->status, [
+                        'id' => 'status',
+                        'class' => 'form-control',
+                        'required' => 'required',
+                        'placeholder' => 'Seleccione una opcion',
+                    ]) !!}
+                    <small class="text-danger">{{ $errors->first('status') }}</small>
                 </div>
             </div>
             <div class="col col-12 mb-2">
                 <label for="mapa">Ubicación del Domicilio</label>
-                <div id="mapa" style="width: 100%; height: 500px;"></div>
+                <div id="mi_mapa" style="width: 100%; height: 500px;"></div>
             </div>
         </div>
     </div>
-    <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+    <hr>
+    <div class="row mt-3">
+        <div class="col-12 col-md-6">
+            <div class="box-footer mt20">
+                <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </div>
     </div>
 </div>
-@section('js')   
-
+@section('plugins.OpenStreetMap', true)
+@section('js')
     <script>
-        function initMap(){
-            var latitud = {{$cliente->latitud?$cliente->latitud:'-17.7817999'}};
-            var longitud = {{$cliente->longitud?$cliente->longitud:'-63.1825485'}} ;
+        let map = L.map('mi_mapa').setView([{{ $cliente->latitud?$cliente->latitud:-17.7817999 }}, {{ $cliente->longitud?$cliente->longitud:-63.1825485 }}], 17)
 
-            coordenadas = {
-                lng: longitud,
-                lat: latitud,
-            }
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy;'
+        }).addTo(map);
 
-            generarMapa(coordenadas);
-        }
 
-        function generarMapa(){
-            var mapa = new google.maps.Map(document.getElementById('mapa'),{
-                zoom: 12,
-                center: new google.maps.LatLng(coordenadas.lat, coordenadas.lng)
-            });
+        var myIcon = L.icon({
+            iconUrl: "{{ asset('images/punt.png') }}",
+            iconSize: [35, 35],
+            iconAnchor: [35, 35],
+            popupAnchor: [-15, -30],
+        });
 
-            var marcador = new google.maps.Marker({
-                map: mapa,
-                draggable:true,
-                position: new google.maps.LatLng(coordenadas.lat,coordenadas.lng)
-            })
+        var marker = L.marker([{{ $cliente->latitud?$cliente->latitud:-17.7817999 }}, {{ $cliente->longitud?$cliente->longitud:-63.1825485 }}], {
+            "draggable": true
+        }).addTo(map);
 
-            marcador.addListener('dragend',function(event){
-                document.getElementById('latitud').value = this.getPosition().lat();
-
-                document.getElementById('longitud').value = this.getPosition().lng();
-            })
-        }
+        marker.on('dragend', function(event) {
+            var position = marker.getLatLng();
+            marker.setLatLng(position, {
+                draggable: 'true'
+            }).bindPopup(position).update();
+            $("#latitud").val(position.lat);
+            $("#longitud").val(position.lng).keyup();
+        });
     </script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key={{env('API_MAPS')}}&callback=initMap&libraries=&v=weekly" defer></script>
-
 @endsection

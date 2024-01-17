@@ -7,6 +7,7 @@
     @endsection
 
     <div class="container-fluid">
+
         <div class="card">
             <div class="card-header bg-info">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -27,13 +28,11 @@
                 <hr>
                 <div class="form-group">
                     <label>Listado de Puntos de Control</label><br>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#modalNuevo"><i
-                            class="fas fa-plus"></i> Agregar</button>
-                    <button type="button" onClick="window.location.reload()" class="btn btn-success">
-                        <i class="fas fa-sync"></i> Actualizar
-                    </button>
+                    {{-- <button class="btn btn-primary" data-toggle="modal" data-target="#modalNuevo"><i
+                            class="fas fa-plus"></i> Agregar</button> --}}
+
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-12 col-md-6">
                         <div class="table-responsive">
                             <table class="table table-bordered">
@@ -66,77 +65,117 @@
 
                                 </tbody>
                             </table>
+                            <button type="button" onClick="window.location.reload()" class="btn btn-success">
+                                <i class="fas fa-sync"></i> Actualizar
+                            </button>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div id="mapa2" style="width: 100%; height: 400px"></div>
+                        <div id="mi_mapa2" style="width: 100%; height: 400px" wire:ignore></div>
+                        <strong>Haga Click en el mapa para registrar un Nuevo Punto</strong>
                     </div>
                 </div>
+                <div style="display: none" id="nuevopt" wire:ignore.self>
+                    <h5>Registrar Nuevo Punto</h5>
+                    <div class="row">
 
+                        <div class="col-12 col-md-3">
+                            <div class="form-group">
+                                {{-- <label>Nombre:</label> --}}
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre de Punto"
+                                    wire:model='nombre' required>
+                                    @error('nombre')
+                                        <small class="text-danger">El campo Nombre es requerido.</small>
+                                    @enderror
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="form-group">
+                                {{-- <label>Hora:</label> --}}
+                                <input type="time" class="form-control" id="hora" required wire:model='hora'>
+                                @error('hora')
+                                    <small class="text-danger">El campo Hora es requerido.</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <button class="btn btn-primary btn-block" wire:click='registrarPunto'>Registrar</button>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <a href="javascript:location.reload();" class="btn btn-secondary btn-block">Cancelar</a>
+                        </div>
+                        <div class="col-12 col-md-3 d-none">
+                            <div class="form-group">
+                                <label>Latitud:</label>
+                                <input type="text" class="form-control" id="latitud" required
+                                    placeholder="Seleccione un punto en el Mapa" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 d-none">
+                            <div class="form-group">
+                                <label>Longitud:</label>
+                                <input type="text" class="form-control" id="longitud" required
+                                    placeholder="Seleccione un punto en el Mapa" readonly>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalNuevo" tabindex="-1" role="dialog" aria-labelledby="modalNuevoLabel"
-        aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header table-info">
-                    <h5 class="modal-title" id="modalNuevoLabel">Nuevo Punto de Control</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="" onsubmit="return false">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label>Nombre:</label>
-                                    <input type="text" class="form-control" id="nombre"
-                                        placeholder="Nombre de Punto" required>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label>Hora:</label>
-                                    <input type="time" class="form-control" id="hora" required>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 ">
-                                <div class="form-group">
-                                    <label>Latitud:</label>
-                                    <input type="text" class="form-control" id="latitud" required
-                                        placeholder="Seleccione un punto en el Mapa">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 ">
-                                <div class="form-group">
-                                    <label>Longitud:</label>
-                                    <input type="text" class="form-control" id="longitud" required
-                                        placeholder="Seleccione un punto en el Mapa">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" wire:ignore>
-                            <div class="border" id="mapa" style="width: 100%; height: 400px"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                            onclick="mapaPrincipal()"><i class="fas fa-times-circle"></i> Cerrar</button>
 
-                        <button class="btn btn-info" onclick='registrar()'>
-                            <i class="fas fa-save"></i> Registrar
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
+@section('plugins.OpenStreetMap', true)
 @section('js')
+
+    <script>
+        let map2 = L.map('mi_mapa2').setView([{{ $cliente->latitud }}, {{ $cliente->longitud }}], 18)
+        var auxMarker = "";
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy;'
+        }).addTo(map2);
+
+        var arr1 = "{{ $pnts }}";
+        arr1 = arr1.split('$');
+        const puntos = [];
+
+        for (let i = 0; i < arr1.length; i++) {
+            const pt = arr1[i].split("|");
+            puntos[i] = pt;
+            L.marker([pt[1], pt[2]], {
+                title: (pt[0])
+            }).addTo(map2);
+        }
+
+        map2.on('click', onMapClick)
+
+        function onMapClick(e) {
+            if (auxMarker) {
+                map2.removeLayer(auxMarker);
+            }
+            var greenIcon = new L.Icon({
+                iconUrl: "{{asset('images/img-maps/marker-icon-2x-green.png')}}",
+                shadowUrl: "{{asset('images/img-maps/marker-shadow.png')}}",
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+            $('#nuevopt').css("display", "block");
+            $('#nombre').focus();
+            var coord = e.latlng;
+            // var lat = e.latlat.lng;
+            $('#latitud').val(coord['lat']);
+            $('#longitud').val(coord['lng']);
+            var data = [coord['lat'], coord['lng']];
+            Livewire.emit('cargaLatLng', data)
+            auxMarker = L.marker(data, {icon: greenIcon}).addTo(map2);
+            console.log(e.latlng.lng);
+        }
+    </script>
+
     <script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
     @include('vendor.mensajes')
     <script></script>
@@ -173,98 +212,5 @@
             })
         }
     </script>
-    <script>
-        $(document).ready(function() {
-            mapaPrincipal();
 
-        });
-
-        function mapaPrincipal() {
-            var arr1 = "{{ $pnts }}";
-            arr1 = arr1.split('$');
-            const puntos = [];
-            for (let i = 0; i < arr1.length; i++) {
-                const pt = arr1[i].split("|");
-                puntos[i] = pt;
-            }
-
-            var locCenter = {
-                lat: {{ $cliente->latitud }},
-                lng: {{ $cliente->longitud }},
-            }
-            var mapa2 = new google.maps.Map(document.getElementById('mapa2'), {
-                zoom: 18,
-                center: new google.maps.LatLng(locCenter.lat, locCenter.lng)
-            });
-            var i = 0;
-            while (i < puntos.length) {
-
-                let punto = puntos[i];
-                i++
-                new google.maps.Marker({
-                    position: new google.maps.LatLng(punto[1], punto[2]),
-                    map: mapa2,
-                    title: punto[0],
-                    label: 'P' + i,
-                });
-            }
-
-        }
-
-        function initMap() {
-            var latitud = {{ $cliente->latitud ? $cliente->latitud : '-17.7817999' }};
-            var longitud = {{ $cliente->longitud ? $cliente->longitud : '-63.1825485' }};
-
-            coordenadas = {
-                lng: longitud,
-                lat: latitud,
-            }
-
-            generarMapa(coordenadas);
-        }
-
-        function generarMapa() {
-            var mapa = new google.maps.Map(document.getElementById('mapa'), {
-                zoom: 18,
-                center: new google.maps.LatLng(coordenadas.lat, coordenadas.lng)
-            });
-
-            var marcador = new google.maps.Marker({
-                map: mapa,
-                draggable: true,
-                position: new google.maps.LatLng(coordenadas.lat, coordenadas.lng)
-            })
-
-            marcador.addListener('dragend', function(event) {
-                document.getElementById('latitud').value = this.getPosition().lat();
-
-                document.getElementById('longitud').value = this.getPosition().lng();
-            })
-        }
-
-        // function generarMapa2() {
-        //     var mapa = new google.maps.Map(document.getElementById('mapa2'), {
-        //         zoom: 18,
-        //         center: new google.maps.LatLng(coordenadas.lat, coordenadas.lng)
-        //     });
-        //     for (let i = 0; i < puntos.length; i++) {
-        //         const punto = puntos[i];
-        //         // new google.maps.Marker({
-        //         //     map: mapa2,
-        //         //     draggable: false,
-        //         //     title: punto[0],
-        //         //     position: new google.maps.LatLng(punto[1], punto[2])
-        //         // })
-        //     }
-
-
-
-
-
-
-        // }
-    </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('API_MAPS') }}&callback=initMap&libraries=&v=weekly"
-        defer></script>
 @endsection
