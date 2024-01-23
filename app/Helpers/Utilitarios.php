@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Livewire\Vigilancia\HombreVivo;
+use App\Models\Citecobro;
+use App\Models\Citeinforme;
+use App\Models\Citememorandum;
 use App\Models\Designaciondia;
 use App\Models\Designacione;
 use App\Models\Dialibre;
@@ -286,6 +289,37 @@ function ultDiaMes($fecha)
     $literal = strtotime($literal);
     setlocale(LC_TIME, 'es_VE.UTF-8', 'esp');
     $literal = strftime('%e de %B de %Y', $literal);
-    
+
     return $literal;
+}
+
+function traeCiteInforme($cite_id)
+{
+    $citeinforme = Citeinforme::find($cite_id);
+
+    return $citeinforme->toArray();
+}
+function traecitememo($cite_id)
+{
+    $citememo = Citememorandum::find($cite_id);
+
+    return $citememo->toArray();
+}
+
+function traeCitecobro($cobro_id)
+{
+    $citecobro = Citecobro::find($cobro_id);
+
+    return $citecobro->toArray();
+}
+
+function codGet($myString)
+{
+    $myString = str_replace("/", "^&10&^", $myString);
+    return $myString;
+}
+function decodGet($myString)
+{
+    $myString = str_replace( "^&10&^","/", $myString);
+    return $myString;
 }

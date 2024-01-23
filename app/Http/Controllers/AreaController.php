@@ -18,10 +18,10 @@ class AreaController extends Controller
      */
     public function index()
     {
-        $areas = Area::paginate();
+        $areas = Area::all();
 
         return view('admin.area.index', compact('areas'))
-            ->with('i', (request()->input('page', 1) - 1) * $areas->perPage());
+            ->with('i',  1) ;
     }
 
     /**

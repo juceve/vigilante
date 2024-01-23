@@ -11,7 +11,7 @@ class PtCobro extends Component
 {
     public function render()
     {
-        return view('livewire.admin.partials.pt-cobro');
+        return view('livewire.admin.partials.pt-cobro')->extends('adminlte::page');
     }
 
     public $clientes = null, $selID = "", $cliente = null;

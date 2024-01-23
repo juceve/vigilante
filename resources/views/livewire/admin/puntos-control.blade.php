@@ -27,10 +27,7 @@
                 TURNO: <strong>{{ $turno->nombre }}</strong>
                 <hr>
                 <div class="form-group">
-                    <label>Listado de Puntos de Control</label><br>
-                    {{-- <button class="btn btn-primary" data-toggle="modal" data-target="#modalNuevo"><i
-                            class="fas fa-plus"></i> Agregar</button> --}}
-
+                    <label>Listado de Puntos de Control</label>
                 </div>
                 <div class="row mb-3">
                     <div class="col-12 col-md-6">
@@ -84,9 +81,9 @@
                                 {{-- <label>Nombre:</label> --}}
                                 <input type="text" class="form-control" id="nombre" placeholder="Nombre de Punto"
                                     wire:model='nombre' required>
-                                    @error('nombre')
-                                        <small class="text-danger">El campo Nombre es requerido.</small>
-                                    @enderror
+                                @error('nombre')
+                                    <small class="text-danger">El campo Nombre es requerido.</small>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
@@ -141,13 +138,16 @@
         arr1 = arr1.split('$');
         const puntos = [];
 
-        for (let i = 0; i < arr1.length; i++) {
-            const pt = arr1[i].split("|");
-            puntos[i] = pt;
-            L.marker([pt[1], pt[2]], {
-                title: (pt[0])
-            }).addTo(map2);
+        if (arr1[0] != "") {
+            for (let i = 0; i < arr1.length; i++) {
+                const pt = arr1[i].split("|");
+                puntos[i] = pt;
+                L.marker([pt[1], pt[2]], {
+                    title: (pt[0])
+                }).addTo(map2);
+            }
         }
+
 
         map2.on('click', onMapClick)
 
@@ -156,8 +156,8 @@
                 map2.removeLayer(auxMarker);
             }
             var greenIcon = new L.Icon({
-                iconUrl: "{{asset('images/img-maps/marker-icon-2x-green.png')}}",
-                shadowUrl: "{{asset('images/img-maps/marker-shadow.png')}}",
+                iconUrl: "{{ asset('images/img-maps/marker-icon-2x-green.png') }}",
+                shadowUrl: "{{ asset('images/img-maps/marker-shadow.png') }}",
                 iconSize: [25, 41],
                 iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
@@ -165,20 +165,28 @@
             });
             $('#nuevopt').css("display", "block");
             $('#nombre').focus();
+
             var coord = e.latlng;
-            // var lat = e.latlat.lng;
+
+
             $('#latitud').val(coord['lat']);
             $('#longitud').val(coord['lng']);
             var data = [coord['lat'], coord['lng']];
+            // console.log(data);
             Livewire.emit('cargaLatLng', data)
-            auxMarker = L.marker(data, {icon: greenIcon}).addTo(map2);
-            console.log(e.latlng.lng);
+            auxMarker = L.marker(data, {
+                icon: greenIcon
+            }).addTo(map2);
+
         }
+
+        Livewire.on('ocultar', () => {
+            $('#nuevopt').css("display", "none");
+        });
     </script>
 
     <script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
     @include('vendor.mensajes')
-    <script></script>
     <script>
         function registrar() {
             var nombre = document.getElementById('nombre');

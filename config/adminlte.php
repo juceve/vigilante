@@ -328,6 +328,37 @@ return [
             'route' =>  'gendocs',
             'icon'  =>  'fas fa-fw fa-file-alt'
         ],
+        [
+            'text'    => 'Generador Docs',
+            'icon'    => 'fas fa-fw fa-cogs',
+            'submenu' => [
+                [
+                    'text' => 'Informes',
+                    'route'  => 'admin.citesinformes',
+                    'icon' => 'fas fa-fw fa-file-pdf'
+                ],
+                [
+                    'text' => 'Memorandum',
+                    'route'  => 'admin.citesmemorandum',
+                    'icon' => 'fas fa-fw fa-file-pdf'
+                ],
+                [
+                    'text' => 'Cobros',
+                    'route'  => 'admin.citescobro',
+                    'icon' => 'fas fa-fw fa-file-pdf'
+                ],
+                [
+                    'text' => 'Recibo',
+                    'url'  => '',
+                    'icon' => 'fas fa-fw fa-file-pdf'
+                ],
+                [
+                    'text' => 'Cotizaciones',
+                    'url'  => '',
+                    'icon' => 'fas fa-fw fa-file-pdf'
+                ],
+            ],
+        ],
         
         ['header' => 'Mantenimiento'],
         [
@@ -556,12 +587,12 @@ return [
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//unpkg.com/leaflet@1.9.3/dist/leaflet.css',
+                    'location' => '//unpkg.com/leaflet@1.9.4/dist/leaflet.css',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//unpkg.com/leaflet@1.9.3/dist/leaflet.js',
+                    'location' => '//unpkg.com/leaflet@1.9.4/dist/leaflet.js',
                 ],
             ],
         ],

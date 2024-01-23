@@ -67,7 +67,8 @@ class DesignacioneController extends Controller
         return view('admin.designacione.show', compact('designacione'));
     }
 
-    public function marcaciones($id){
+    public function marcaciones($id)
+    {
         $designacione = Designacione::find($id);
         return view('admin.designacione.marcaciones', compact('designacione'));
     }
@@ -77,7 +78,7 @@ class DesignacioneController extends Controller
         $designacione = Designacione::find($id);
         $rondas = tablaRondas($id);
         // return view('admin.designacione.pdfRonda', compact('designacione','rondas'));
-        $pdf = Pdf::loadView('admin.designacione.pdfRonda', compact('designacione','rondas'));
+        $pdf = Pdf::loadView('admin.designacione.pdfRonda', compact('designacione', 'rondas'));
         return $pdf->stream();
     }
     public function pdfMarcaciones($id)
@@ -85,7 +86,7 @@ class DesignacioneController extends Controller
         $designacione = Designacione::find($id);
         $marcaciones = tablaMarcaciones($id);
         // return view('admin.designacione.pdfRonda', compact('designacione','rondas'));
-        $pdf = Pdf::loadView('admin.designacione.pdfMarcaciones', compact('designacione','marcaciones'));
+        $pdf = Pdf::loadView('admin.designacione.pdfMarcaciones', compact('designacione', 'marcaciones'));
         return $pdf->stream();
     }
     public function pdfNovedades($id)
@@ -93,11 +94,11 @@ class DesignacioneController extends Controller
         $designacione = Designacione::find($id);
         $novedades = $designacione->novedades;
         // return view('admin.designacione.pdfRonda', compact('designacione','rondas'));
-        $pdf = Pdf::loadView('admin.designacione.pdfNovedades', compact('designacione','novedades'));
+        $pdf = Pdf::loadView('admin.designacione.pdfNovedades', compact('designacione', 'novedades'));
         return $pdf->stream();
     }
 
-   
+
     /**
      * Show the form for editing the specified resource.
      *

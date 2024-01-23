@@ -86,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $areas->links() !!}
+                {{-- {!! $areas->links() !!} --}}
             </div>
         </div>
     </div>

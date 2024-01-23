@@ -1,6 +1,6 @@
 <div>
     <div class="row">
-        <div class="col-12 col-md-6 mb-3">
+        <div class="col-12 col-md-6 mb-3 d-none">
             <label>Cite:</label>
             <input type="text" class="form-control" wire:model.defer='i_cite'>
         </div>
@@ -84,9 +84,22 @@
             </div>
         @endif
 
-        <div class="col-12 col-md-6">
-            <button class="btn btn-primary btn-block" wire:click='generarInforme'>Generar Informe <i
-                    class="fas fa-file-import"></i></button>
+        <div class="col-12 col-md-3">
+            <button class="btn btn-primary btn-block" wire:click='previa'>Vista Previa <i
+                    class="fas fa-eye"></i></button>
+        </div>
+        <div class="col-12 col-md-3">
+            <button class="btn btn-success btn-block" wire:click='registrar'>Registrar <i
+                    class="fas fa-save"></i></button>
         </div>
     </div>
 </div>
+@section('js')
+    @include('vendor.mensajes')
+    <script>
+        Livewire.on('renderizarpdf', data => {
+            var win = window.open("../pdf/informe/" + data, '_blank');
+            win.focus();
+        });
+    </script>
+@endsection
