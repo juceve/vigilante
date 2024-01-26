@@ -4,6 +4,8 @@ use App\Http\Livewire\Vigilancia\HombreVivo;
 use App\Models\Citecobro;
 use App\Models\Citeinforme;
 use App\Models\Citememorandum;
+use App\Models\Citerecibo;
+use App\Models\ConversionNumeros;
 use App\Models\Designaciondia;
 use App\Models\Designacione;
 use App\Models\Dialibre;
@@ -312,6 +314,20 @@ function traeCitecobro($cobro_id)
 
     return $citecobro->toArray();
 }
+function traeCiterecibo($recibo_id)
+{
+    $citerecibo = Citerecibo::find($recibo_id);
+
+    return $citerecibo->toArray();
+}
+
+function numLiteral($monto)
+{
+    $conversiones = new ConversionNumeros();
+    $literal = $conversiones->toInvoice($monto, 2, 'bolivianos');
+
+    return $literal;
+}
 
 function codGet($myString)
 {
@@ -320,6 +336,6 @@ function codGet($myString)
 }
 function decodGet($myString)
 {
-    $myString = str_replace( "^&10&^","/", $myString);
+    $myString = str_replace("^&10&^", "/", $myString);
     return $myString;
 }

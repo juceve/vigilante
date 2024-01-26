@@ -6,19 +6,30 @@ use App\Models\Citeinforme;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ListadoCiteInforme extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $clientes = null, $selID = "", $cliente = null;
 
     public $i_cite = "", $i_representante = "", $i_objeto = "", $i_fecha = "", $i_referencia = "", $i_causal = "", $causales = [];
 
     public $i_cliente = "", $updCiteId = "";
 
+
+    public $busqueda = "", $filas = 5, $gestion;
+
     public function render()
     {
-        $citeinformes = Citeinforme::all();
-        $this->emit('dataTableRender');
+        $citeinformes = Citeinforme::where([['cite', 'like', "%$this->busqueda%"], ['gestion', $this->gestion]])
+            ->orWhere([["cliente", "like", "%$this->busqueda%"], ['gestion', $this->gestion]])
+            ->orWhere([["fecha", "like", "%$this->busqueda%"], ['gestion', $this->gestion]])
+            ->orderBy('correlativo', 'DESC')
+            ->paginate($this->filas);
         return view('livewire.admin.listado-cite-informe', compact('citeinformes'))->with('i', 1)->extends('adminlte::page');
     }
 
@@ -26,10 +37,19 @@ class ListadoCiteInforme extends Component
 
     public function mount()
     {
+        $this->gestion = date('Y');
         $this->clientes = Cliente::all()->pluck('nombre', 'id');
         $this->i_fecha = date('Y-m-d');
     }
 
+    public function updatedBusqueda()
+    {
+        $this->resetPage();
+    }
+    public function updatedGestion()
+    {
+        $this->resetPage();
+    }
 
     public function updatedSelID()
     {

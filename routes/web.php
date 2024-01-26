@@ -4,6 +4,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CitecobroController;
 use App\Http\Controllers\CiteinformeController;
 use App\Http\Controllers\CitememorandumController;
+use App\Http\Controllers\CitereciboController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DesignacioneController;
 use App\Http\Controllers\EmpleadoController;
@@ -22,6 +23,7 @@ use App\Http\Livewire\Admin\GenDocs;
 use App\Http\Livewire\Admin\ListadoCiteCobro;
 use App\Http\Livewire\Admin\ListadoCiteInforme;
 use App\Http\Livewire\Admin\ListadoCiteMemorandum;
+use App\Http\Livewire\Admin\ListadoCiteRecibo;
 use App\Http\Livewire\Admin\Nuevoptctrl;
 use App\Http\Livewire\Admin\partials\PtCobro;
 use App\Http\Livewire\Admin\PuntosControl;
@@ -29,6 +31,7 @@ use App\Http\Livewire\Admin\Regactividad;
 use App\Http\Livewire\Admin\Registroshv;
 use App\Http\Livewire\Admin\TurnoCliente;
 use App\Http\Livewire\Admin\RegNovedades;
+
 
 use App\Http\Livewire\Vigilancia\HombreVivo;
 use App\Http\Livewire\Vigilancia\Novedades;
@@ -90,15 +93,18 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('nuevoptctrl/{cliente_id}', Nuevoptctrl::class)->name('nuevoptctrl');
 
-    Route::get('pdf/informe/{data}',[CiteinformeController::class,'previsualizacion'])->name('pdf.informe');
-    Route::get('admin/citesinforme',ListadoCiteInforme::class)->name('admin.citesinformes');
-    
-    Route::get('pdf/memorandum/{data}',[CitememorandumController::class,'previsualizacion'])->name('pdf.memorandum');
-    Route::get('admin/citesmemorandum',ListadoCiteMemorandum::class)->name('admin.citesmemorandum');
-    
-    Route::get('pdf/cobro/{data}',[CitecobroController::class,'previsualizacion'])->name('pdf.cobro');
-    Route::get('admin/citescobro',ListadoCiteCobro::class)->name('admin.citescobro');
+    Route::get('pdf/informe/{data}', [CiteinformeController::class, 'previsualizacion'])->name('pdf.informe');
+    Route::get('admin/citesinforme', ListadoCiteInforme::class)->name('admin.citesinformes');
 
-    Route::get('pruebas', [PruebasController::class,'index' ])->name('pruebas');
-    Route::get('pruebas/pdf', [PruebasController::class,'generarPDF' ])->name('generarpdf');
+    Route::get('pdf/memorandum/{data}', [CitememorandumController::class, 'previsualizacion'])->name('pdf.memorandum');
+    Route::get('admin/citesmemorandum', ListadoCiteMemorandum::class)->name('admin.citesmemorandum');
+
+    Route::get('pdf/cobro/{data}', [CitecobroController::class, 'previsualizacion'])->name('pdf.cobro');
+    Route::get('admin/citescobro', ListadoCiteCobro::class)->name('admin.citescobro');
+
+    Route::get('pdf/recibo/{data}', [CitereciboController::class, 'previsualizacion'])->name('pdf.recibo');
+    Route::get('admin/citesrecibo', ListadoCiteRecibo::class)->name('admin.citesrecibo');
+
+    Route::get('/pruebas', [PruebasController::class, 'index'])->name('pruebas');
+    Route::get('pruebas/pdf', [PruebasController::class, 'generarPDF'])->name('generarpdf');
 });

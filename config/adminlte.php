@@ -349,7 +349,7 @@ return [
                 ],
                 [
                     'text' => 'Recibo',
-                    'url'  => '',
+                    'route'  => 'admin.citesrecibo',
                     'icon' => 'fas fa-fw fa-file-pdf'
                 ],
                 [
@@ -359,7 +359,7 @@ return [
                 ],
             ],
         ],
-        
+
         ['header' => 'Mantenimiento'],
         [
             'text' => 'Clientes',
@@ -543,7 +543,7 @@ return [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'plugins/ekko-lightbox/ekko-lightbox.css',
-                ],                
+                ],
             ],
         ],
         'Chartjs' => [
@@ -603,7 +603,7 @@ return [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'plugins/light-box/lightbox.css',
-                ]                
+                ]
             ],
         ],
     ],

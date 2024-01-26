@@ -7,18 +7,38 @@ use App\Models\Cliente;
 use App\Models\Empleado;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ListadoCiteMemorandum extends Component
 {
+    use WithPagination;
+
     public $m_cite = "", $selID = "", $m_fecha = "", $m_motivo = "", $updCiteId = "";
 
-    public $empleados = null, $empleado = null;
+    public $empleados = null, $empleado = null, $filas = 5, $gestion;
+
+    public $busqueda = "";
+    protected $citememorandums = "";
+
+
+    protected $paginationTheme = 'bootstrap';
 
     public function mount()
     {
+        $this->gestion = date('Y');
         $this->empleados = Empleado::all();
         $this->m_motivo = "Se llama severamente la atención a usted, por no venir a labores en fecha 08/07/14 demostrando en su posicion de una falta total de responsabilidad en sus funciones especificas, recordandole que se hara el descuento de acuerdo a normativa legal vigente estipulada en el ministerio de trabajo en sus haberes del mes de Julio del presente.";
     }
+
+    public function updatedBusqueda()
+    {
+        $this->resetPage();
+    }
+    public function updatedGestion()
+    {
+        $this->resetPage();
+    }
+
 
     public function resetAll()
     {
@@ -32,13 +52,18 @@ class ListadoCiteMemorandum extends Component
 
     public function render()
     {
-        $citememorandums = Citememorandum::all();
-        $this->emit('dataTableRender');
-        return view('livewire.admin.listado-cite-memorandum', compact('citememorandums'))->with('i', 1)->extends('adminlte::page');
+        $citememorandums = Citememorandum::where([['cite', 'like', "%$this->busqueda%"], ['gestion', $this->gestion]])
+            ->orWhere([["empleado", "like", "%$this->busqueda%"], ['gestion', $this->gestion]])
+            ->orWhere([["fecha", "like", "%$this->busqueda%"], ['gestion', $this->gestion]])
+            ->orderBy('correlativo', 'DESC')
+            ->paginate($this->filas);
+
+        return view('livewire.admin.listado-cite-memorandum', compact('citememorandums'))
+            ->extends('adminlte::page');
     }
-    
+
     protected $listeners = ['anular'];
-    
+
     protected $rules = [
         'selID' => ' required',
     ];

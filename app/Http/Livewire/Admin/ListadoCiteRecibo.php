@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\Citecobro;
+
+use App\Models\Citerecibo;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ListadoCiteCobro extends Component
+class ListadoCiteRecibo extends Component
 {
     use WithPagination;
 
@@ -16,29 +17,29 @@ class ListadoCiteCobro extends Component
 
     public  $selID = "", $cliente = null, $updCiteId;
 
-    public $c_cite = "", $c_mescobro = "", $c_gestion = "", $c_fecha = "", $c_factura = "", $c_monto = "", $c_representante = "";
+    public  $representante;
+
+    public $fecha = "", $mescobro = "", $gestioncobro = "", $monto = "";
 
     public $busqueda = "", $filas = 5, $gestion;
 
     public function render()
     {
-        $citecobros = Citecobro::all();
         $clientes = Cliente::all()->pluck('nombre', 'id');
 
-        $citecobros = Citecobro::where([['cite', 'like', "%$this->busqueda%"], ['gestion', $this->gestion]])
+        $citerecibos = Citerecibo::where([['cite', 'like', "%$this->busqueda%"], ['gestion', $this->gestion]])
             ->orWhere([["cliente", "like", "%$this->busqueda%"], ['gestion', $this->gestion]])
             ->orWhere([["mescobro", "like", "%$this->busqueda%"], ['gestion', $this->gestion]])
             ->orderBy('correlativo', 'DESC')
             ->paginate($this->filas);
 
-        return view('livewire.admin.listado-cite-cobro', compact('citecobros', 'clientes'))->extends('adminlte::page');
+        return view('livewire.admin.listado-cite-recibo', compact('clientes', 'citerecibos'))->extends('adminlte::page');
     }
-
 
     public function mount()
     {
+        $this->fecha = date('Y-m-d');
         $this->gestion = date('Y');
-        $this->c_fecha = date('Y-m-d');
     }
 
     public function updatedBusqueda()
@@ -56,13 +57,11 @@ class ListadoCiteCobro extends Component
             'selID',
             'cliente',
             'updCiteId',
-            'c_cite',
-            'c_mescobro',
-            'c_gestion',
-            'c_fecha',
-            'c_factura',
-            'c_monto',
-            'c_representante'
+            'mescobro',
+            'gestioncobro',
+            'fecha',
+            'monto',
+            'representante'
         );
     }
 
@@ -71,11 +70,6 @@ class ListadoCiteCobro extends Component
     public function updatedSelID()
     {
         $this->cliente = Cliente::find($this->selID);
-        if ($this->cliente) {
-            $this->c_representante = $this->cliente->personacontacto;
-        } else {
-            $this->c_representante = "";
-        }
     }
 
     public function previa()
@@ -83,7 +77,7 @@ class ListadoCiteCobro extends Component
         $data = [];
         $data[] = 0;
 
-        $datos = '0^0|' . fechaEs($this->c_fecha) . '|' . $this->cliente->nombre . '|' .  $this->c_representante . '|' . $this->c_mescobro . '-' . $this->c_gestion . '|' . $this->c_factura . '|' . $this->c_monto;
+        $datos = '0^0|' . fechaEs($this->fecha) . '|' . $this->cliente->nombre .  '|' . $this->mescobro . '-' . $this->gestioncobro . '|' . $this->monto;
         // $datos .= $puntos;
         $datos = codGet($datos);
         $this->emit('renderizarpdf', $datos);
@@ -93,7 +87,7 @@ class ListadoCiteCobro extends Component
     {
         DB::beginTransaction();
         try {
-            $last = Citecobro::where('gestion', date('Y'))->orderBy('correlativo', 'DESC')->first();
+            $last = Citerecibo::where('gestion', date('Y'))->orderBy('correlativo', 'DESC')->first();
 
             if ($last) {
                 $last = $last->correlativo;
@@ -102,18 +96,16 @@ class ListadoCiteCobro extends Component
                 $last = 1;
             }
 
-            $citecobro = Citecobro::create([
+            $citecobro = Citerecibo::create([
                 'correlativo' => $last,
                 'gestion' => date('Y'),
-                'cite' => "COB-"   . str_pad($last, 3, "0", STR_PAD_LEFT) . "/" . date('Y'),
-                'fecha' => $this->c_fecha,
-                'fechaliteral' => fechaEs($this->c_fecha),
+                'cite' => "REC-"   . str_pad($last, 3, "0", STR_PAD_LEFT) . "/" . date('Y'),
+                'fecha' => $this->fecha,
+                'fechaliteral' => fechaEs($this->fecha),
                 'cliente' => $this->cliente->nombre,
                 'cliente_id' => $this->cliente->id,
-                'representante' => $this->c_representante,
-                'mescobro' => $this->c_mescobro . '-' . $this->c_gestion,
-                'factura' => $this->c_factura,
-                'monto' => $this->c_monto,
+                'mescobro' => $this->mescobro . '-' . $this->gestioncobro,
+                'monto' => $this->monto,
 
             ]);
 
@@ -129,24 +121,22 @@ class ListadoCiteCobro extends Component
         }
     }
 
-    public function editar($citecobro_id)
+    public function editar($citerecibo_id)
     {
-        // $c_cite = "", $c_mescobro = "", $c_gestion = "", $c_fecha = "", $c_factura = "", $c_monto = "", $c_representante = "";
-        $citecobro = Citecobro::find($citecobro_id);
-        $datocobro = explode('-', $citecobro->mescobro);
 
-        $this->updCiteId = $citecobro_id;
-        // $this->cliente = $citecobro->cliente_data;
-        $this->c_representante = $citecobro->representante;
-        $this->c_mescobro = $datocobro[0];
-        $this->c_gestion = $datocobro[1];
-        $this->c_fecha = $citecobro->fecha;
-        $this->c_factura = $citecobro->factura;
-        $this->c_monto = $citecobro->monto;
+        $citerecibo = citerecibo::find($citerecibo_id);
+        $datocobro = explode('-', $citerecibo->mescobro);
 
-        $this->cliente = $citecobro->cliente_data;
+        $this->updCiteId = $citerecibo_id;
+        // $this->cliente = $citerecibo->cliente_data;
 
-        $this->selID = $citecobro->cliente_id;
+        $this->mescobro = $datocobro[0];
+        $this->gestioncobro = $datocobro[1];
+        $this->fecha = $citerecibo->fecha;
+        $this->monto = $citerecibo->monto;
+        $this->cliente = $citerecibo->cliente_data;
+
+        $this->selID = $citerecibo->cliente_id;
     }
 
     public function actualizar()
@@ -155,22 +145,21 @@ class ListadoCiteCobro extends Component
         DB::beginTransaction();
         try {
 
-            $citecobro = Citecobro::find($this->updCiteId)->update([
-                'fecha' => $this->c_fecha,
-                'fechaliteral' => fechaEs($this->c_fecha),
+            $citerecibo = Citerecibo::find($this->updCiteId)->update([
+
+                'fecha' => $this->fecha,
+                'fechaliteral' => fechaEs($this->fecha),
                 'cliente' => $this->cliente->nombre,
                 'cliente_id' => $this->cliente->id,
-                'representante' => $this->c_representante,
-                'mescobro' => $this->c_mescobro . '-' . $this->c_gestion,
-                'factura' => $this->c_factura,
-                'monto' => $this->c_monto,
+                'mescobro' => $this->mescobro . '-' . $this->gestioncobro,
+                'monto' => $this->monto,
             ]);
 
             DB::commit();
 
             $this->resetAll();
 
-            $this->emit('success', 'Informe actualizado correctamente.');
+            $this->emit('success', 'Recibo actualizado correctamente.');
         } catch (\Throwable $th) {
 
             DB::rollBack();
@@ -178,11 +167,11 @@ class ListadoCiteCobro extends Component
         }
     }
 
-    public function anular($citecobro_id)
+    public function anular($citerecibo_id)
     {
         DB::beginTransaction();
         try {
-            $citecobro = Citecobro::find($citecobro_id)->update([
+            $citerecibo = Citerecibo::find($citerecibo_id)->update([
                 'estado' => false,
             ]);
             DB::commit();

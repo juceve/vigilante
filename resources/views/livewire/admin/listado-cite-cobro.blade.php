@@ -31,15 +31,58 @@
                     @endif
 
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><small>Busqueda: </small></span>
+                                    </div>
+                                    <input type="search" class="form-control" placeholder="Ingrese su busqueda..."
+                                        wire:model.debounce.500ms='busqueda'>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-1"></div>
+                            <div class="col-12 col-md-3">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><small>Gestión: </small></span>
+                                    </div>
+                                    <select class="form-control" wire:model='gestion'>
+                                        <option value="{{ date('Y') }}">{{ date('Y') }}</option>
+                                        <option value="{{ date('Y') - 1 }}">{{ date('Y') - 1 }}</option>
+                                        <option value="{{ date('Y') - 2 }}">{{ date('Y') - 2 }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><small>Filas: </small></span>
+                                    </div>
+                                    <select class="form-control text-center" wire:model='filas'>
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover dataTable">
-                                <thead class="thead">
-                                    <tr>
+                            <table class="table table-striped table-bordered ">
+                                <thead class="table-info">
+                                    <tr class="text-uppercase">
+                                        <th>Corr.</th>
                                         <th>Cite</th>
 
                                         <th>Cliente</th>
                                         <th>Mescobro</th>
-                                        
+
 
                                         <th style="max-width: 100px;"></th>
                                     </tr>
@@ -47,21 +90,20 @@
                                 <tbody>
                                     @foreach ($citecobros as $citecobro)
                                         <tr>
+                                            <td>{{ $citecobro->correlativo }}</td>
                                             <td>{{ $citecobro->cite }}</td>
                                             <td>{{ $citecobro->cliente }}</td>
                                             <td>{{ $citecobro->mescobro }}</td>
-                                            
 
                                             <td>
                                                 <a class="btn btn-sm btn-info "
-                                                    href="{{ route('pdf.cobro', $citecobro->id) }}"
-                                                    title="Reimprimir" target="_blank"><i
-                                                        class="fa fa-fw fa-print"></i></a>
+                                                    href="{{ route('pdf.cobro', $citecobro->id) }}" title="Reimprimir"
+                                                    target="_blank"><i class="fa fa-fw fa-print"></i></a>
                                                 @if ($citecobro->estado)
                                                     <button class="btn btn-sm btn-warning" title="Editar"
-                                                        wire:click='editar({{ $citecobro->id }})'
-                                                        data-placement="left" data-toggle="modal"
-                                                        data-target="#modalNuevo" onclick="boton('update')"><i
+                                                        wire:click='editar({{ $citecobro->id }})' data-placement="left"
+                                                        data-toggle="modal" data-target="#modalNuevo"
+                                                        onclick="boton('update')"><i
                                                             class="fa fa-fw fa-edit"></i></button>
 
                                                     <button class="btn btn-sm btn-danger" title="Anular"
@@ -74,6 +116,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        {{ $citecobros->links() }}
                     </div>
                 </div>
 
@@ -170,7 +213,8 @@
                             class="fas fa-eye"></i></button>
                     <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar'>Registrar
                         <i class="fas fa-save"></i></button>
-                    <button class="btn btn-warning col-12 col-md-4" id="actualizar" wire:click='actualizar'>Actualizar
+                    <button class="btn btn-warning col-12 col-md-4" id="actualizar"
+                        wire:click='actualizar'>Actualizar
                         <i class="fas fa-save"></i></button>
 
                 </div>

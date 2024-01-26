@@ -39,7 +39,7 @@ class EmpleadoController extends Controller
         $areas = Area::all()->pluck('nombre', 'id');
         $tipodocs = Tipodocumento::all()->pluck('name', 'id');
         $oficinas = Oficina::all()->pluck('nombre', 'id');
-        return view('admin.empleado.create', compact('empleado', 'areas','tipodocs','oficinas'));
+        return view('admin.empleado.create', compact('empleado', 'areas', 'tipodocs', 'oficinas'));
     }
 
     /**
@@ -97,7 +97,7 @@ class EmpleadoController extends Controller
         $areas = Area::all()->pluck('nombre', 'id');
         $tipodocs = Tipodocumento::all()->pluck('name', 'id');
         $oficinas = Oficina::all()->pluck('nombre', 'id');
-        return view('admin.empleado.edit', compact('empleado', 'areas', 'tipodocs','oficinas'));
+        return view('admin.empleado.edit', compact('empleado', 'areas', 'tipodocs', 'oficinas'));
     }
 
     /**
@@ -130,8 +130,7 @@ class EmpleadoController extends Controller
             ]);
             $empleado->user_id = $usuario->id;
             $empleado->save();
-        }
-        else {
+        } else {
             if ($empleado->user_id) {
                 $user = User::find($empleado->user_id);
                 $user->template = $area->template;

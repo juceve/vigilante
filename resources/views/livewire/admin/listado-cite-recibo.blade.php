@@ -1,11 +1,10 @@
 <div>
     @section('title')
-        Informes
+        RECIBOS
     @endsection
     @section('content_header')
-        <h4>Informes Generados</h4>
+        <h4>RECIBOS GENERADOS</h4>
     @endsection
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -14,7 +13,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                Listado de Informes
+                                Listado de Recibos
                             </span>
 
                             <div class="float-right">
@@ -25,6 +24,11 @@
                             </div>
                         </div>
                     </div>
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
 
                     <div class="card-body">
                         <div class="row">
@@ -70,51 +74,41 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered">
-                                <thead class="thead table-info">
+                            <table class="table table-striped table-bordered ">
+                                <thead class="table-info">
                                     <tr class="text-uppercase text-center">
-                                        <th>corr.</th>
-
+                                        <th>Corr.</th>
                                         <th>Cite</th>
-                                        <th>Fecha</th>
-                                        <th>Cliente</th>
-                                        <th>Referencia</th>
-                                        <th>Estado</th>
 
-                                        <th></th>
+                                        <th>Cliente</th>
+                                        <th>Mescobro</th>
+
+
+                                        <th style="max-width: 100px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($citeinformes as $citeinforme)
+                                    @foreach ($citerecibos as $citerecibo)
                                         <tr class="text-center">
-                                            <td>{{ $citeinforme->correlativo }}</td>
+                                            <td>{{ $citerecibo->correlativo }}</td>
+                                            <td>{{ $citerecibo->cite }}</td>
+                                            <td class="text-left">{{ $citerecibo->cliente }}</td>
+                                            <td>{{ $citerecibo->mescobro }}</td>
 
-                                            <td>{{ $citeinforme->cite }}</td>
-                                            <td>{{ $citeinforme->fecha }}</td>
-                                            <td class="text-left">{{ $citeinforme->cliente }}</td>
-                                            <td class="text-left">{{ $citeinforme->referencia }}</td>
-                                            <td>
-                                                @if ($citeinforme->estado)
-                                                    <span class="badge badge-pill badge-success">Activo</span>
-                                                @else
-                                                    <span class="badge badge-pill badge-secondary">Anulado</span>
-                                                @endif
-                                            </td>
-
-                                            <td align="left" style="width: 150px;">
+                                            <td class="text-left" style="width: 150px;">
                                                 <a class="btn btn-sm btn-info "
-                                                    href="{{ route('pdf.informe', $citeinforme->id) }}"
+                                                    href="{{ route('pdf.recibo', $citerecibo->id) }}"
                                                     title="Reimprimir" target="_blank"><i
                                                         class="fa fa-fw fa-print"></i></a>
-                                                @if ($citeinforme->estado)
+                                                @if ($citerecibo->estado)
                                                     <button class="btn btn-sm btn-warning" title="Editar"
-                                                        wire:click='editar({{ $citeinforme->id }})'
+                                                        wire:click='editar({{ $citerecibo->id }})'
                                                         data-placement="left" data-toggle="modal"
                                                         data-target="#modalNuevo" onclick="boton('update')"><i
                                                             class="fa fa-fw fa-edit"></i></button>
 
                                                     <button class="btn btn-sm btn-danger" title="Anular"
-                                                        onclick="anular({{ $citeinforme->id }})"><i
+                                                        onclick="anular({{ $citerecibo->id }})"><i
                                                             class="fa fa-fw fa-ban"></i></button>
                                                 @endif
                                             </td>
@@ -123,9 +117,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        @if ($citeinformes)
-                            {{ $citeinformes->links() }}
-                        @endif
+                        {{ $citerecibos->links() }}
                     </div>
                 </div>
 
@@ -144,90 +136,69 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div>
-                        <div class="row">
+                    <div class="row">
 
-                            <div class="col-12 col-md-6 mb-3">
-                                <div class="form-group{{ $errors->has('selID') ? ' has-error' : '' }}">
-                                    {!! Form::label('selID', 'Cliente:') !!}
-                                    {!! Form::select('selID', $clientes, null, [
-                                        'id' => 'selID',
-                                        'class' => 'form-control',
-                                        'required' => 'required',
-                                        'placeholder' => 'Seleccione un Cliente',
-                                        'wire:model' => 'selID',
-                                    ]) !!}
-                                    @error('selID')
-                                        <small class="text-danger">Debe seleccionar un Cliente</small>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 mb-3">
-                                <label>Representante:</label>
-                                <input type="text" class="form-control" wire:model='i_representante'>
-                            </div>
-
-                            <div class="col-12 col-md-6 mb-3">
-                                <label>Objeto:</label>
-                                <input type="text" class="form-control" wire:model.defer='i_objeto'>
-                            </div>
-
-                            <div class="col-12 col-md-6 mb-3">
-                                <label>Fecha:</label>
-                                <input type="date" class="form-control" wire:model.defer='i_fecha'>
-                            </div>
-
-                            <div class="col-12 col-md-6 mb-3">
-                                <label>Referencia:</label>
-                                <input type="text" class="form-control" wire:model.defer='i_referencia'>
-                            </div>
-
-                            <div class="col-12 mb-3">
-                                <label>Punto:</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Descripción"
-                                        aria-label="causal" aria-describedby="button-addon2" wire:model='i_causal'>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-primary" type="button" id="button-addon2"
-                                            wire:click='i_agregarCausal'>Agregar <i class="fas fa-plus"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            @if ($causales)
-                                <div class="col-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-sm" style="font-size: 14px;">
-                                            <thead class="table-info">
-                                                <tr>
-                                                    <td align="center">DETALLES</td>
-                                                    <td></td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @php
-                                                    $i = 0;
-                                                @endphp
-                                                @foreach ($causales as $item)
-                                                    <tr>
-                                                        <td>{{ $item }}</td>
-                                                        <td align="right" style="width: 15px;"><button
-                                                                class="btn btn-sm btn-outline-danger" title="Eliminar"
-                                                                wire:click='delICausal({{ $i }})'><i
-                                                                    class="fas fa-trash"></i></button></td>
-                                                    </tr>
-                                                    @php
-                                                        $i++;
-                                                    @endphp
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            @endif
-
-
+                        <div class="col-12 col-md-6 mb-3">
+                            <label>Fecha carta:</label>
+                            <input type="date" class="form-control" wire:model.defer='fecha'>
                         </div>
+
+                        <div class="col-12 col-md-3 mb-3">
+                            <label>Mes Cobro:</label>
+                            <select name="mescobro" id="mescobro" class="form-control" wire:model='mescobro'>
+                                <option value="">Seleccione un Mes</option>
+                                <option value="01">Enero</option>
+                                <option value="02">Febrero</option>
+                                <option value="03">Marzo</option>
+                                <option value="04">Abril</option>
+                                <option value="05">Mayo</option>
+                                <option value="06">Junio</option>
+                                <option value="07">Julio</option>
+                                <option value="08">Agosto</option>
+                                <option value="09">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                            @error('c_mescobro')
+                                <small class="text-danger">Debe seleccionar un mes</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-12 col-md-3 mb-3">
+                            <label>Gestión Cobro:</label>
+                            <select name="gestion" id="gestion" class="form-control" wire:model='gestioncobro'>
+                                <option value="">Seleccione una Gestión</option>
+                                <option value="{{ date('Y') }}">{{ date('Y') }}</option>
+                                <option value="{{ date('Y') - 1 }}">{{ date('Y') - 1 }}</option>
+                                <option value="{{ date('Y') - 2 }}">{{ date('Y') - 2 }}</option>
+                                <option value="{{ date('Y') - 3 }}">{{ date('Y') - 3 }}</option>
+                            </select>
+                            @error('gestion')
+                                <small class="text-danger">Debe seleccionar una gestión</small>
+                            @enderror
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label>Monto Bs.:</label>
+                            <input type="number" step="0.01" class="form-control" wire:model.defer='monto'>
+                        </div>
+
+                        <div class="col-12 col-md-6 mb-3">
+                            {!! Form::label('selID', 'Cliente:') !!}
+                            {!! Form::select('selID', $clientes, null, [
+                                'id' => 'selID',
+                                'class' => 'form-control',
+                                'required' => 'required',
+                                'placeholder' => 'Seleccione un Cliente',
+                                'wire:model' => 'selID',
+                            ]) !!}
+                            @error('selID')
+                                <small class="text-danger">Debe seleccionar un cliente</small>
+                            @enderror
+                        </div>
+
+
+
                     </div>
                 </div>
                 <div class="modal-footer" wire:ignore>
@@ -236,7 +207,8 @@
                     <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar'>Registrar
                         <i class="fas fa-save"></i></button>
                     <button class="btn btn-warning col-12 col-md-4" id="actualizar"
-                        wire:click='actualizar'>Actualizar <i class="fas fa-save"></i></button>
+                        wire:click='actualizar'>Actualizar
+                        <i class="fas fa-save"></i></button>
 
                 </div>
             </div>
@@ -249,7 +221,7 @@
 
     <script>
         Livewire.on('renderizarpdf', data => {
-            var win = window.open("../pdf/informe/" + data, '_blank');
+            var win = window.open("../pdf/recibo/" + data, '_blank');
             win.focus();
         });
     </script>
