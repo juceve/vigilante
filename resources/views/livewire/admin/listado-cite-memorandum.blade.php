@@ -71,7 +71,7 @@
 
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped">
-                                <thead class="table-primary">
+                                <thead class="table-info">
                                     <tr class="text-center text-uppercase">
                                         <th style="width: 50px;">Corr.</th>
 
@@ -127,57 +127,7 @@
                         @if ($citememorandums)
                             {{ $citememorandums->links() }}
                         @endif
-                        {{-- <div class="table-responsive">
-                            <table class="table table-striped table-hover dataTable">
-                                <thead class="thead">
-                                    <tr>
 
-
-                                        <th>Cite</th>
-                                        <th>Fecha</th>
-
-                                        <th>Empleado</th>
-                                        <th>Estado</th>
-
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($citememorandums as $citememorandum)
-                                        <tr>
-                                            <td>{{ $citememorandum->cite }}</td>
-                                            <td>{{ $citememorandum->fecha }}</td>
-                                            <td>{{ $citememorandum->empleado }}</td>
-                                            <td>
-                                                @if ($citememorandum->estado)
-                                                    <span class="badge badge-pill badge-success">Activo</span>
-                                                @else
-                                                    <span class="badge badge-pill badge-secondary">Anulado</span>
-                                                @endif
-                                            </td>
-
-                                            <td>
-                                                <a class="btn btn-sm btn-info "
-                                                    href="{{ route('pdf.memorandum', $citememorandum->id) }}"
-                                                    title="Reimprimir" target="_blank"><i
-                                                        class="fa fa-fw fa-print"></i></a>
-                                                @if ($citememorandum->estado)
-                                                    <button class="btn btn-sm btn-warning" title="Editar"
-                                                        wire:click='editar({{ $citememorandum->id }})'
-                                                        data-placement="left" data-toggle="modal"
-                                                        data-target="#modalMemo" onclick="boton('update')"><i
-                                                            class="fa fa-fw fa-edit"></i></button>
-
-                                                    <button class="btn btn-sm btn-danger" title="Anular"
-                                                        onclick="anular({{ $citememorandum->id }})"><i
-                                                            class="fa fa-fw fa-ban"></i></button>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div> --}}
                     </div>
                 </div>
 
@@ -231,11 +181,6 @@
                                 <textarea class="form-control" name="motivo" id="motivo" rows="5" wire:model='m_motivo'></textarea>
                             </div>
 
-
-                            {{-- <div class="col-12 col-md-6 mt-3">
-                                <button class="btn btn-primary btn-block" wire:click='generarInforme'>Generar Memorandum
-                                    <i class="fas fa-file-import"></i></button>
-                            </div> --}}
                         </div>
                     </div>
 
@@ -243,10 +188,11 @@
                 <div class="modal-footer" wire:ignore>
                     <button class="btn btn-primary col-12 col-md-4" wire:click='previa'>Vista Previa <i
                             class="fas fa-eye"></i></button>
-                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar'>Registrar
+                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar'
+                        class="close" data-dismiss="modal">Registrar
                         <i class="fas fa-save"></i></button>
-                    <button class="btn btn-warning col-12 col-md-4" id="actualizar"
-                        wire:click='actualizar'>Actualizar
+                    <button class="btn btn-warning col-12 col-md-4" id="actualizar" wire:click='actualizar'
+                        class="close" data-dismiss="modal">Actualizar
                         <i class="fas fa-save"></i></button>
                 </div>
             </div>

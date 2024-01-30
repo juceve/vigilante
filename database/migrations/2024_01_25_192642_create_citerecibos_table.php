@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('cliente_id')->nullable()->constrained();
             $table->string('mescobro');
             $table->double('monto');
-            $table->boolean('estado')->default(1);
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }

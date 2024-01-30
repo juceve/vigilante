@@ -204,10 +204,11 @@
                 <div class="modal-footer" wire:ignore>
                     <button class="btn btn-primary col-12 col-md-4" wire:click='previa'>Vista Previa <i
                             class="fas fa-eye"></i></button>
-                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar'>Registrar
+                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar'
+                        class="close" data-dismiss="modal">Registrar
                         <i class="fas fa-save"></i></button>
-                    <button class="btn btn-warning col-12 col-md-4" id="actualizar"
-                        wire:click='actualizar'>Actualizar
+                    <button class="btn btn-warning col-12 col-md-4" id="actualizar" wire:click='actualizar'
+                        class="close" data-dismiss="modal">Actualizar
                         <i class="fas fa-save"></i></button>
 
                 </div>

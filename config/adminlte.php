@@ -323,11 +323,11 @@ return [
             'route' =>  'designaciones.index',
             'icon'  =>  'fas fa-user-clock'
         ],
-        [
-            'text'  =>  'Documentos',
-            'route' =>  'gendocs',
-            'icon'  =>  'fas fa-fw fa-file-alt'
-        ],
+        // [
+        //     'text'  =>  'Documentos',
+        //     'route' =>  'gendocs',
+        //     'icon'  =>  'fas fa-fw fa-file-alt'
+        // ],
         [
             'text'    => 'Generador Docs',
             'icon'    => 'fas fa-fw fa-cogs',
@@ -354,7 +354,7 @@ return [
                 ],
                 [
                     'text' => 'Cotizaciones',
-                    'url'  => '',
+                    'route'  => 'admin.citescotizacion',
                     'icon' => 'fas fa-fw fa-file-pdf'
                 ],
             ],

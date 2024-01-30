@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CitecobroController;
+use App\Http\Controllers\CitecotizacionController;
 use App\Http\Controllers\CiteinformeController;
 use App\Http\Controllers\CitememorandumController;
 use App\Http\Controllers\CitereciboController;
@@ -21,6 +22,7 @@ use App\Http\Livewire\Admin\Admrondas;
 use App\Http\Livewire\Admin\Diaslibres;
 use App\Http\Livewire\Admin\GenDocs;
 use App\Http\Livewire\Admin\ListadoCiteCobro;
+use App\Http\Livewire\Admin\ListadoCiteCotizacion;
 use App\Http\Livewire\Admin\ListadoCiteInforme;
 use App\Http\Livewire\Admin\ListadoCiteMemorandum;
 use App\Http\Livewire\Admin\ListadoCiteRecibo;
@@ -104,6 +106,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('pdf/recibo/{data}', [CitereciboController::class, 'previsualizacion'])->name('pdf.recibo');
     Route::get('admin/citesrecibo', ListadoCiteRecibo::class)->name('admin.citesrecibo');
+
+    Route::get('pdf/cotizacion/{data}', [CitecotizacionController::class, 'previsualizacion'])->name('pdf.cotizacion');
+    Route::get('admin/citescotizacion', ListadoCiteCotizacion::class)->name('admin.citescotizacion');
 
     Route::get('/pruebas', [PruebasController::class, 'index'])->name('pruebas');
     Route::get('pruebas/pdf', [PruebasController::class, 'generarPDF'])->name('generarpdf');

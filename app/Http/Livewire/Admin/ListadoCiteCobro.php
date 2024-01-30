@@ -22,7 +22,7 @@ class ListadoCiteCobro extends Component
 
     public function render()
     {
-        $citecobros = Citecobro::all();
+
         $clientes = Cliente::all()->pluck('nombre', 'id');
 
         $citecobros = Citecobro::where([['cite', 'like', "%$this->busqueda%"], ['gestion', $this->gestion]])

@@ -11,18 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('citecobros', function (Blueprint $table) {
+        Schema::create('citecotizacions', function (Blueprint $table) {
             $table->id();
             $table->integer('correlativo');
             $table->integer('gestion');
             $table->string('cite');
             $table->date('fecha');
             $table->string('fechaliteral');
-            $table->string('cliente');
-            $table->foreignId('cliente_id')->nullable()->constrained();
-            $table->string('representante');
-            $table->string('mescobro');
-            $table->string('factura');
+            $table->string('destinatario');
+            $table->string('cargo');
             $table->double('monto');
             $table->boolean('estado')->default(true);
             $table->timestamps();
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('citecobros');
+        Schema::dropIfExists('citecotizacions');
     }
 };

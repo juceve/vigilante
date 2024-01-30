@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Vigilancia\HombreVivo;
 use App\Models\Citecobro;
+use App\Models\Citecotizacion;
 use App\Models\Citeinforme;
 use App\Models\Citememorandum;
 use App\Models\Citerecibo;
@@ -319,6 +320,12 @@ function traeCiterecibo($recibo_id)
     $citerecibo = Citerecibo::find($recibo_id);
 
     return $citerecibo->toArray();
+}
+function traeCitecotizacion($cotizacion_id)
+{
+    $citecotizacion = Citecotizacion::find($cotizacion_id);
+
+    return $citecotizacion->toArray();
 }
 
 function numLiteral($monto)
