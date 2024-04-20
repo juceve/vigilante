@@ -323,11 +323,11 @@ return [
             'route' =>  'designaciones.index',
             'icon'  =>  'fas fa-user-clock'
         ],
-        // [
-        //     'text'  =>  'Documentos',
-        //     'route' =>  'gendocs',
-        //     'icon'  =>  'fas fa-fw fa-file-alt'
-        // ],
+        [
+            'text'  =>  'Registros de Visitas',
+            'route' =>  'admin.visitas',
+            'icon'  =>  'fas fa-fw fa-file-import'
+        ],
         [
             'text'    => 'Generador Docs',
             'icon'    => 'fas fa-fw fa-cogs',

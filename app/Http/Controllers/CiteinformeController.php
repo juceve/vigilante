@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 
 
 class CiteinformeController extends Controller
-{    
-    public function previsualizacion($data=NULL){
+{
+    public function previsualizacion($data = NULL)
+    {
         $pdf = Pdf::loadView('tempdocs.informe', compact('data'))
-        ->setPaper('letter', 'portrait');
+            ->setPaper('letter', 'portrait');
 
         return $pdf->stream();
     }
