@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Exports\VisitasExport;
 use App\Models\Cliente;
 use App\Models\Visita;
 use App\Models\Vwvisita;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Registrosvisita extends Component
 {
@@ -24,7 +27,7 @@ class Registrosvisita extends Component
 
     public function render()
     {
-        DB::enableQueryLog();
+        // DB::enableQueryLog();
         $resultados = NULL;
         $sql = "";
         if ($this->cliente_id != "") {
@@ -46,7 +49,9 @@ class Registrosvisita extends Component
                     ["fechaingreso", "<=", $this->final],
                     ["cliente_id", ">=", $this->cliente_id],
                     ['docidentidad', 'LIKE', '%' . $this->search . '%']
-                ])->paginate(10);
+                ])
+                    ->orderBy('fechaingreso', 'DESC')
+                    ->paginate(10);
             } else {
                 $resultados = Vwvisita::where([
                     ["fechaingreso", ">=", $this->inicio],
@@ -68,12 +73,24 @@ class Registrosvisita extends Component
                         ["cliente_id", ">=", $this->cliente_id],
                         ['docidentidad', 'LIKE', '%' . $this->search . '%'],
                         ["estado", $this->estado],
-                    ])->paginate(10);
+                    ])
+                    ->orderBy('fechaingreso', 'DESC')
+
+                    ->paginate(10);
             }
+
+            $parametros = array($this->cliente_id, $this->estado, $this->inicio, $this->final, $this->search);
+            Session::put('param-visitas', $parametros);
         }
 
 
         return view('livewire.admin.registrosvisita', compact('resultados'))->extends('adminlte::page');
+    }
+
+    public function exporExcel()
+    {
+        $cliente = Cliente::find($this->cliente_id);
+        return Excel::download(new VisitasExport(), 'Visitas_' . $cliente->nombre . '_' . date('His') . '.xlsx');
     }
 
     public function updatedCliente_id()

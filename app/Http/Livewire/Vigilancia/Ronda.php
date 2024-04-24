@@ -55,16 +55,14 @@ class Ronda extends Component
 
                     if ($this->base >= date('H:i')) {
                         $this->proxpunto = $punto;
-                        $puntoRegistrado = Regronda::where('fecha',date('Y-m-d'))->where('ctrlpunto_id',$this->proxpunto->id)->first();
+                        $puntoRegistrado = Regronda::where('fecha', date('Y-m-d'))->where('ctrlpunto_id', $this->proxpunto->id)->first();
                         break;
                     }
-                    
-                    
                 }
                 $cliente = $designacion->turno->cliente;
             }
         }
-        return view('livewire.vigilancia.ronda', compact('designacion', 'cliente','puntoRegistrado'))->extends('layouts.app');
+        return view('livewire.vigilancia.ronda', compact('designacion', 'cliente', 'puntoRegistrado'))->extends('layouts.app');
     }
 
     protected $rules = [
@@ -74,42 +72,42 @@ class Ronda extends Component
     ];
 
     public function regRonda()
-    {        
+    {
         $this->validate();
         DB::beginTransaction();
         try {
             $registro = Regronda::create([
                 "empleado_id" => $this->empleado_id,
                 "designacione_id" => $this->designacion->id,
-                "ctrlpunto_id" =>$this->proxpunto->id,
+                "ctrlpunto_id" => $this->proxpunto->id,
                 "fecha" => date('Y-m-d'),
                 "hora" => date('H:i'),
-                "anotaciones" =>$this->anotaciones,
-                "latA" =>$this->latA,
-                "lngA" =>$this->lngA,
+                "anotaciones" => $this->anotaciones,
+                "latA" => $this->latA,
+                "lngA" => $this->lngA,
             ]);
 
             $x = 1;
-                foreach ($this->files as $key => $file) {
-                    $arrF = explode('.', $file->getFilename());
-                    $name = date('YmdHis') . $x;
+            foreach ($this->files as $key => $file) {
+                $arrF = explode('.', $file->getFilename());
+                $name = date('YmdHis') . $x;
 
-                    $x++;
-                    $path = $file->storeAs('images/registros/ronda', $name . '.' . $arrF[1]);
+                $x++;
+                $path = $file->storeAs('images/registros/ronda', $name . '.' . $arrF[1]);
 
-                    $imgreg = Imgronda::create([
-                        "regronda_id" => $registro->id,
-                        "url" => $path,
-                        "tipo" => $arrF[1],
-                    ]);
-                }
+                $imgreg = Imgronda::create([
+                    "regronda_id" => $registro->id,
+                    "url" => $path,
+                    "tipo" => $arrF[1],
+                ]);
+            }
 
             DB::commit();
-            redirect()->route('home')->with('success','Ronda registrada correctamente.');
+            redirect()->route('home')->with('success', 'Ronda registrada correctamente.');
         } catch (\Throwable $th) {
-     
+
             DB::rollBack();
-            $this->emit('error','Ha ocurrido un error');
+            $this->emit('error', 'Ha ocurrido un error');
             // $this->emit('error',$th->getMessage());
         }
     }

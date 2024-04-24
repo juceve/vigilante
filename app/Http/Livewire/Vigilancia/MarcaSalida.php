@@ -4,19 +4,20 @@ namespace App\Http\Livewire\Vigilancia;
 
 use App\Models\Designacione;
 use App\Models\Marcacione;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class MarcaSalida extends Component
 {
-    public $lat = "", $lng = "", $designacione_id = "", $designacione=null;
-    
+    public $lat = "", $lng = "", $designacione_id = "", $designacione = null;
+
     public function render()
     {
         $this->designacione = Designacione::find($this->designacione_id);
         return view('livewire.vigilancia.marca-salida');
     }
 
-    protected $listeners = ['cargaPosicion','marcar'];
+    protected $listeners = ['cargaPosicion', 'marcar'];
 
     public function marcar()
     {
@@ -28,8 +29,8 @@ class MarcaSalida extends Component
             'lat' => $this->lat,
             'lng' => $this->lng,
         ]);
-        
-        return redirect()->route('home');        
+        Auth::logout();
+        return redirect()->route('home');
     }
 
     public function cargaPosicion($data)

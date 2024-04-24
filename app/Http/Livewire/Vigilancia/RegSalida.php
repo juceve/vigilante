@@ -15,19 +15,23 @@ class RegSalida extends Component
     public function mount($designacion)
     {
         $this->designacion = Designacione::find($designacion);
-        $this->visitas = Visita::where('estado', 1)->orderBy('id', 'DESC')->get();
+        $this->visitas = Visita::where('estado', 1)->where('designacione_id', $this->designacion->id)->orderBy('id', 'DESC')->get();
     }
 
     public function updatedSearch()
     {
         $this->visitas = Visita::where([
             ['estado', 1],
+            ['designacione_id', $this->designacion->id],
             ['nombre', 'LIKE', '%' . $this->search . '%'],
         ])
             ->orWhere([
                 ['estado', 1],
+                ['designacione_id', $this->designacion->id],
                 ['docidentidad', 'LIKE', '%' . $this->search . '%'],
-            ])->get();
+
+            ])
+            ->orderBy('id', 'DESC')->get();
     }
 
     public function render()

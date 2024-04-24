@@ -25,11 +25,12 @@
                 id="search">
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped" style="font-size: 14px; vertical-align: middle">
+            <table class="table table-bordered table-striped" style="font-size: 12px; vertical-align: middle">
                 <thead>
                     <tr class="table-primary text-center fw-bold">
                         <td>VISITANTE</td>
                         <td>CEDULA</td>
+                        <td>INGRESO</td>
                         <td></td>
                     </tr>
                 </thead>
@@ -37,17 +38,18 @@
                     @forelse ($visitas as $item)
                     <tr>
                         <td>{{$item->nombre}}</td>
-                        <td>{{$item->docidentidad}}</td>
+                        <td class="text-center">{{$item->docidentidad}}</td>
+                        <td class="text-center">{{$item->created_at}}</td>
                         <td class="text-end">
-                            <button class="btn btn-sm  btn-warning" data-bs-toggle="modal" data-bs-target="#modalInfo"
-                                wire:click='cargarVisita({{$item->id}})'>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalInfo"
+                                wire:click='cargarVisita({{$item->id}})' style="font-size: 12px;">
                                 Ver <i class="fas fa-eye"></i>
                             </button>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="3" class="text-center"><i>No se encontraron resultados.</i></td>
+                        <td colspan="4" class="text-center"><i>No se encontraron resultados.</i></td>
                     </tr>
                     @endforelse
 

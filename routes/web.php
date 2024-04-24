@@ -16,6 +16,7 @@ use App\Http\Controllers\PruebasController;
 use App\Http\Controllers\RegistroguardiaController;
 use App\Http\Controllers\UbicacionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VisitaController;
 use App\Http\Controllers\WordToPDFController;
 use App\Http\Livewire\Admin\Admrondas;
 
@@ -103,6 +104,9 @@ Route::middleware(['auth'])->group(function () {
     })->name('ubicacion');
 
     Route::get('nuevoptctrl/{cliente_id}', Nuevoptctrl::class)->name('nuevoptctrl');
+
+    Route::get('pdf/visitas/', [VisitaController::class, 'pdfVisitas'])->name('pdf.visitas');
+
 
     Route::get('pdf/informe/{data}', [CiteinformeController::class, 'previsualizacion'])->name('pdf.informe');
     Route::get('admin/citesinforme', ListadoCiteInforme::class)->name('admin.citesinformes');

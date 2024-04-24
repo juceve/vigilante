@@ -13,8 +13,8 @@
     </div>
 </div>
 @section('js')
-    <script>
-        localize();
+<script>
+    localize();
 
         function localize() {
             if (navigator.geolocation) {
@@ -34,9 +34,9 @@
             ];
             Livewire.emit('cargaPosicion', data);
         }
-    </script>
-    <script>
-        function marcar() {
+</script>
+<script>
+    function marcar() {
             Swal.fire({
                 title: "FINALIZAR TURNO",
                 text: "Esta seguro de realizar el marcado de salida?",
@@ -52,5 +52,5 @@
                 }
             });
         }
-    </script>
+</script>
 @endsection

@@ -33,39 +33,38 @@
             <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('images/blackbird1.png') }}"
                     alt="logo" width="50" height="54"> {{ strtoupper(config('app.name')) }}</a>
             @auth
-                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-bars"></i>
-                </button>
+            <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarResponsive">
+            <div class="collapse navbar-collapse" id="navbarResponsive">
 
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded"
-                                href="{{ route('home') }}">Inicio</a></li>
-                        {{-- 
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded"
-                                href="#about">About</a></li> --}}
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded"
+                            href="{{ route('home') }}">Inicio</a></li>
+                    {{--
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded"
+                            href="#about">About</a></li> --}}
 
 
-                        <li class="nav-item mx-0 mx-lg-1">
-                            <a href="{{ route('logout') }}" class="nav-link py-3 px-0 px-lg-3 rounded"
-                                onclick="event.preventDefault();
+                    <li class="nav-item mx-0 mx-lg-1">
+                        <a href="{{ route('logout') }}" class="nav-link py-3 px-0 px-lg-3 rounded" onclick="event.preventDefault();
                                           document.getElementById('logout-form').submit();">
-                                <span>Cerrar Sesión</span>
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </li>
-                    </ul>
+                            <span>Cerrar Sesión</span>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                </ul>
 
-                </div>
+            </div>
             @endauth
         </div>
     </nav>
-    @livewireScripts
+
     <div class="container-fluid" style="margin-top: 120px;">
         @yield('content')
     </div>
@@ -79,36 +78,37 @@
     {{-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> --}}
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
         integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    @livewireScripts
     @yield('js')
 
     @if (session('success'))
-        <script>
-            Swal.fire(
+    <script>
+        Swal.fire(
                 'Excelente!',
                 '{{ session('success') }}',
                 'success'
             )
-        </script>
+    </script>
     @endif
 
     @if (session('error'))
-        <script>
-            Swal.fire(
+    <script>
+        Swal.fire(
                 'Error',
                 '{{ session('error') }}',
                 'error'
             )
-        </script>
+    </script>
     @endif
 
     @if (session('warning'))
-        <script>
-            Swal.fire(
+    <script>
+        Swal.fire(
                 'Atención!',
                 '{{ session('warning') }}',
                 'warning'
             )
-        </script>
+    </script>
     @endif
 
     <script>

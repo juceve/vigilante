@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marcacione;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class MarcacioneController
@@ -105,5 +107,16 @@ class MarcacioneController extends Controller
 
         return redirect()->route('marcaciones.index')
             ->with('success', 'Marcacione deleted successfully');
+    }
+
+    public function pdfRondas($id)
+    {
+        $parametros = Session::get('parametros');
+        $movimientos = Session::get('contenedor1');
+        $i = 0;
+        $pdf = Pdf::loadView('pdfs.pdfmarcaciones')
+            ->setPaper('letter', 'portrait');
+
+        return $pdf->stream();
     }
 }
