@@ -14,11 +14,16 @@ use Barryvdh\DomPDF\Facade\Pdf;
  */
 class DesignacioneController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('can:designaciones.index')->only('index');
+        $this->middleware('can:designaciones.create')->only('create', 'store');
+        $this->middleware('can:designaciones.edit')->only('edit', 'update');
+        $this->middleware('can:designaciones.destroy')->only('destroy');
+        $this->middleware('can:admin.registros.asistencia')->only('marcaciones');
+        $this->middleware('can:admin.registros.rondas')->only('show');
+    }
+
     public function index()
     {
         $designaciones = Designacione::all();

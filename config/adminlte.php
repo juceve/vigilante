@@ -290,38 +290,49 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-        // [
-        //     'type'         => 'navbar-search',
-        //     'text'         => 'search',
-        //     'topnav_right' => true,
-        // ],
-        // [
-        //     'type'         => 'fullscreen-widget',
-        //     'topnav_right' => true,
-        // ],
-
-        // Sidebar items:
-        // [
-        //     'type' => 'sidebar-menu-search',
-        //     'text' => 'search',
-        // ],
         [
             'text'   => 'Inicio',
             'icon'   => 'fas fa-fw fa-home',
             'route'  => 'home',
-            // 'can'  => 'manage-blog',
+            'can'  => 'home',
         ],
         ['header' => 'Operativa'],
-        [
-            'text'  =>  'Registros de Pánico',
-            'route' =>  'admin.regactividad',
-            'icon'  =>  'fas fa-shield-alt'
-        ],
+
         [
             'text'  =>  'Designaciones',
             'route' =>  'designaciones.index',
-            'icon'  =>  'fas fa-user-clock'
+            'icon'  =>  'fas fa-user-clock',
+            'can'   =>  'designaciones.index',
+        ],
+        [
+            'text'    => 'Registros',
+            'icon'    => 'fas fa-fw fa-folder-open',
+            'submenu' => [
+                [
+                    'text'  =>  'Pánico',
+                    'route' =>  'admin.regactividad',
+                    'icon'  =>  'fas fa-shield-alt',
+                    'can'   =>  'admin.registros.panico',
+                ],
+                [
+                    'text'  =>  'Visitas',
+                    'route' =>  'admin.visitas',
+                    'icon'  =>  'fas fa-fw fa-glasses',
+                    'can'   =>  'admin.registros.visitas',
+                ],
+                [
+                    'text'  =>  'Rondas',
+                    'route' =>  'admin.rondas',
+                    'can'   =>  'admin.registros.rondas',
+                    'icon'  =>  'fas fa-fw fa-street-view'
+                ],
+                [
+                    'text'  =>  'Novedades',
+                    'route' =>  'admin.novedades',
+                    'can'   =>  'admin.registros.novedades',
+                    'icon'  =>  'fas fa-fw fa-newspaper'
+                ],
+            ],
         ],
         [
             'text'    => 'Generador Docs',
@@ -330,56 +341,48 @@ return [
                 [
                     'text' => 'Informes',
                     'route'  => 'admin.citesinformes',
+                    'can'   =>  'admin.generador.informe',
                     'icon' => 'fas fa-fw fa-file-pdf'
                 ],
                 [
                     'text' => 'Memorandum',
                     'route'  => 'admin.citesmemorandum',
+                    'can'   =>  'admin.generador.memorandum',
                     'icon' => 'fas fa-fw fa-file-pdf'
                 ],
                 [
                     'text' => 'Cobros',
                     'route'  => 'admin.citescobro',
+                    'can'   =>  'admin.generador.cobro',
                     'icon' => 'fas fa-fw fa-file-pdf'
                 ],
                 [
                     'text' => 'Recibo',
                     'route'  => 'admin.citesrecibo',
+                    'can'   =>  'admin.generador.recibo',
                     'icon' => 'fas fa-fw fa-file-pdf'
                 ],
                 [
                     'text' => 'Cotizaciones',
                     'route'  => 'admin.citescotizacion',
+                    'can'   =>  'admin.generador.cotizacion',
                     'icon' => 'fas fa-fw fa-file-pdf'
                 ],
             ],
         ],
-        ['header' => 'Listados'],
-        [
-            'text'  =>  'VISITAS',
-            'route' =>  'admin.visitas',
-            'icon'  =>  'fas fa-fw fa-glasses'
-        ],
-        [
-            'text'  =>  'RONDAS',
-            'route' =>  'admin.rondas',
-            'icon'  =>  'fas fa-fw fa-street-view'
-        ],
-        [
-            'text'  =>  'NOVEDADES',
-            'route' =>  'admin.novedades',
-            'icon'  =>  'fas fa-fw fa-newspaper'
-        ],
+
 
         ['header' => 'Mantenimiento'],
         [
             'text' => 'Clientes',
             'url'  => 'admin/clientes',
+            'can'   =>  'clientes.index',
             'icon' => 'fas fa-fw fa-address-book'
         ],
         [
             'text' => 'Empleados',
             'url'  => 'admin/empleados',
+            'can'   =>  'empleados.index',
             'icon' => 'fas fa-fw fa-users'
         ],
         [
@@ -389,18 +392,27 @@ return [
                 [
                     'text' => 'Oficinas',
                     'url'  => 'admin/oficinas',
+                    'can'   =>  'oficinas.index',
                     'icon' => 'fas fa-fw fa-list'
                 ],
 
                 [
                     'text' => 'Areas Laborales',
                     'url'  => 'admin/areas',
+                    'can'   =>  'areas.index',
                     'icon' => 'fas fa-fw fa-warehouse'
                 ],
                 [
                     'text' => 'Usuarios Sistema',
                     'url'  => 'admin/users',
+                    'can'   =>  'users.index',
                     'icon' => 'fas fa-fw fa-user-shield'
+                ],
+                [
+                    'text' => 'Roles y Permisos',
+                    'url'  => 'admin/roles',
+                    'can'  => 'admin.roles.index',
+                    'icon' => 'fas fa-fw fa-shield-alt',
                 ],
             ],
         ],

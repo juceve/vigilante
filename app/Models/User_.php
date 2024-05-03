@@ -6,28 +6,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-use Intervention\Image\ImageManagerStatic as Image;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable;
 
-
-    static $rules = [
-        'name' => 'required',
-        'email' => 'required|email|unique:users,email',
-    ];
-
-    public function adminlte_desc()
-    {
-        $user = Auth::user();
-
-        return $user->roles[0]->name;
-    }
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'name',
         'email',
@@ -57,8 +46,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function adminlte_image()
-    {
+    public function adminlte_image(){
         return "";
     }
 
@@ -66,7 +54,7 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Empleado', 'user_id', 'id');
     }
-
+    
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

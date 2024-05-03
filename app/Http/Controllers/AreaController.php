@@ -11,17 +11,20 @@ use Illuminate\Http\Request;
  */
 class AreaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('can:areas.index')->only('index');
+        $this->middleware('can:areas.create')->only('create', 'store');
+        $this->middleware('can:areas.edit')->only('edit', 'update');
+        $this->middleware('can:areas.destroy')->only('destroy');
+    }
+
     public function index()
     {
         $areas = Area::all();
 
         return view('admin.area.index', compact('areas'))
-            ->with('i',  1) ;
+            ->with('i',  1);
     }
 
     /**

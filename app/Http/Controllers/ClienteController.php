@@ -13,11 +13,16 @@ use Illuminate\Http\Request;
  */
 class ClienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
+    public function __construct()
+    {
+        $this->middleware('can:clientes.index')->only('index');
+        $this->middleware('can:clientes.create')->only('create', 'store');
+        $this->middleware('can:clientes.edit')->only('edit', 'update');
+        $this->middleware('can:clientes.destroy')->only('destroy');
+    }
+
     public function index()
     {
         $clientes = Cliente::all();
@@ -33,10 +38,10 @@ class ClienteController extends Controller
     public function create()
     {
         $cliente = new Cliente();
-        
+
         $tipodocs = Tipodocumento::all()->pluck('name', 'id');
         $oficinas = Oficina::all()->pluck('nombre', 'id');
-        return view('admin.cliente.create', compact('cliente','tipodocs','oficinas'));
+        return view('admin.cliente.create', compact('cliente', 'tipodocs', 'oficinas'));
     }
 
     /**
@@ -79,7 +84,7 @@ class ClienteController extends Controller
         $cliente = Cliente::find($id);
         $oficinas = Oficina::all()->pluck('nombre', 'id');
         $tipodocs = Tipodocumento::all()->pluck('name', 'id');
-        return view('admin.cliente.edit', compact('cliente','oficinas','tipodocs'));
+        return view('admin.cliente.edit', compact('cliente', 'oficinas', 'tipodocs'));
     }
 
     /**

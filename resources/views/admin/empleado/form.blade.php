@@ -98,6 +98,7 @@
             </div>
             <div class="col-12 col-md-6 ">
                 <div class="form-group">
+                    @can('users.create')
                     <label for="">Usuario</label>
                     @if ($empleado->user_id)
                     <div class="form-group">
@@ -111,6 +112,7 @@
                             y Nro. Documento)</small>
                     </div>
                     @endif
+                    @endcan
                 </div>
 
                 <div class="form-group d-none">

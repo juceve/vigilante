@@ -19,10 +19,12 @@ Empleados
                         </span>
 
                         <div class="float-right">
+                            @can('empleados.create')
                             <a href="{{ route('empleados.create') }}" class="btn btn-info btn-sm float-right"
                                 data-placement="left">
                                 Nuevo <i class="fas fa-plus"></i>
                             </a>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -73,16 +75,20 @@ Empleados
                                                     <a class="dropdown-item"
                                                         href="{{ route('empleados.show', $empleado->id) }}"><i
                                                             class="fa fa-fw fa-eye text-secondary"></i> Info</a>
+                                                    @can('empleados.edit')
                                                     <a class="dropdown-item"
                                                         href="{{ route('empleados.edit', $empleado->id) }}"><i
                                                             class="fa fa-fw fa-edit text-secondary"></i> Editar</a>
+                                                    @endcan
 
                                                     @csrf
                                                     @method('DELETE')
+                                                    @can('empleados.destroy')
                                                     <button type="submit" class="dropdown-item">
                                                         <i class="fas fa-fw fa-trash text-secondary"></i>
                                                         Eliminar de la DB
                                                     </button>
+                                                    @endcan
                                                 </form>
                                             </div>
                                         </div>
