@@ -41,7 +41,7 @@ class Designacione extends Model
      *
      * @var array
      */
-    protected $fillable = ['empleado_id', 'turno_id', 'fechaInicio', 'fechaFin', 'intervalo_hv', 'estado'];
+    protected $fillable = ['empleado_id', 'turno_id', 'fechaInicio', 'fechaFin', 'intervalo_hv', 'observaciones', 'estado'];
 
 
     /**
@@ -77,7 +77,7 @@ class Designacione extends Model
     {
         return $this->hasMany('App\Models\Marcacione', 'designacione_id', 'id');
     }
-    
+
     public function intervalos()
     {
         return $this->hasMany('App\Models\Intervalo', 'designacione_id', 'id');

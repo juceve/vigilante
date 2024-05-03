@@ -22,23 +22,27 @@
             <div class="col-12 col-md-6 mb-3">
                 <label>Doc. Identidad:</label>
                 <div class="input-group mb-3">
-                    <input type="search" class="form-control" wire:model.defer='docidentidad'>
+                    <input type="search" class="form-control" wire:model.defer='docidentidad'
+                        onkeyup="this.value=this.value.toUpperCase()">
                     <button class="btn btn-outline-primary" type="button" id="button-addon2" wire:click='buscar'><i
                             class="fas fa-search"></i></button>
                 </div>
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label>Nombre Visitante:</label>
-                <input type="text" class="form-control" wire:model='nombrevisitante'>
+                <input type="text" class="form-control" wire:model='nombrevisitante'
+                    onkeyup="this.value=this.value.toUpperCase()">
             </div>
 
             <div class="col-12 col-md-6 mb-3">
                 <label>A quien visita:</label>
-                <input type="search" class="form-control" wire:model='residente'>
+                <input type="search" class="form-control" wire:model='residente'
+                    onkeyup="this.value=this.value.toUpperCase()">
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label>Nro. vivienda:</label>
-                <input type="search" class="form-control" wire:model='nrovivienda'>
+                <input type="search" class="form-control" wire:model='nrovivienda'
+                    onkeyup="this.value=this.value.toUpperCase()">
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label>Motivo visita:</label>
@@ -50,7 +54,8 @@
             <div class="col-12 col-md-6 mb-3">
 
                 <label class="text-primary">Otro motivo:</label>
-                <input type="text" class="form-control" wire:model='otros'>
+                <input type="text" class="form-control" wire:model='otros'
+                    onkeyup="this.value=this.value.toUpperCase()">
 
             </div>
             @endif
@@ -77,8 +82,13 @@
 
     </div>
     <div class="container-fluid d-grid mt-3 mb-3">
-        <button class="btn btn-success" wire:click='registrar'>
+        <button class="btn btn-success" wire:click='registrar' wire:loading.attr="disabled">
             REGISTRAR VISITA
+            <div wire:loading wire:target="registrar">
+                <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
         </button>
     </div>
     <br>

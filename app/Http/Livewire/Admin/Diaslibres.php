@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Diaslibres extends Component
 {
-    public $designacione = null, $fecha = "";
+    public $designacione = null, $fecha = "", $observaciones;
 
     public function mount($id)
     {
@@ -31,12 +31,13 @@ class Diaslibres extends Component
 
         $dia = Dialibre::create([
             'fecha' => $this->fecha,
+            'observaciones' => $this->observaciones,
             'designacione_id' => $this->designacione->id,
         ]);
-
     }
 
-    public function eliminar($id){
+    public function eliminar($id)
+    {
         $dia = Dialibre::find($id)->delete();
     }
 }

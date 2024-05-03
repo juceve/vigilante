@@ -11,6 +11,7 @@ class TurnoCliente extends Component
 {
     public $cliente_id = null;
     public $nombre = "", $horainicio = "", $horafin = "";
+    public $enombre = "", $ehorainicio = "", $ehorafin = "", $turno;
 
     public function mount($cliente_id)
     {
@@ -47,6 +48,33 @@ class TurnoCliente extends Component
             DB::commit();
             $this->reset(['nombre', 'horainicio', 'horafin']);
             $this->emit('success', 'Turno registrado correctamente.');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->emit('error', 'Ha ocurrido un error.');
+        }
+    }
+
+    public function cargaTurno($id)
+    {
+        $this->turno = Turno::find($id);
+        $this->enombre = $this->turno->nombre;
+        $this->ehorainicio = $this->turno->horainicio;
+        $this->ehorafin = $this->turno->horafin;
+    }
+
+    public function editarTurno()
+    {
+        DB::beginTransaction();
+        try {
+            $this->turno->nombre = $this->enombre;
+            $this->turno->horainicio = $this->ehorainicio;
+            $this->turno->horafin = $this->ehorafin;
+            $this->turno->save();
+
+
+            DB::commit();
+            $this->reset(['enombre', 'ehorainicio', 'ehorafin']);
+            $this->emit('success', 'Turno actualizado correctamente.');
         } catch (\Throwable $th) {
             DB::rollBack();
             $this->emit('error', 'Ha ocurrido un error.');

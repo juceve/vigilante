@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Empleado extends Model
 {
-    
+
     static $rules = [
-		'nombres' => 'required',
-		'apellidos' => 'required',
-		'cedula' => 'required',
-		'direccion' => 'required',
-		'telefono' => 'required',
-		'email' => 'required|email|unique:empleados',
+        'nombres' => 'required',
+        'apellidos' => 'required',
+        'cedula' => 'required',
+        'direccion' => 'required',
+        'telefono' => 'required',
+        'email' => 'required|email|unique:empleados',
     ];
 
     protected $perPage = 20;
@@ -23,7 +23,7 @@ class Empleado extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombres','apellidos','tipodocumento_id','cedula','nacionalidad','direccion','telefono','email','area_id', 'oficina_id','user_id'];
+    protected $fillable = ['nombres', 'apellidos', 'tipodocumento_id', 'cedula', 'nacionalidad', 'direccion', 'direccionlat', 'direccionlng', 'telefono', 'imgperfil', 'cedulaanverso', 'cedulareverso', 'email', 'area_id', 'oficina_id', 'user_id'];
 
 
     /**
@@ -33,7 +33,7 @@ class Empleado extends Model
     {
         return $this->hasOne('App\Models\Area', 'id', 'area_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -41,7 +41,7 @@ class Empleado extends Model
     {
         return $this->hasOne('App\Models\Tipodocumento', 'id', 'tipodocumento_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -55,9 +55,8 @@ class Empleado extends Model
         return $this->hasOne('App\Models\Oficina', 'id', 'oficina_id');
     }
 
-    public function designaciones(){
-        return $this->hasMany(Designacione::class,'empleado_id','id');
+    public function designaciones()
+    {
+        return $this->hasMany(Designacione::class, 'empleado_id', 'id');
     }
-    
-
 }

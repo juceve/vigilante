@@ -2,10 +2,10 @@
 
 
     @section('title')
-        Dias Libres
+    Dias Libres
     @endsection
     @section('content_header')
-        <h4>Dias Libres</h4>
+    <h4>Dias Libres</h4>
     @endsection
 
     <section class="content container-fluid">
@@ -39,7 +39,14 @@
                             <div class="col-12 col-md-3">
                                 <input type="date" class="form-control" wire:model='fecha'>
                                 @error('fecha')
-                                    <small class="text-danger">{{$message}}</small>
+                                <small class="text-danger">{{$message}}</small>
+                                @enderror
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <input type="text" class="form-control" placeholder="Observaciones"
+                                    wire:model='observaciones'>
+                                @error('observaciones')
+                                <small class="text-danger">{{$message}}</small>
                                 @enderror
                             </div>
                             <div class="col-12 col-md-3"><button class="btn btn-primary btn-block"
@@ -51,16 +58,19 @@
                                 <thead class="table-info">
                                     <th>Nro</th>
                                     <th>FECHA</th>
+                                    <th>OBSERVACIONES</th>
                                     <th></th>
                                 </thead>
                                 <tbody>
                                     @foreach ($dias as $dia)
-                                        <tr>
-                                            <td>{{ $i++ }}</td>
-                                            <td>{{ $dia->fecha }}</td>
-                                            <td><button class="btn btn-outline-danger" wire:click='eliminar({{$dia->id}})'>Eliminar <i
-                                                        class="fa fa-trash"></i></button></td>
-                                        </tr>
+                                    <tr>
+                                        <td>{{ $i++ }}</td>
+                                        <td>{{ $dia->fecha }}</td>
+                                        <td>{{ $dia->observaciones }}</td>
+                                        <td><button class="btn btn-outline-danger"
+                                                wire:click='eliminar({{$dia->id}})'>Eliminar <i
+                                                    class="fa fa-trash"></i></button></td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>

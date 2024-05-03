@@ -10,10 +10,11 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DesignacioneController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\NovedadeController;
 use App\Http\Controllers\OficinaController;
 use App\Http\Controllers\PruebasController;
 use App\Http\Controllers\RegistroguardiaController;
+use App\Http\Controllers\RegrondaController;
 use App\Http\Controllers\UbicacionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitaController;
@@ -32,6 +33,8 @@ use App\Http\Livewire\Admin\partials\PtCobro;
 use App\Http\Livewire\Admin\PuntosControl;
 use App\Http\Livewire\Admin\Regactividad;
 use App\Http\Livewire\Admin\Registroshv;
+use App\Http\Livewire\Admin\Registrosnovedades;
+use App\Http\Livewire\Admin\Registrosronda;
 use App\Http\Livewire\Admin\Registrosvisita;
 use App\Http\Livewire\Admin\TurnoCliente;
 use App\Http\Livewire\Admin\RegNovedades;
@@ -61,7 +64,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes([
+    "register" => false,
+    "reset" => false,
+    "confirm" => false,
+]);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -76,6 +83,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('vigilancia/visitas/reg-ingreso/{designacion}', RegIngreso::class)->name('vigilancia.regingreso');
     Route::get('vigilancia/visitas/reg-salida/{designacion}', RegSalida::class)->name('vigilancia.regsalida');
     Route::get('admin/visitas', Registrosvisita::class)->name('admin.visitas');
+    Route::get('admin/rondas', Registrosronda::class)->name('admin.rondas');
+    Route::get('admin/novedades', Registrosnovedades::class)->name('admin.novedades');
 
 
     Route::get('admin/registro-actividad', Regactividad::class)->name('admin.regactividad');
@@ -106,6 +115,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('nuevoptctrl/{cliente_id}', Nuevoptctrl::class)->name('nuevoptctrl');
 
     Route::get('pdf/visitas/', [VisitaController::class, 'pdfVisitas'])->name('pdf.visitas');
+    Route::get('pdf/rondas/', [RegrondaController::class, 'pdfRondas'])->name('pdf.rondas');
+    Route::get('pdf/novedades/', [NovedadeController::class, 'pdfNovedades'])->name('pdf.novedades');
 
 
     Route::get('pdf/informe/{data}', [CiteinformeController::class, 'previsualizacion'])->name('pdf.informe');

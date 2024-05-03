@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Registro_Rondas_{{ date('His') }}</title>
+    <title>Registro_Visitas_{{ date('His') }}</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/bs3/bootstrap.min.css') }}">
 </head>

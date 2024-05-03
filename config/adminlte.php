@@ -324,11 +324,6 @@ return [
             'icon'  =>  'fas fa-user-clock'
         ],
         [
-            'text'  =>  'Registros de Visitas',
-            'route' =>  'admin.visitas',
-            'icon'  =>  'fas fa-fw fa-file-import'
-        ],
-        [
             'text'    => 'Generador Docs',
             'icon'    => 'fas fa-fw fa-cogs',
             'submenu' => [
@@ -358,6 +353,22 @@ return [
                     'icon' => 'fas fa-fw fa-file-pdf'
                 ],
             ],
+        ],
+        ['header' => 'Listados'],
+        [
+            'text'  =>  'VISITAS',
+            'route' =>  'admin.visitas',
+            'icon'  =>  'fas fa-fw fa-glasses'
+        ],
+        [
+            'text'  =>  'RONDAS',
+            'route' =>  'admin.rondas',
+            'icon'  =>  'fas fa-fw fa-street-view'
+        ],
+        [
+            'text'  =>  'NOVEDADES',
+            'route' =>  'admin.novedades',
+            'icon'  =>  'fas fa-fw fa-newspaper'
         ],
 
         ['header' => 'Mantenimiento'],

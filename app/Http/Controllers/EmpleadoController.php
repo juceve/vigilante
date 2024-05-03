@@ -9,6 +9,7 @@ use App\Models\Tipodocumento;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Intervention\Image\ImageManagerStatic as Image;
 
 /**
  * Class EmpleadoController
@@ -67,6 +68,37 @@ class EmpleadoController extends Controller
             $empleado->save();
         }
 
+
+        //CONVERSION DE IMG64
+        $perfilData = explode(';base64,', $request->perfil64);
+
+        if (count($perfilData) == 2) {
+            $image = base64_decode($perfilData[1]);
+            $filename = 'perfil' . $empleado->id . '.png';
+            $path = storage_path('app/public/images/empleados/' . $filename);
+            $img = Image::make($image)->save($path);
+            $empleado->imgperfil = 'images/empleados/' . $filename;
+        }
+
+        $perfilData = explode(';base64,', $request->anverso64);
+        if (count($perfilData) == 2) {
+            $image = base64_decode($perfilData[1]);
+            $filename = 'anverso' . $empleado->id . '.png';
+            $path = storage_path('app/public/images/empleados/' . $filename);
+            $img = Image::make($image)->save($path);
+            $empleado->cedulaanverso = 'images/empleados/' . $filename;
+        }
+
+        $perfilData = explode(';base64,', $request->reverso64);
+        if (count($perfilData) == 2) {
+            $image = base64_decode($perfilData[1]);
+            $filename = 'reverso' . $empleado->id . '.png';
+            $path = storage_path('app/public/images/empleados/' . $filename);
+            $img = Image::make($image)->save($path);
+            $empleado->cedulareverso = 'images/empleados/' . $filename;
+        }
+
+        $empleado->save();
 
         return redirect()->route('empleados.index')
             ->with('success', 'Empleado creado correctamente.');
@@ -137,6 +169,38 @@ class EmpleadoController extends Controller
                 $user->save();
             }
         }
+
+
+        //CONVERSION DE IMG64
+        $perfilData = explode(';base64,', $request->perfil64);
+
+        if (count($perfilData) == 2) {
+            $image = base64_decode($perfilData[1]);
+            $filename = 'perfil' . $empleado->id . '.png';
+            $path = storage_path('app/public/images/empleados/' . $filename);
+            $img = Image::make($image)->save($path);
+            $empleado->imgperfil = 'images/empleados/' . $filename;
+        }
+
+        $perfilData = explode(';base64,', $request->anverso64);
+        if (count($perfilData) == 2) {
+            $image = base64_decode($perfilData[1]);
+            $filename = 'anverso' . $empleado->id . '.png';
+            $path = storage_path('app/public/images/empleados/' . $filename);
+            $img = Image::make($image)->save($path);
+            $empleado->cedulaanverso = 'images/empleados/' . $filename;
+        }
+
+        $perfilData = explode(';base64,', $request->reverso64);
+        if (count($perfilData) == 2) {
+            $image = base64_decode($perfilData[1]);
+            $filename = 'reverso' . $empleado->id . '.png';
+            $path = storage_path('app/public/images/empleados/' . $filename);
+            $img = Image::make($image)->save($path);
+            $empleado->cedulareverso = 'images/empleados/' . $filename;
+        }
+
+        $empleado->save();
 
         return redirect()->route('empleados.index')
             ->with('success', 'Empleado editado correctamente');

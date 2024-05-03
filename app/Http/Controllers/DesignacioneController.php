@@ -108,7 +108,7 @@ class DesignacioneController extends Controller
     public function edit($id)
     {
         $designacione = Designacione::find($id);
-        $designaciondia = Designaciondia::where('designacione_id', $id)->first();
+        $designaciondia = $designacione->designaciondias->first();
         // dd($designaciondia);
         return view('admin.designacione.edit', compact('designacione', 'designaciondia'));
     }
@@ -132,6 +132,7 @@ class DesignacioneController extends Controller
                 "fechaInicio" => $request->fechaInicio,
                 "fechaFin" => $request->fechaFin,
                 "intervalo_hv" => $request->intervalo_hv,
+                "observaciones" => $request->observaciones,
             ]);
 
             $designaciondia = Designaciondia::where('designacione_id', $designacione->id)->first();

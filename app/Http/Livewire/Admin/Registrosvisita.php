@@ -17,12 +17,14 @@ class Registrosvisita extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $clientes, $cliente_id = "", $estado = "", $inicio, $final, $search = "";
+    public $visita = null;
 
     public function mount()
     {
         $this->inicio = date('Y-m-d');
         $this->final = date('Y-m-d');
         $this->clientes = Cliente::all()->pluck('nombre', 'id');
+        $this->visita = new Visita();
     }
 
     public function render()
@@ -35,19 +37,19 @@ class Registrosvisita extends Component
                 $resultados = Vwvisita::where([
                     ["fechaingreso", ">=", $this->inicio],
                     ["fechaingreso", "<=", $this->final],
-                    ["cliente_id", ">=", $this->cliente_id],
+                    ["cliente_id", $this->cliente_id],
                     ['visitante', 'LIKE', '%' . $this->search . '%']
                 ])->orWhere(
                     [
                         ["fechaingreso", ">=", $this->inicio],
                         ["fechaingreso", "<=", $this->final],
-                        ["cliente_id", ">=", $this->cliente_id],
+                        ["cliente_id", $this->cliente_id],
                         ['residente', 'LIKE', '%' . $this->search . '%']
                     ]
                 )->orWhere([
                     ["fechaingreso", ">=", $this->inicio],
                     ["fechaingreso", "<=", $this->final],
-                    ["cliente_id", ">=", $this->cliente_id],
+                    ["cliente_id", $this->cliente_id],
                     ['docidentidad', 'LIKE', '%' . $this->search . '%']
                 ])
                     ->orderBy('fechaingreso', 'DESC')
@@ -56,21 +58,21 @@ class Registrosvisita extends Component
                 $resultados = Vwvisita::where([
                     ["fechaingreso", ">=", $this->inicio],
                     ["fechaingreso", "<=", $this->final],
-                    ["cliente_id", ">=", $this->cliente_id],
+                    ["cliente_id", $this->cliente_id],
                     ['visitante', 'LIKE', '%' . $this->search . '%'],
                     ["estado", $this->estado],
                 ])
                     ->orWhere([
                         ["fechaingreso", ">=", $this->inicio],
                         ["fechaingreso", "<=", $this->final],
-                        ["cliente_id", ">=", $this->cliente_id],
+                        ["cliente_id", $this->cliente_id],
                         ['residente', 'LIKE', '%' . $this->search . '%'],
                         ["estado", $this->estado],
                     ])
                     ->orWhere([
                         ["fechaingreso", ">=", $this->inicio],
                         ["fechaingreso", "<=", $this->final],
-                        ["cliente_id", ">=", $this->cliente_id],
+                        ["cliente_id", $this->cliente_id],
                         ['docidentidad', 'LIKE', '%' . $this->search . '%'],
                         ["estado", $this->estado],
                     ])
@@ -85,6 +87,11 @@ class Registrosvisita extends Component
 
 
         return view('livewire.admin.registrosvisita', compact('resultados'))->extends('adminlte::page');
+    }
+
+    public function verInfo($id)
+    {
+        $this->visita = Vwvisita::find($id);
     }
 
     public function exporExcel()

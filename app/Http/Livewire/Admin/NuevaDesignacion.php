@@ -15,7 +15,7 @@ class NuevaDesignacion extends Component
 {
     public $designacione = null;
     public $empleadoid = "", $empleado = null, $nombres = "", $clientes = null, $clienteid = "", $clienteSeleccionado = null;
-    public $turnoid = "", $fechaInicio = "", $fechaFin = "", $intervalo_hv = 0;
+    public $turnoid = "", $fechaInicio = "", $fechaFin = "", $intervalo_hv = 0, $observaciones = "";
     public $lunes = false, $martes = false, $miercoles = false, $jueves = false, $viernes = false, $sabado = false, $domingo = false;
 
     protected $rules = [
@@ -37,7 +37,7 @@ class NuevaDesignacion extends Component
         $this->empleado = Empleado::find($this->empleadoid);
         // dd($this->empleado);
         $this->nombres = $this->empleado->nombres . " " . $this->empleado->apellidos;
-        $this->clientes = Cliente::where('oficina_id', $this->empleado->oficina_id)->get();
+        $this->clientes = Cliente::all();
         $this->clientes->pluck('nombre', 'id');
     }
 
@@ -69,6 +69,7 @@ class NuevaDesignacion extends Component
                 "fechaInicio" => $this->fechaInicio,
                 "fechaFin" => $this->fechaFin,
                 "intervalo_hv" => $this->intervalo_hv,
+                "observaciones" => $this->observaciones,
             ]);
             $turno = Turno::find($this->turnoid);
 
@@ -76,7 +77,7 @@ class NuevaDesignacion extends Component
             foreach ($intervalo as $item) {
                 Intervalo::create([
                     "designacione_id" => $designacion->id,
-                    "hora" =>$item,
+                    "hora" => $item,
                 ]);
             }
 

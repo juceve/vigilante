@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignId('empleado_id')->constrained();
             $table->foreignId('turno_id')->constrained();
             $table->date('fechaInicio');
-            $table->date('fechaFin');  
+            $table->date('fechaFin');
             $table->integer('intervalo_hv');
+            $table->string('observaciones')->nullable();
             $table->boolean('estado')->default(true);
             $table->timestamps();
         });

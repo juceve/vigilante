@@ -19,29 +19,27 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Dialibre extends Model
 {
-    
-    static $rules = [
-		'fecha' => 'required',
-		'designacione_id' => 'required',
-    ];
 
-    protected $perPage = 20;
+  static $rules = [
+    'fecha' => 'required',
+    'designacione_id' => 'required',
+  ];
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['fecha','designacione_id'];
+  protected $perPage = 20;
+
+  /**
+   * Attributes that should be mass-assignable.
+   *
+   * @var array
+   */
+  protected $fillable = ['fecha', 'observaciones', 'designacione_id'];
 
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function designacione()
-    {
-        return $this->hasOne('App\Models\Designacione', 'id', 'designacione_id');
-    }
-    
-
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasOne
+   */
+  public function designacione()
+  {
+    return $this->hasOne('App\Models\Designacione', 'id', 'designacione_id');
+  }
 }

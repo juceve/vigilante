@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('fecha');
             $table->foreignId('designacione_id')->constrained();
+            $table->string('observaciones')->nullable();
             $table->timestamps();
         });
     }

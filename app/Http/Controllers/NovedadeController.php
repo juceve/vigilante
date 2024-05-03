@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Novedade;
+use App\Models\Vwnovedade;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class NovedadeController
@@ -105,5 +109,35 @@ class NovedadeController extends Controller
 
         return redirect()->route('novedades.index')
             ->with('success', 'Novedade deleted successfully');
+    }
+
+    public function pdfNovedades()
+    {
+        $parametros = Session::get('param-ronda');
+        $cliente = Cliente::find($parametros[0]);
+        $resultados = "";
+
+        $resultados = Vwnovedade::where([
+            ["fecha", ">=", $parametros[1]],
+            ["fecha", "<=", $parametros[2]],
+            ["cliente_id", $parametros[0]],
+            ['empleado', 'LIKE', '%' . $parametros[3] . '%']
+        ])->orWhere(
+            [
+                ["fecha", ">=", $parametros[1]],
+                ["fecha", "<=", $parametros[2]],
+                ["cliente_id", $parametros[0]],
+                ['turno', 'LIKE', '%' . $parametros[3] . '%'],
+            ]
+        )->orderBy('fecha', 'DESC')
+            ->get();
+
+        $i = 1;
+        // return view('pdfs.pdfrondas', compact('resultados', 'parametros', 'cliente', 'i'));
+
+        $pdf = Pdf::loadView('pdfs.pdfnovedades', compact('resultados', 'parametros', 'cliente', 'i'))
+            ->setPaper('letter', 'portrait');
+
+        return $pdf->stream();
     }
 }

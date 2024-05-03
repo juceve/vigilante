@@ -37,9 +37,9 @@
                 <tbody>
                     @forelse ($visitas as $item)
                     <tr>
-                        <td>{{$item->nombre}}</td>
+                        <td>{{$item->visitante}}</td>
                         <td class="text-center">{{$item->docidentidad}}</td>
-                        <td class="text-center">{{$item->created_at}}</td>
+                        <td class="text-center">{{$item->fechaingreso. " ".$item->horaingreso}}</td>
                         <td class="text-end">
                             <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalInfo"
                                 wire:click='cargarVisita({{$item->id}})' style="font-size: 12px;">
@@ -115,7 +115,15 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         wire:click='reiniciar'>Cerrar</button>
-                    <button type="button" class="btn btn-primary" wire:click='marcarSalida'>Marcar Salida</button>
+                    <button type="button" class="btn btn-primary" wire:click='marcarSalida'
+                        wire:loading.attr="disabled">
+                        Marcar Salida
+                        <div wire:loading wire:target="marcarSalida">
+                            <div class="spinner-border spinner-border-sm" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>

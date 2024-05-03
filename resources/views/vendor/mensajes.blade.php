@@ -22,33 +22,33 @@
 </script>
 
 @if (session('success'))
-    <script>
-        Swal.fire(
+<script>
+    Swal.fire(
             'Excelente!',
             '{{ session('success') }}',
             'success'
         )
-    </script>
+</script>
 @endif
 
 @if (session('error'))
-    <script>
-        Swal.fire(
+<script>
+    Swal.fire(
             'Error',
             '{{ session('error') }}',
             'error'
         )
-    </script>
+</script>
 @endif
 
 @if (session('warning'))
-    <script>
-        Swal.fire(
+<script>
+    Swal.fire(
             'Atención!',
             '{{ session('warning') }}',
             'warning'
         )
-    </script>
+</script>
 @endif
 
 <script>
@@ -109,9 +109,9 @@
             order: [
                 [0, 'desc']
             ],
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-            },
+            language: {                    
+                    url: '{{asset("plugins/es-ES.json")}}',
+                },
         })
     })
 

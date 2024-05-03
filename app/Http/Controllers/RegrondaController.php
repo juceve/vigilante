@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Regronda;
+use App\Models\Vwronda;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class RegrondaController
@@ -105,5 +109,35 @@ class RegrondaController extends Controller
 
         return redirect()->route('regrondas.index')
             ->with('success', 'Regronda deleted successfully');
+    }
+
+    public function pdfRondas()
+    {
+        $parametros = Session::get('param-ronda');
+        $cliente = Cliente::find($parametros[0]);
+        $resultados = "";
+
+        $resultados = Vwronda::where([
+            ["fecha", ">=", $parametros[1]],
+            ["fecha", "<=", $parametros[2]],
+            ["cliente_id", $parametros[0]],
+            ['empleado', 'LIKE', '%' . $parametros[3] . '%']
+        ])->orWhere(
+            [
+                ["fecha", ">=", $parametros[1]],
+                ["fecha", "<=", $parametros[2]],
+                ["cliente_id", $parametros[0]],
+                ['turno', 'LIKE', '%' . $parametros[3] . '%'],
+            ]
+        )->orderBy('fecha', 'DESC')
+            ->get();
+
+        $i = 1;
+        // return view('pdfs.pdfrondas', compact('resultados', 'parametros', 'cliente', 'i'));
+
+        $pdf = Pdf::loadView('pdfs.pdfrondas', compact('resultados', 'parametros', 'cliente', 'i'))
+            ->setPaper('letter', 'portrait');
+
+        return $pdf->stream();
     }
 }
