@@ -74,5 +74,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'oficinas.create',  'grupo' => 'OFICINAS', 'descripcion' => 'Crear'])->assignRole([$role]);
         Permission::create(['name' => 'oficinas.edit',  'grupo' => 'OFICINAS', 'descripcion' => 'Editar'])->assignRole([$role]);
         Permission::create(['name' => 'oficinas.destroy',  'grupo' => 'OFICINAS', 'descripcion' => 'Eliminar'])->assignRole([$role]);
+
+        Permission::create(['name' => 'tareas.index',  'grupo' => 'TAREAS', 'descripcion' => 'Ver listado'])->assignRole([$role]);
+        Permission::create(['name' => 'tareas.create',  'grupo' => 'TAREAS', 'descripcion' => 'Crear'])->assignRole([$role]);
+        Permission::create(['name' => 'tareas.edit',  'grupo' => 'TAREAS', 'descripcion' => 'Editar'])->assignRole([$role]);
+        Permission::create(['name' => 'tareas.destroy',  'grupo' => 'TAREAS', 'descripcion' => 'Eliminar'])->assignRole([$role]);
     }
 }

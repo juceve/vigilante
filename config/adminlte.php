@@ -332,6 +332,12 @@ return [
                     'can'   =>  'admin.registros.novedades',
                     'icon'  =>  'fas fa-fw fa-newspaper'
                 ],
+                [
+                    'text'  =>  'Tareas',
+                    'route' =>  'admin.tareas',
+                    'can'   =>  'tareas.index',
+                    'icon'  =>  'fas fa-fw fa-tasks'
+                ],
             ],
         ],
         [

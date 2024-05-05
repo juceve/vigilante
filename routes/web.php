@@ -16,6 +16,7 @@ use App\Http\Controllers\PruebasController;
 use App\Http\Controllers\RegistroguardiaController;
 use App\Http\Controllers\RegrondaController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UbicacionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitaController;
@@ -36,6 +37,7 @@ use App\Http\Livewire\Admin\Regactividad;
 use App\Http\Livewire\Admin\Registroshv;
 use App\Http\Livewire\Admin\Registrosnovedades;
 use App\Http\Livewire\Admin\Registrosronda;
+use App\Http\Livewire\Admin\Registrostareas;
 use App\Http\Livewire\Admin\Registrosvisita;
 use App\Http\Livewire\Admin\TurnoCliente;
 use App\Http\Livewire\Admin\RegNovedades;
@@ -106,6 +108,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/registroshv/{id}', Registroshv::class)->middleware('can:admin.registros.hombrevivo')->name('registroshv');
     Route::get('admin/reg-novedades/{id}', RegNovedades::class)->middleware('can:admin.registros.novedades')->name('regnovedades');
     Route::get('admin/gen-docs', GenDocs::class)->name('gendocs');
+    Route::get('admin/tareas', Registrostareas::class)->middleware('can:tareas.index')->name('admin.tareas');
 
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');
     Route::resource('admin/empleados', EmpleadoController::class)->names('empleados');
@@ -113,6 +116,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('admin/oficinas', OficinaController::class)->names('oficinas');
     Route::resource('admin/clientes', ClienteController::class)->names('clientes');
     Route::resource('admin/designaciones', DesignacioneController::class)->names('designaciones');
+    // Route::resource('admin/tareas', TareaController::class)->names('tareas');
 
     Route::get('/ubicacion/{lat}/{lng}', function (string $lat, string $lng) {
         return view('admin.ubicacion', compact('lat', 'lng'));
@@ -123,6 +127,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pdf/visitas/', [VisitaController::class, 'pdfVisitas'])->name('pdf.visitas');
     Route::get('pdf/rondas/', [RegrondaController::class, 'pdfRondas'])->name('pdf.rondas');
     Route::get('pdf/novedades/', [NovedadeController::class, 'pdfNovedades'])->name('pdf.novedades');
+    Route::get('pdf/tareas/', [TareaController::class, 'pdfTareas'])->name('pdf.tareas');
 
 
     Route::get('pdf/informe/{data}', [CiteinformeController::class, 'previsualizacion'])->name('pdf.informe');
