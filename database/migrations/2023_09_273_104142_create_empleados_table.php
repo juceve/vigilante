@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombres');
             $table->string('apellidos');
-            $table->foreignId('tipodocumento_id')->nullable()->constrained();
+            $table->foreignId('tipodocumento_id')->nullable()->constrained()->nullOnDelete();
             $table->string('cedula', 25);
             $table->string('nacionalidad')->nullable();
             $table->string('direccion');
@@ -23,11 +23,12 @@ return new class extends Migration
             $table->string('direccionlng')->nullable();
             $table->string('telefono', 50);
             $table->string('imgperfil')->nullable();
-            $table->string('cedulaaverso')->nullable();
+            $table->string('cedulaanverso')->nullable();
             $table->string('cedulareverso')->nullable();
+            $table->boolean('cubrerelevos')->default(false);
             $table->string('email', 100);
-            $table->foreignId('area_id')->nullable()->constrained();
-            $table->foreignId('oficina_id')->nullable()->constrained();
+            $table->foreignId('area_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('oficina_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });

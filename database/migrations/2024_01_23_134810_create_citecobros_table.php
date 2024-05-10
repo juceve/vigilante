@@ -19,9 +19,10 @@ return new class extends Migration
             $table->date('fecha');
             $table->string('fechaliteral');
             $table->string('cliente');
-            $table->foreignId('cliente_id')->nullable()->constrained();
+            $table->foreignId('cliente_id')->nullable()->constrained()->nullOnDelete();
             $table->string('representante');
             $table->string('mescobro');
+            $table->boolean('confactura')->default(false);
             $table->string('factura');
             $table->double('monto');
             $table->boolean('estado')->default(true);

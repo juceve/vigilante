@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->foreignId('tipodocumento_id')->nullable()->constrained();
+            $table->foreignId('tipodocumento_id')->nullable()->constrained()->nullOnDelete();
             $table->string('nrodocumento');
             $table->string('direccion');
-            $table->string('uv',50);
-            $table->string('manzano',50);
-            $table->string('latitud',50);
-            $table->string('longitud',50);
+            $table->string('uv', 50);
+            $table->string('manzano', 50);
+            $table->string('latitud', 50);
+            $table->string('longitud', 50);
             $table->string('personacontacto');
-            $table->string('telefonocontacto',50);
-            $table->foreignId('oficina_id')->constrained();
+            $table->string('telefonocontacto', 50);
+            $table->foreignId('oficina_id')->nullable()->constrained()->nullOnDelete();
             $table->string('observaciones')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();

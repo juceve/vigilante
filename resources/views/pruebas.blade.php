@@ -1,8 +1,11 @@
 @extends('adminlte::page')
 
 @section('content')
-    <div class="container">
-        @livewire('datatables', ['tabla' => 'citememorandums', 'campos' => ['cite', 'fecha', 'empleado', 'estado'], 'titulos' => ['cite', 'fecha', 'empleado', 'estado'], 'condiciones' => []])
-
+<br>
+<div class="card">
+    <div class="card-body">
+        @livewire('datatable')
     </div>
+</div>
+
 @endsection

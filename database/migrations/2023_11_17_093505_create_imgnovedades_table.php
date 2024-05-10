@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('imgnovedades', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('novedade_id')->constrained();
+            $table->foreignId('novedade_id')->nullable()->constrained()->nullOnDelete();
             $table->string('url');
             $table->string('tipo');
             $table->timestamps();

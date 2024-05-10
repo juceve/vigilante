@@ -14,7 +14,7 @@ use Livewire\Component;
 class NuevaDesignacion extends Component
 {
     public $designacione = null;
-    public $empleadoid = "", $empleado = null, $nombres = "", $clientes = null, $clienteid = "", $clienteSeleccionado = null;
+    public $empleadoid = "", $empleado = null, $nombres = "",  $clienteid = "", $clienteSeleccionado = null;
     public $turnoid = "", $fechaInicio = "", $fechaFin = "", $intervalo_hv = 0, $observaciones = "";
     public $lunes = false, $martes = false, $miercoles = false, $jueves = false, $viernes = false, $sabado = false, $domingo = false;
 
@@ -32,13 +32,11 @@ class NuevaDesignacion extends Component
         // $this->empleado = new Empleado();
     }
 
-    public function updatedEmpleadoid()
+    public function seleccionaEmpleado($id)
     {
-        $this->empleado = Empleado::find($this->empleadoid);
-        // dd($this->empleado);
+
+        $this->empleado = Empleado::find($id);
         $this->nombres = $this->empleado->nombres . " " . $this->empleado->apellidos;
-        $this->clientes = Cliente::all();
-        $this->clientes->pluck('nombre', 'id');
     }
 
     public function updatedClienteid()
@@ -53,9 +51,15 @@ class NuevaDesignacion extends Component
             ->join('oficinas', 'oficinas.id', '=', 'empleados.oficina_id')
             ->where('areas.template', '=', 'OPER')
             ->select('empleados.*', 'oficinas.nombre as oficina')->get();
+        $clientes = Cliente::all();
+        $clientes->pluck('nombre', 'id');
 
-        return view('livewire.admin.nueva-designacion', compact('empleados'));
+        $this->emit('dataTableNormal');
+
+        return view('livewire.admin.nueva-designacion', compact('empleados', 'clientes'));
     }
+
+    protected $listeners = ['seleccionaEmpleado'];
 
     public function registrar()
     {

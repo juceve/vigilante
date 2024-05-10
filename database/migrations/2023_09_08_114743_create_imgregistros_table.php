@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('imgregistros', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('registroguardia_id')->constrained();
+            $table->foreignId('registroguardia_id')->nullable()->constrained()->nullOnDelete();
             $table->string('url');
             $table->string('tipo');
             $table->timestamps();

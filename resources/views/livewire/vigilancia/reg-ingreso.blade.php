@@ -27,17 +27,24 @@
                     <button class="btn btn-outline-primary" type="button" id="button-addon2" wire:click='buscar'><i
                             class="fas fa-search"></i></button>
                 </div>
+                @error('docidentidad')
+                <small class="text-danger">El campo Doc. Identidad es requerido</small>
+                @enderror
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label>Nombre Visitante:</label>
                 <input type="text" class="form-control" wire:model='nombrevisitante'
                     onkeyup="this.value=this.value.toUpperCase()">
+                @error('nombrevisitante')
+                <small class="text-danger">El campo Nombre Visitante es requerido</small>
+                @enderror
             </div>
 
             <div class="col-12 col-md-6 mb-3">
                 <label>A quien visita:</label>
                 <input type="search" class="form-control" wire:model='residente'
                     onkeyup="this.value=this.value.toUpperCase()">
+
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label>Nro. vivienda:</label>
@@ -49,7 +56,11 @@
                 {!! Form::select('motivo_id', $motivos, null,
                 ['class'=>'form-select','wire:model'=>'motivoid','placeholder'=>'Seleccione un
                 motivo']) !!}
+                @error('motivoid')
+                <small class="text-danger">El campo Motivo Visita es requerido</small>
+                @enderror
             </div>
+
             @if ($motivo->nombre=="Otros")
             <div class="col-12 col-md-6 mb-3">
 
@@ -82,14 +93,19 @@
 
     </div>
     <div class="container-fluid d-grid mt-3 mb-3">
-        <button class="btn btn-success" wire:click='registrar' wire:loading.attr="disabled">
-            REGISTRAR VISITA
-            <div wire:loading wire:target="registrar">
-                <div class="spinner-border spinner-border-sm" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
+
+        <button class="btn btn-success" wire:click='registrar' wire:loading.remove wire:loading.attr="disabled">
+            REGISTRAR VISITA <i class="fas fa-save"></i>
+        </button>
+
+        <button class="btn btn-success" wire:loading wire:target='registrar' wire:loading.attr="disabled">
+            Espere...
+            <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
         </button>
+
+
     </div>
     <br>
 </div>

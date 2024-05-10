@@ -1,9 +1,9 @@
 <div>
     @section('title')
-        RECIBOS
+    RECIBOS
     @endsection
     @section('content_header')
-        <h4>RECIBOS GENERADOS</h4>
+    <h4>RECIBOS GENERADOS</h4>
     @endsection
     <div class="container-fluid">
         <div class="row">
@@ -17,17 +17,18 @@
                             </span>
 
                             <div class="float-right">
-                                <button class="btn btn-info btn-sm float-right" data-placement="left" data-toggle="modal"
-                                    data-target="#modalNuevo" onclick="boton('create')" wire:click='resetAll'>
+                                <button class="btn btn-info btn-sm float-right" data-placement="left"
+                                    data-toggle="modal" data-target="#modalNuevo" onclick="boton('create')"
+                                    wire:click='resetAll'>
                                     Nuevo <i class="fas fa-plus"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p>{{ $message }}</p>
-                        </div>
+                    <div class="alert alert-success">
+                        <p>{{ $message }}</p>
+                    </div>
                     @endif
 
                     <div class="card-body">
@@ -89,30 +90,28 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($citerecibos as $citerecibo)
-                                        <tr class="text-center">
-                                            <td>{{ $citerecibo->correlativo }}</td>
-                                            <td>{{ $citerecibo->cite }}</td>
-                                            <td class="text-left">{{ $citerecibo->cliente }}</td>
-                                            <td>{{ $citerecibo->mescobro }}</td>
+                                    <tr class="text-center">
+                                        <td>{{ $citerecibo->correlativo }}</td>
+                                        <td>{{ $citerecibo->cite }}</td>
+                                        <td class="text-left">{{ $citerecibo->cliente }}</td>
+                                        <td>{{ $citerecibo->mescobro }}</td>
 
-                                            <td class="text-left" style="width: 150px;">
-                                                <a class="btn btn-sm btn-info "
-                                                    href="{{ route('pdf.recibo', $citerecibo->id) }}"
-                                                    title="Reimprimir" target="_blank"><i
-                                                        class="fa fa-fw fa-print"></i></a>
-                                                @if ($citerecibo->estado)
-                                                    <button class="btn btn-sm btn-warning" title="Editar"
-                                                        wire:click='editar({{ $citerecibo->id }})'
-                                                        data-placement="left" data-toggle="modal"
-                                                        data-target="#modalNuevo" onclick="boton('update')"><i
-                                                            class="fa fa-fw fa-edit"></i></button>
+                                        <td class="text-left" style="width: 150px;">
+                                            <a class="btn btn-sm btn-info "
+                                                href="{{ route('pdf.recibo', $citerecibo->id) }}" title="Reimprimir"
+                                                target="_blank"><i class="fa fa-fw fa-print"></i></a>
+                                            @if ($citerecibo->estado)
+                                            <button class="btn btn-sm btn-warning" title="Editar"
+                                                wire:click='editar({{ $citerecibo->id }})' data-placement="left"
+                                                data-toggle="modal" data-target="#modalNuevo"
+                                                onclick="boton('update')"><i class="fa fa-fw fa-edit"></i></button>
 
-                                                    <button class="btn btn-sm btn-danger" title="Anular"
-                                                        onclick="anular({{ $citerecibo->id }})"><i
-                                                            class="fa fa-fw fa-ban"></i></button>
-                                                @endif
-                                            </td>
-                                        </tr>
+                                            <button class="btn btn-sm btn-danger" title="Anular"
+                                                onclick="anular({{ $citerecibo->id }})"><i
+                                                    class="fa fa-fw fa-ban"></i></button>
+                                            @endif
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -161,7 +160,7 @@
                                 <option value="12">Diciembre</option>
                             </select>
                             @error('c_mescobro')
-                                <small class="text-danger">Debe seleccionar un mes</small>
+                            <small class="text-danger">Debe seleccionar un mes</small>
                             @enderror
                         </div>
 
@@ -175,7 +174,7 @@
                                 <option value="{{ date('Y') - 3 }}">{{ date('Y') - 3 }}</option>
                             </select>
                             @error('gestion')
-                                <small class="text-danger">Debe seleccionar una gestión</small>
+                            <small class="text-danger">Debe seleccionar una gestión</small>
                             @enderror
                         </div>
                         <div class="col-12 col-md-6 mb-3">
@@ -186,14 +185,14 @@
                         <div class="col-12 col-md-6 mb-3">
                             {!! Form::label('selID', 'Cliente:') !!}
                             {!! Form::select('selID', $clientes, null, [
-                                'id' => 'selID',
-                                'class' => 'form-control',
-                                'required' => 'required',
-                                'placeholder' => 'Seleccione un Cliente',
-                                'wire:model' => 'selID',
+                            'id' => 'selID',
+                            'class' => 'form-control',
+                            'required' => 'required',
+                            'placeholder' => 'Seleccione un Cliente',
+                            'wire:model' => 'selID',
                             ]) !!}
                             @error('selID')
-                                <small class="text-danger">Debe seleccionar un cliente</small>
+                            <small class="text-danger">Debe seleccionar un cliente</small>
                             @enderror
                         </div>
 
@@ -204,8 +203,8 @@
                 <div class="modal-footer" wire:ignore>
                     <button class="btn btn-primary col-12 col-md-4" wire:click='previa'>Vista Previa <i
                             class="fas fa-eye"></i></button>
-                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar'
-                        class="close" data-dismiss="modal">Registrar
+                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar' class="close"
+                        data-dismiss="modal">Registrar
                         <i class="fas fa-save"></i></button>
                     <button class="btn btn-warning col-12 col-md-4" id="actualizar" wire:click='actualizar'
                         class="close" data-dismiss="modal">Actualizar
@@ -217,17 +216,15 @@
     </div>
 </div>
 @section('js')
-    <script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
-    @include('vendor.mensajes')
 
-    <script>
-        Livewire.on('renderizarpdf', data => {
+<script>
+    Livewire.on('renderizarpdf', data => {
             var win = window.open("../pdf/recibo/" + data, '_blank');
             win.focus();
         });
-    </script>
-    <script>
-        function boton(tipo) {
+</script>
+<script>
+    function boton(tipo) {
             if (tipo == 'create') {
                 $('#registrar').show();
                 $('#actualizar').hide();
@@ -253,5 +250,5 @@
                 }
             });
         }
-    </script>
+</script>
 @endsection

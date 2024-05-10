@@ -298,9 +298,6 @@
     </div>
 </div>
 @section('js')
-<script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
-@include('vendor.mensajes')
-
 <script>
     Livewire.on('cerrarModalNuevo',()=>{
         $('#modalNuevo').modal('hide');

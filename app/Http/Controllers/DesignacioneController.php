@@ -178,7 +178,8 @@ class DesignacioneController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->route('designaciones.index')
-                ->with('error', 'Ha ocurrido un error');
+                ->with('error', $th->getMessage());
+            // ->with('error', 'Ha ocurrido un error');
         }
     }
 }

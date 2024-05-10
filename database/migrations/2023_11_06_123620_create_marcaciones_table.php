@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('marcaciones', function (Blueprint $table) {
-            $table->id();            
-            $table->foreignId('designacione_id')->constrained();
+            $table->id();
+            $table->foreignId('designacione_id')->nullable()->constrained()->nullOnDelete();
             $table->date('fecha');
             $table->string('hora');
             $table->string('lat')->nullable();

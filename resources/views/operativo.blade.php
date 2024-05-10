@@ -38,23 +38,46 @@
         <div class="row justify-content-center">
             <!-- Portfolio Items -->
             <div class="col col-6 col-md-6 col-lg-4 mb-5">
-                <div class="portfolio-item mx-auto border list-group-item-pink text-center">
+                <div class="portfolio-item mx-auto border list-group-item-primary text-center">
                     <a href="{{ route('vigilancia.panico') }}">
                         <img class="w-50 py-4" src="{{ asset('web/assets/img/home/boton-rojo.png') }}" alt="..." />
-                        <h6 class="text-pink">PANICO</h6>
+                        <h6 class="text-primary">PANICO</h6>
                     </a>
                 </div>
             </div>
             <div class="col col-6 col-md-6 col-lg-4 mb-5">
-                <div class="portfolio-item mx-auto border list-group-item-warning text-center">
+                <div class="portfolio-item mx-auto border list-group-item-primary text-center">
                     <a href="{{ route('vigilancia.ronda') }}">
                         <img class="w-50 py-4" src="{{ asset('web/assets/img/home/guardia.png') }}" alt="..." />
-                        <h6 class="text-warning">RONDA</h6>
+                        <h6 class="text-primary">RONDA</h6>
                     </a>
                 </div>
             </div>
             <div class="col col-6 col-md-6 col-lg-4 mb-5">
-                <div class="portfolio-item mx-auto border list-group-item-success text-center">
+                <div class="portfolio-item mx-auto border list-group-item-primary text-center">
+
+                    @if (verificaTareas($designaciones->id))
+                    <a href="{{route('vigilancia.tareas',$designaciones->id)}}">
+                        <img class="w-50 py-4 temblor" src="{{ asset('web/assets/img/home/task.png') }}" alt="..." />
+
+                        <img src="{{ asset('images/exclamation.png') }}" style="position:absolute;
+                                                top:0px;
+                                                left:0px;
+                                                border:none;
+                                                width: 50px;
+                                                float: right" class="temblor">
+                        <h6 class="text-primary">TAREAS</h6>
+                    </a>
+                    @else
+                    <a href="{{ route('vigilancia.tareas',$designaciones->id) }}">
+                        <img class="w-50 py-4" src="{{ asset('web/assets/img/home/task.png') }}" alt="..." />
+                        <h6 class="text-primary">TAREAS</h6>
+                    </a>
+                    @endif
+                </div>
+            </div>
+            <div class="col col-6 col-md-6 col-lg-4 mb-5">
+                <div class="portfolio-item mx-auto border list-group-item-primary text-center">
 
                     @if ($intervalo = verificaHV($designaciones->id))
                     <a href="{{ route('vigilancia.hombre-vivo',$intervalo->id) }}">
@@ -67,29 +90,30 @@
                                                 border:none;
                                                 width: 50px;
                                                 float: right" class="temblor">
-                        <h6 class="text-success">HOMBRE VIVO</h6>
+                        <h6 class="text-primary">HOMBRE VIVO</h6>
                     </a>
                     @else
                     <a href="{{ route('vigilancia.hombre-vivo',0) }}">
                         <img class="w-50 py-4" src="{{ asset('web/assets/img/home/hombre-vivo.png') }}" alt="..." />
-                        <h6 class="text-success">HOMBRE VIVO</h6>
+                        <h6 class="text-primary">HOMBRE VIVO</h6>
                     </a>
                     @endif
                 </div>
             </div>
             <div class="col col-6 col-md-6 col-lg-4 mb-5">
-                <div class="portfolio-item mx-auto border list-group-item-info text-center">
+                <div class="portfolio-item mx-auto border list-group-item-primary text-center">
                     <a href="{{ route('vigilancia.panelvisitas',$designaciones->id) }}">
                         <img class="w-50 py-4" src="{{ asset('web/assets/img/home/regvisitas.png') }}" alt="..." />
-                        <h6 class="text-blue">VISITAS</h6>
+                        <h6 class="text-primary">VISITAS</h6>
                     </a>
                 </div>
             </div>
+
             <div class="col col-6 col-md-6 col-lg-4 mb-5">
-                <div class="portfolio-item mx-auto border list-group-item-dark text-center">
+                <div class="portfolio-item mx-auto border list-group-item-primary text-center">
                     <a href="{{ route('vigilancia.novedades',$designaciones->id) }}">
                         <img class="w-50 py-4" src="{{ asset('web/assets/img/home/news.png') }}" alt="..." />
-                        <h6 class="text-secondary">NOVEDADES</h6>
+                        <h6 class="text-primary">NOVEDADES</h6>
                     </a>
                 </div>
             </div>
@@ -115,8 +139,17 @@
 @endif
 @else
 <div class="alert alert-danger text-center" role="alert">
-    No exiten asignaciones habilitadas.
+    No exiten designaciones habilitadas.
 </div>
+<br>
+{{-- @dump(Auth::user()->empleados[0]) --}}
+@if (Auth::user()->empleados[0]->cubrerelevos)
+<div class="container-fluid d-grid">
+    <a href="{{route('vigilancia.cubrerelevos')}}" class="btn btn-success py-3">
+        <h4>ACTIVAR RELEVO TEMPORAL <i class="fas fa-power-off"></i></h4>
+    </a>
+</div>
+@endif
 @endif
 
 

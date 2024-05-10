@@ -1,9 +1,9 @@
 <div>
     @section('title')
-        Registros de Hombre Vivo
+    Registros de Hombre Vivo
     @endsection
     @section('content_header')
-        <h4>Registros de Hombre Vivo</h4>
+    <h4>Registros de Hombre Vivo</h4>
     @endsection
 
     <section class="content container-fluid">
@@ -65,9 +65,9 @@
                                 <div class="form-group">
                                     <strong>Estado:</strong>
                                     @if ($designacione->fechaFin >= date('Y-m-d'))
-                                        <span class="badge badge-pill badge-success">Activo</span>
+                                    <span class="badge badge-pill badge-success">Activo</span>
                                     @else
-                                        <span class="badge badge-pill badge-secondary">Inactivo</span>
+                                    <span class="badge badge-pill badge-secondary">Inactivo</span>
                                     @endif
                                 </div>
                             </div>
@@ -87,7 +87,8 @@
                                     target="_blank" class="btn btn-danger btn-sm">
                                     <i class="fas fa-file-pdf"></i> PDF
                                 </button> --}}
-                                {{-- <button class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> XLS</button> --}}
+                                {{-- <button class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i>
+                                    XLS</button> --}}
                             </div>
                         </div>
 
@@ -101,45 +102,43 @@
                                     <tr align="center" style="vertical-align: middle">
                                         <td><strong>FECHAS</strong></td>
                                         @foreach ($designacione->intervalos as $punto)
-                                            <td><strong>{{ $punto->nombre }} <br> {{ $punto->hora }}</strong></td>
+                                        <td><strong>{{ $punto->nombre }} <br> {{ $punto->hora }}</strong></td>
                                         @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if (count($registros) > 0)
-                                        @foreach ($registros as $registro)
-                                            <tr align="center">
-                                                @foreach ($registro as $item)
-                                                    @if (strlen($item[0]) > 5)
-                                                        <td>{{ $item[0] }}</td>
-                                                    @else
-                                                        @switch($item[1])
-                                                            @case(1)
-                                                                <td><a class="text-danger" href="javascript:void(0);"
-                                                                        title="Sin Marcado">
-                                                                        &#10060;
-                                                                    </a></td>
-                                                            @break
+                                    @foreach ($registros as $registro)
+                                    <tr align="center">
+                                        @foreach ($registro as $item)
+                                        @if (strlen($item[0]) > 5)
+                                        <td>{{ $item[0] }}</td>
+                                        @else
+                                        @switch($item[1])
+                                        @case(1)
+                                        <td><a class="text-danger" href="javascript:void(0);" title="Sin Marcado">
+                                                &#10060;
+                                            </a></td>
+                                        @break
 
-                                                            @case(2)
-                                                                <td>
-                                                                    {{ $item[0] }}
-                                                                </td>
-                                                            @break
+                                        @case(2)
+                                        <td>
+                                            {{ $item[0] }}
+                                        </td>
+                                        @break
 
-                                                            @case(0)
-                                                                <td><a class="text-success" href="javascript:void(0);"
-                                                                        title="Ver Info" data-toggle="modal"
-                                                                        data-target="#modalPunto"
-                                                                        wire:click="cargaPunto({{ $item[2] }})">
-                                                                        {{ $item[0] }}
-                                                                    </a></td>
-                                                            @break
-                                                        @endswitch
-                                                    @endif
-                                                @endforeach
-                                            </tr>
+                                        @case(0)
+                                        <td><a class="text-success" href="javascript:void(0);" title="Ver Info"
+                                                data-toggle="modal" data-target="#modalPunto"
+                                                wire:click="cargaPunto({{ $item[2] }})">
+                                                {{ $item[0] }}
+                                            </a></td>
+                                        @break
+                                        @endswitch
+                                        @endif
                                         @endforeach
+                                    </tr>
+                                    @endforeach
                                     @endif
 
                                 </tbody>
@@ -177,14 +176,15 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <label>Anotaciones:</label>
-                                <textarea rows="2" class="form-control bg-white" wire:model='anotaciones' readonly></textarea>
+                                <textarea rows="2" class="form-control bg-white" wire:model='anotaciones'
+                                    readonly></textarea>
                             </div>
                             <div class="col-12 mb-3">
                                 <label>Ubicación:</label>
                                 <div id="mapa1" style="width: 100%;height: 350px;">
                                     @if ($lat && $lng)
-                                        <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}"
-                                            style="width: 100%; height: 100%" name="ubicacion"></iframe>
+                                    <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}" style="width: 100%; height: 100%"
+                                        name="ubicacion"></iframe>
                                     @endif
 
                                 </div>
@@ -199,8 +199,3 @@
         </div>
     </div>
 </div>
-@section('js')
-    <script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
-    @include('vendor.mensajes')
-    <script></script>
-@endsection

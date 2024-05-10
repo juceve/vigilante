@@ -14,6 +14,7 @@ use App\Models\Hombrevivo as ModelsHombrevivo;
 use App\Models\Intervalo;
 use App\Models\Marcacione;
 use App\Models\Regronda;
+use App\Models\Tarea;
 
 function tablaRondas($designacione_id)
 {
@@ -221,6 +222,22 @@ function verificaHV($designacione_id)
         } else {
             return $intervalo;
         }
+    } else {
+        return false;
+    }
+}
+
+function verificaTareas($designacione_id)
+{
+    $designacione = Designacione::find($designacione_id);
+    $tareas = Tarea::where([
+        ["cliente_id", $designacione->turno->cliente_id],
+        ["empleado_id", $designacione->empleado_id],
+        ["fecha", date('Y-m-d')],
+        ["estado", 1],
+    ])->get();
+    if ($tareas->count() > 0) {
+        return true;
     } else {
         return false;
     }

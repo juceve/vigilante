@@ -13,7 +13,7 @@ $mescobro;
 if ($datos1[0] != 0) {
     $cite_id = $datos1[0];
     $citecobro = traeCitecobro($cite_id);
-    $datos = [$citecobro['cite'], $citecobro['fechaliteral'], $citecobro['cliente'], $citecobro['representante'], $citecobro['mescobro'], $citecobro['factura'], $citecobro['monto']];
+    $datos = [$citecobro['cite'], $citecobro['fechaliteral'], $citecobro['cliente'], $citecobro['representante'], $citecobro['mescobro'], $citecobro['factura'], $citecobro['monto'], $citecobro['confactura']];
     $mescobro = explode('-', $datos[4]);
     $mescobro = $mescobro[1] . '-' . $mescobro[0] . '-01';
     $mescobro = ultDiaMes($mescobro);
@@ -25,6 +25,7 @@ if ($datos1[0] != 0) {
 }
 ?>
 {{-- @dump($myArray[1]) --}}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -95,10 +96,17 @@ if ($datos1[0] != 0) {
 
             De nuestra consideración: <br><br>
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            @if ($datos[7])
             Adjunto a la presente remitimos a usted la Factura <b>Nro.:{{ $datos[5] }}</b> por Bs.
             {{ $datos[6] }}
             correspondiente a los servicios de
-            seguridad prestados del 01 al {{ $mescobro }}. <br>
+            seguridad prestados del 01 al {{ $mescobro }}. <br><br>
+            @else
+            Mediante la presente le solicitamos la cancelación de los Servicios de Seguridad del 01 al {{ $mescobro }}
+            que corresponde a {{ $datos[6] }} Bs. <br>
+            Agradecemos sus gestiones. <br><br>
+            @endif
+
             Atentamente,
         </p>
         <p style="margin-left: 3rem;margin-right: 3rem; margin-top: 8rem;text-align: center;">

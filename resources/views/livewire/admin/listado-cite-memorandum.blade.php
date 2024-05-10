@@ -1,9 +1,9 @@
 <div>
     @section('title')
-        Memorandos
+    Memorandos
     @endsection
     @section('content_header')
-        <h4>Memorandos Generados</h4>
+    <h4>Memorandos Generados</h4>
     @endsection
 
     <div class="container-fluid">
@@ -18,8 +18,9 @@
                             </span>
 
                             <div class="float-right">
-                                <button class="btn btn-info btn-sm float-right" data-placement="left" data-toggle="modal"
-                                    data-target="#modalMemo" onclick="boton('create')" wire:click='resetAll'>
+                                <button class="btn btn-info btn-sm float-right" data-placement="left"
+                                    data-toggle="modal" data-target="#modalMemo" onclick="boton('create')"
+                                    wire:click='resetAll'>
                                     Nuevo <i class="fas fa-plus"></i>
                                 </button>
                             </div>
@@ -85,39 +86,37 @@
                                 </thead>
                                 <tbody>
                                     @if ($citememorandums)
-                                        @foreach ($citememorandums as $citememorandum)
-                                            <tr class="text-center">
-                                                <td>{{ $citememorandum->correlativo }}</td>
-                                                <td>{{ $citememorandum->cite }}</td>
-                                                <td>{{ $citememorandum->fecha }}</td>
-                                                <td class="text-left">{{ $citememorandum->empleado }}</td>
-                                                <td>
-                                                    @if ($citememorandum->estado)
-                                                        <span class="badge badge-pill badge-success">Activo</span>
-                                                    @else
-                                                        <span class="badge badge-pill badge-secondary">Anulado</span>
-                                                    @endif
-                                                </td>
+                                    @foreach ($citememorandums as $citememorandum)
+                                    <tr class="text-center">
+                                        <td>{{ $citememorandum->correlativo }}</td>
+                                        <td>{{ $citememorandum->cite }}</td>
+                                        <td>{{ $citememorandum->fecha }}</td>
+                                        <td class="text-left">{{ $citememorandum->empleado }}</td>
+                                        <td>
+                                            @if ($citememorandum->estado)
+                                            <span class="badge badge-pill badge-success">Activo</span>
+                                            @else
+                                            <span class="badge badge-pill badge-secondary">Anulado</span>
+                                            @endif
+                                        </td>
 
-                                                <td class="text-left">
-                                                    <a class="btn btn-sm btn-info "
-                                                        href="{{ route('pdf.memorandum', $citememorandum->id) }}"
-                                                        title="Reimprimir" target="_blank"><i
-                                                            class="fa fa-fw fa-print"></i></a>
-                                                    @if ($citememorandum->estado)
-                                                        <button class="btn btn-sm btn-warning" title="Editar"
-                                                            wire:click='editar({{ $citememorandum->id }})'
-                                                            data-placement="left" data-toggle="modal"
-                                                            data-target="#modalMemo" onclick="boton('update')"><i
-                                                                class="fa fa-fw fa-edit"></i></button>
+                                        <td class="text-left">
+                                            <a class="btn btn-sm btn-info "
+                                                href="{{ route('pdf.memorandum', $citememorandum->id) }}"
+                                                title="Reimprimir" target="_blank"><i class="fa fa-fw fa-print"></i></a>
+                                            @if ($citememorandum->estado)
+                                            <button class="btn btn-sm btn-warning" title="Editar"
+                                                wire:click='editar({{ $citememorandum->id }})' data-placement="left"
+                                                data-toggle="modal" data-target="#modalMemo"
+                                                onclick="boton('update')"><i class="fa fa-fw fa-edit"></i></button>
 
-                                                        <button class="btn btn-sm btn-danger" title="Anular"
-                                                            onclick="anular({{ $citememorandum->id }})"><i
-                                                                class="fa fa-fw fa-ban"></i></button>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                            <button class="btn btn-sm btn-danger" title="Anular"
+                                                onclick="anular({{ $citememorandum->id }})"><i
+                                                    class="fa fa-fw fa-ban"></i></button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
                                     @endif
 
 
@@ -125,7 +124,7 @@
                             </table>
                         </div>
                         @if ($citememorandums)
-                            {{ $citememorandums->links() }}
+                        {{ $citememorandums->links() }}
                         @endif
 
                     </div>
@@ -159,12 +158,12 @@
                                 <select name="selID" id="selID" class="form-control" wire:model='selID'>
                                     <option value="">Seleccione un Empleado</option>
                                     @foreach ($empleados as $empleado)
-                                        <option value="{{ $empleado->id }}">
-                                            {{ $empleado->nombres . ' ' . $empleado->apellidos }}</option>
+                                    <option value="{{ $empleado->id }}">
+                                        {{ $empleado->nombres . ' ' . $empleado->apellidos }}</option>
                                     @endforeach
                                 </select>
                                 @error('selID')
-                                    <small class="text-danger">Debe seleccionar un Empleado</small>
+                                <small class="text-danger">Debe seleccionar un Empleado</small>
                                 @enderror
                             </div>
 
@@ -178,7 +177,8 @@
 
                             <div class="col-12 mb-2">
                                 <label>Cuerpo:</label>
-                                <textarea class="form-control" name="motivo" id="motivo" rows="5" wire:model='m_motivo'></textarea>
+                                <textarea class="form-control" name="motivo" id="motivo" rows="5"
+                                    wire:model='m_motivo'></textarea>
                             </div>
 
                         </div>
@@ -188,8 +188,8 @@
                 <div class="modal-footer" wire:ignore>
                     <button class="btn btn-primary col-12 col-md-4" wire:click='previa'>Vista Previa <i
                             class="fas fa-eye"></i></button>
-                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar'
-                        class="close" data-dismiss="modal">Registrar
+                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar' class="close"
+                        data-dismiss="modal">Registrar
                         <i class="fas fa-save"></i></button>
                     <button class="btn btn-warning col-12 col-md-4" id="actualizar" wire:click='actualizar'
                         class="close" data-dismiss="modal">Actualizar
@@ -200,17 +200,16 @@
     </div>
 </div>
 @section('js')
-    <script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
-    @include('vendor.mensajes')
 
-    <script>
-        Livewire.on('renderizarpdf', data => {
+
+<script>
+    Livewire.on('renderizarpdf', data => {
             var win = window.open("../pdf/memorandum/" + data, '_blank');
             win.focus();
         });
-    </script>
-    <script>
-        function boton(tipo) {
+</script>
+<script>
+    function boton(tipo) {
             if (tipo == 'create') {
                 $('#registrar').show();
                 $('#actualizar').hide();
@@ -236,5 +235,5 @@
                 }
             });
         }
-    </script>
+</script>
 @endsection

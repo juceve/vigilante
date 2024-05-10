@@ -1,9 +1,9 @@
 <div>
     @section('title')
-        Informes
+    Informes
     @endsection
     @section('content_header')
-        <h4>Informes Generados</h4>
+    <h4>Informes Generados</h4>
     @endsection
 
     <div class="container-fluid">
@@ -18,8 +18,9 @@
                             </span>
 
                             <div class="float-right">
-                                <button class="btn btn-info btn-sm float-right" data-placement="left" data-toggle="modal"
-                                    data-target="#modalNuevo" onclick="boton('create')" wire:click='resetAll'>
+                                <button class="btn btn-info btn-sm float-right" data-placement="left"
+                                    data-toggle="modal" data-target="#modalNuevo" onclick="boton('create')"
+                                    wire:click='resetAll'>
                                     Nuevo <i class="fas fa-plus"></i>
                                 </button>
                             </div>
@@ -86,45 +87,43 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($citeinformes as $citeinforme)
-                                        <tr class="text-center">
-                                            <td>{{ $citeinforme->correlativo }}</td>
+                                    <tr class="text-center">
+                                        <td>{{ $citeinforme->correlativo }}</td>
 
-                                            <td>{{ $citeinforme->cite }}</td>
-                                            <td>{{ $citeinforme->fecha }}</td>
-                                            <td class="text-left">{{ $citeinforme->cliente }}</td>
-                                            <td class="text-left">{{ $citeinforme->referencia }}</td>
-                                            <td>
-                                                @if ($citeinforme->estado)
-                                                    <span class="badge badge-pill badge-success">Activo</span>
-                                                @else
-                                                    <span class="badge badge-pill badge-secondary">Anulado</span>
-                                                @endif
-                                            </td>
+                                        <td>{{ $citeinforme->cite }}</td>
+                                        <td>{{ $citeinforme->fecha }}</td>
+                                        <td class="text-left">{{ $citeinforme->cliente }}</td>
+                                        <td class="text-left">{{ $citeinforme->referencia }}</td>
+                                        <td>
+                                            @if ($citeinforme->estado)
+                                            <span class="badge badge-pill badge-success">Activo</span>
+                                            @else
+                                            <span class="badge badge-pill badge-secondary">Anulado</span>
+                                            @endif
+                                        </td>
 
-                                            <td align="left" style="width: 150px;">
-                                                <a class="btn btn-sm btn-info "
-                                                    href="{{ route('pdf.informe', $citeinforme->id) }}"
-                                                    title="Reimprimir" target="_blank"><i
-                                                        class="fa fa-fw fa-print"></i></a>
-                                                @if ($citeinforme->estado)
-                                                    <button class="btn btn-sm btn-warning" title="Editar"
-                                                        wire:click='editar({{ $citeinforme->id }})'
-                                                        data-placement="left" data-toggle="modal"
-                                                        data-target="#modalNuevo" onclick="boton('update')"><i
-                                                            class="fa fa-fw fa-edit"></i></button>
+                                        <td align="left" style="width: 150px;">
+                                            <a class="btn btn-sm btn-info "
+                                                href="{{ route('pdf.informe', $citeinforme->id) }}" title="Reimprimir"
+                                                target="_blank"><i class="fa fa-fw fa-print"></i></a>
+                                            @if ($citeinforme->estado)
+                                            <button class="btn btn-sm btn-warning" title="Editar"
+                                                wire:click='editar({{ $citeinforme->id }})' data-placement="left"
+                                                data-toggle="modal" data-target="#modalNuevo"
+                                                onclick="boton('update')"><i class="fa fa-fw fa-edit"></i></button>
 
-                                                    <button class="btn btn-sm btn-danger" title="Anular"
-                                                        onclick="anular({{ $citeinforme->id }})"><i
-                                                            class="fa fa-fw fa-ban"></i></button>
-                                                @endif
-                                            </td>
-                                        </tr>
+                                            <button class="btn btn-sm btn-danger" title="Anular"
+                                                onclick="anular({{ $citeinforme->id }})"><i
+                                                    class="fa fa-fw fa-ban"></i></button>
+                                            @endif
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                         @if ($citeinformes)
-                            {{ $citeinformes->links() }}
+                        {{ $citeinformes->links() }}
                         @endif
                     </div>
                 </div>
@@ -151,14 +150,14 @@
                                 <div class="form-group{{ $errors->has('selID') ? ' has-error' : '' }}">
                                     {!! Form::label('selID', 'Cliente:') !!}
                                     {!! Form::select('selID', $clientes, null, [
-                                        'id' => 'selID',
-                                        'class' => 'form-control',
-                                        'required' => 'required',
-                                        'placeholder' => 'Seleccione un Cliente',
-                                        'wire:model' => 'selID',
+                                    'id' => 'selID',
+                                    'class' => 'form-control',
+                                    'required' => 'required',
+                                    'placeholder' => 'Seleccione un Cliente',
+                                    'wire:model' => 'selID',
                                     ]) !!}
                                     @error('selID')
-                                        <small class="text-danger">Debe seleccionar un Cliente</small>
+                                    <small class="text-danger">Debe seleccionar un Cliente</small>
                                     @enderror
                                 </div>
                             </div>
@@ -195,35 +194,35 @@
                                 </div>
                             </div>
                             @if ($causales)
-                                <div class="col-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-sm" style="font-size: 14px;">
-                                            <thead class="table-info">
-                                                <tr>
-                                                    <td align="center">DETALLES</td>
-                                                    <td></td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @php
-                                                    $i = 0;
-                                                @endphp
-                                                @foreach ($causales as $item)
-                                                    <tr>
-                                                        <td>{{ $item }}</td>
-                                                        <td align="right" style="width: 15px;"><button
-                                                                class="btn btn-sm btn-outline-danger" title="Eliminar"
-                                                                wire:click='delICausal({{ $i }})'><i
-                                                                    class="fas fa-trash"></i></button></td>
-                                                    </tr>
-                                                    @php
-                                                        $i++;
-                                                    @endphp
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-sm" style="font-size: 14px;">
+                                        <thead class="table-info">
+                                            <tr>
+                                                <td align="center">DETALLES</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                            $i = 0;
+                                            @endphp
+                                            @foreach ($causales as $item)
+                                            <tr>
+                                                <td>{{ $item }}</td>
+                                                <td align="right" style="width: 15px;"><button
+                                                        class="btn btn-sm btn-outline-danger" title="Eliminar"
+                                                        wire:click='delICausal({{ $i }})'><i
+                                                            class="fas fa-trash"></i></button></td>
+                                            </tr>
+                                            @php
+                                            $i++;
+                                            @endphp
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
                             @endif
 
 
@@ -233,8 +232,8 @@
                 <div class="modal-footer" wire:ignore>
                     <button class="btn btn-primary col-12 col-md-4" wire:click='previa'>Vista Previa <i
                             class="fas fa-eye"></i></button>
-                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar'
-                        class="close" data-dismiss="modal">Registrar
+                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar' class="close"
+                        data-dismiss="modal">Registrar
                         <i class="fas fa-save"></i></button>
                     <button class="btn btn-warning col-12 col-md-4" id="actualizar" wire:click='actualizar'
                         class="close" data-dismiss="modal">Actualizar <i class="fas fa-save"></i></button>
@@ -245,17 +244,16 @@
     </div>
 </div>
 @section('js')
-    <script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
-    @include('vendor.mensajes')
 
-    <script>
-        Livewire.on('renderizarpdf', data => {
+
+<script>
+    Livewire.on('renderizarpdf', data => {
             var win = window.open("../pdf/informe/" + data, '_blank');
             win.focus();
         });
-    </script>
-    <script>
-        function boton(tipo) {
+</script>
+<script>
+    function boton(tipo) {
             if (tipo == 'create') {
                 $('#registrar').show();
                 $('#actualizar').hide();
@@ -281,5 +279,5 @@
                 }
             });
         }
-    </script>
+</script>
 @endsection

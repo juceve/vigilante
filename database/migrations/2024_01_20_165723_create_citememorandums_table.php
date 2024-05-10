@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('fecha');
             $table->string('fechaliteral');
             $table->string('empleado');
-            $table->foreignId('empleado_id')->nullable()->constrained();
+            $table->foreignId('empleado_id')->nullable()->constrained()->nullOnDelete();
             $table->longText('cuerpo');
             $table->boolean('estado')->default(true);
             $table->timestamps();

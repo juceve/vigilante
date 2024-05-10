@@ -67,6 +67,14 @@ Información Empleado
                             {{ $empleado->area->nombre }}
                         </div>
                         <div class="col-12 col-md-6 mb-2">
+                            <strong>Cubre Relevos:</strong>
+                            @if ($empleado->cubrerelevos)
+                            <span class="badge bg-success">SI</span>
+                            @else
+                            <span class="badge bg-secondary">NO</span>
+                            @endif
+                        </div>
+                        <div class="col-12 col-md-6 mb-2">
                             <strong>Usuario:</strong>
                             @if ($empleado->user_id)
                             <span class="badge bg-success">Generado</span>

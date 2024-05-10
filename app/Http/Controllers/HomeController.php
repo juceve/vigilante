@@ -27,27 +27,31 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (!hayRevisionHoy()) {
+            procesosDiarios();
+        }
         if (Auth::user()->template == "OPER") {
             $empleado_id = Auth::user()->empleados[0]->id;
             $designaciones = null;
-            if($empleado_id){
-                $designaciones = Designacione::where('fechaFin','>=',date('Y-m-d'))->where('empleado_id',$empleado_id)->orderBy('fechaInicio','ASC')->first();
-            }  
+            if ($empleado_id) {
+                $designaciones = Designacione::where('fechaFin', '>=', date('Y-m-d'))
+                    ->where('empleado_id', $empleado_id)
+                    ->where('estado', 1)
+                    ->orderBy('fechaInicio', 'ASC')->first();
+            }
 
-            return view('operativo',compact('designaciones'));
+            return view('operativo', compact('designaciones'));
         }
         if (Auth::user()->template == "ADMIN") {
-            $colores = array("primary","success", "info", "warning", "danger","secondary");
-                $clientes = Cliente::where('status',1)->orderBy('oficina_id','ASC')->get();
-                $pts = "";
-                foreach ($clientes as $cliente) {
-                    $fila = $cliente->nombre."|".$cliente->latitud."|".$cliente->longitud."|".$cliente->direccion."|".$cliente->personacontacto."|".$cliente->telefonocontacto."|".$cliente->id;
-                    $pts.=$fila."$";
-                }
-                $pts = substr($pts, 0, -1);
-            return view('admin.home',compact('clientes','colores','pts'));
+            $colores = array("primary", "success", "info", "warning", "danger", "secondary");
+            $clientes = Cliente::where('status', 1)->orderBy('oficina_id', 'ASC')->get();
+            $pts = "";
+            foreach ($clientes as $cliente) {
+                $fila = $cliente->nombre . "|" . $cliente->latitud . "|" . $cliente->longitud . "|" . $cliente->direccion . "|" . $cliente->personacontacto . "|" . $cliente->telefonocontacto . "|" . $cliente->id;
+                $pts .= $fila . "$";
+            }
+            $pts = substr($pts, 0, -1);
+            return view('admin.home', compact('clientes', 'colores', 'pts'));
         }
     }
-
-
 }

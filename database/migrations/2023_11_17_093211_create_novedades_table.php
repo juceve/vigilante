@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('novedades', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('designacione_id')->constrained();
+            $table->foreignId('designacione_id')->nullable()->constrained()->nullOnDelete();
             $table->date('fecha');
-            $table->string('hora',5);
+            $table->string('hora', 5);
             $table->longText('contenido');
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();

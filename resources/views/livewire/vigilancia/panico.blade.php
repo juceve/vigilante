@@ -1,6 +1,6 @@
 <div>
     @section('title')
-        Panico
+    Panico
     @endsection
     <div class="row mb-3">
         <div class="col-1">
@@ -29,7 +29,7 @@
                     Ubicación</button>
             </div> --}}
             <div class="col-12 d-grid mb-3">
-                <a class="btn btn-primary" href="tel:+59173357673" id="llamar" onclick="llamada()"><i
+                <a class="btn btn-primary" href="tel:+59177011691" id="llamar" onclick="llamada()"><i
                         class="fas fa-phone-square-alt fa-rotate-90 fa-2x"></i><br>Llamar a
                     Central</a>
             </div>
@@ -44,20 +44,20 @@
                     <input class="form-control" type="file" id="files" multiple accept="image/*,audio/*,video/*"
                         wire:model='files'>
                     @foreach ($files as $file)
-                        @error('file')
-                            <span class="error">{{ $message }}</span>
-                        @enderror
+                    @error('file')
+                    <span class="error">{{ $message }}</span>
+                    @enderror
                     @endforeach
                 </div>
                 @if ($files)
-                    <small><i>Vista previa:</i></small>
-                    <div class="row">
-                        @foreach ($files as $file)
-                            <div class="col-4">
-                                <img src="{{ $file->temporaryUrl() }}" class="img-thumbnail">
-                            </div>
-                        @endforeach
+                <small><i>Vista previa:</i></small>
+                <div class="row">
+                    @foreach ($files as $file)
+                    <div class="col-4">
+                        <img src="{{ $file->temporaryUrl() }}" class="img-thumbnail">
                     </div>
+                    @endforeach
+                </div>
                 @endif
             </div>
 
@@ -75,8 +75,8 @@
     </section>
 </div>
 @section('js')
-    <script>
-        const button = document.getElementById('button-call');
+<script>
+    const button = document.getElementById('button-call');
         const buttonEnviar = document.getElementById('enviar');
 
         button.addEventListener('click', () => {
@@ -89,6 +89,7 @@
 
         buttonEnviar.addEventListener('click', () => {
             paso1();
+            // console.log('paso 1 activo');
         });
 
 
@@ -149,11 +150,12 @@
         }
 
         function success2(geoLocationPosition) {
-            // console.log(geoLocationPosition.timestamp);
+            console.log(geoLocationPosition.timestamp);
             let data = [
                 geoLocationPosition.coords.latitude,
                 geoLocationPosition.coords.longitude,
             ];
+            // console.log('registro Panico');
             Livewire.emit('registroPanico', data);
         }
 
@@ -174,6 +176,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     if (navigator.geolocation) {
+                        // console.log('enviando coord');
                         navigator.geolocation.getCurrentPosition(success2);
                     }
                 }
@@ -184,5 +187,5 @@
         document.addEventListener('DOMContentLoaded', () => {
             iniciarContador();
         });
-    </script>
+</script>
 @endsection

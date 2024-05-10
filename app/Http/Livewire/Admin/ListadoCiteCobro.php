@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\Citecobro;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,7 +17,9 @@ class ListadoCiteCobro extends Component
 
     public  $selID = "", $cliente = null, $updCiteId;
 
-    public $c_cite = "", $c_mescobro = "", $c_gestion = "", $c_fecha = "", $c_factura = "", $c_monto = "", $c_representante = "";
+    public $c_cite = "", $c_mescobro = "", $c_gestion = "", $c_fecha = "", $c_factura = "0", $c_monto = "", $c_representante = "";
+
+    public $confactura = false;
 
     public $busqueda = "", $filas = 5, $gestion;
 
@@ -34,6 +37,14 @@ class ListadoCiteCobro extends Component
         return view('livewire.admin.listado-cite-cobro', compact('citecobros', 'clientes'))->extends('adminlte::page');
     }
 
+    public function updatedConfactura()
+    {
+        if ($this->confactura) {
+            $this->c_factura = "";
+        } else {
+            $this->c_factura = "0";
+        }
+    }
 
     public function mount()
     {
@@ -83,7 +94,7 @@ class ListadoCiteCobro extends Component
         $data = [];
         $data[] = 0;
 
-        $datos = '0^0|' . fechaEs($this->c_fecha) . '|' . $this->cliente->nombre . '|' .  $this->c_representante . '|' . $this->c_mescobro . '-' . $this->c_gestion . '|' . $this->c_factura . '|' . $this->c_monto;
+        $datos = '0^0|' . fechaEs($this->c_fecha) . '|' . $this->cliente->nombre . '|' .  $this->c_representante . '|' . $this->c_mescobro . '-' . $this->c_gestion . '|' . $this->c_factura . '|' . $this->c_monto . '|' . $this->confactura;
         // $datos .= $puntos;
         $datos = codGet($datos);
         $this->emit('renderizarpdf', $datos);
@@ -112,6 +123,7 @@ class ListadoCiteCobro extends Component
                 'cliente_id' => $this->cliente->id,
                 'representante' => $this->c_representante,
                 'mescobro' => $this->c_mescobro . '-' . $this->c_gestion,
+                'confactura' => $this->confactura,
                 'factura' => $this->c_factura,
                 'monto' => $this->c_monto,
 
@@ -141,6 +153,7 @@ class ListadoCiteCobro extends Component
         $this->c_mescobro = $datocobro[0];
         $this->c_gestion = $datocobro[1];
         $this->c_fecha = $citecobro->fecha;
+        $this->confactura = $citecobro->confactura;
         $this->c_factura = $citecobro->factura;
         $this->c_monto = $citecobro->monto;
 
@@ -162,6 +175,7 @@ class ListadoCiteCobro extends Component
                 'cliente_id' => $this->cliente->id,
                 'representante' => $this->c_representante,
                 'mescobro' => $this->c_mescobro . '-' . $this->c_gestion,
+                'confactura' => $this->confactura,
                 'factura' => $this->c_factura,
                 'monto' => $this->c_monto,
             ]);

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('imgrondas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('regronda_id')->constrained();
+            $table->foreignId('regronda_id')->nullable()->constrained()->nullOnDelete();
             $table->string('url');
             $table->string('tipo');
             $table->timestamps();

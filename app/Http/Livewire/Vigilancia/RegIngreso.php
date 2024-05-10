@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Vigilancia;
 use App\Models\Designacione;
 use App\Models\Motivo;
 use App\Models\Visita;
+use App\Models\Vwvisita;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -16,12 +17,27 @@ class RegIngreso extends Component
     public $docidentidad, $nombrevisitante, $residente, $nrovivienda, $motivoid, $otros, $observaciones;
     public $photo, $filename;
 
+    public function mount($designacion)
+    {
+        $this->motivo = new Motivo();
+        $this->designacion = Designacione::find($designacion);
+        $this->motivos = Motivo::all()->pluck('nombre', 'id');
+    }
+
+    public function render()
+    {
+        return view('livewire.vigilancia.reg-ingreso')->extends('layouts.app');
+    }
+
     public function buscar()
     {
-        $resultado = Visita::where('docidentidad', $this->docidentidad)->orderBy('id', 'DESC')->first();
+        $resultado = Vwvisita::where([
+            ['docidentidad', $this->docidentidad],
+            ['cliente_id', $this->designacion->turno->cliente_id],
+        ])->orderBy('id', 'DESC')->first();
         if ($resultado) {
             $this->docidentidad = $resultado->docidentidad;
-            $this->nombrevisitante = $resultado->nombre;
+            $this->nombrevisitante = $resultado->visitante;
             $this->residente = $resultado->residente;
             $this->nrovivienda = $resultado->nrovivienda;
         } else {
@@ -37,18 +53,6 @@ class RegIngreso extends Component
         $this->otros = "";
     }
 
-    public function mount($designacion)
-    {
-        $this->motivo = new Motivo();
-        $this->designacion = Designacione::find($designacion);
-        $this->motivos = Motivo::all()->pluck('nombre', 'id');
-    }
-
-    public function render()
-    {
-        return view('livewire.vigilancia.reg-ingreso')->extends('layouts.app');
-    }
-
     protected $rules = [
         "docidentidad" => "required",
         "nombrevisitante" => "required",
@@ -58,8 +62,8 @@ class RegIngreso extends Component
     public function registrar()
     {
         $this->validate();
-        DB::beginTransaction();
 
+        DB::beginTransaction();
         try {
             $visita = Visita::create([
                 "nombre" => $this->nombrevisitante,
@@ -70,6 +74,7 @@ class RegIngreso extends Component
                 "otros" => $this->otros,
                 "observaciones" => $this->observaciones,
                 "designacione_id" => $this->designacion->id,
+                "estado" => true,
             ]);
 
             if ($this->filename) {

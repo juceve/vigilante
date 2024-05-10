@@ -2,34 +2,72 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Cliente;
 use App\Models\Registroguardia;
+use App\Models\Vwpanico;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class Regactividad extends Component
 {
     public $prioridad = "", $fechahora = "", $user = "", $visto = "", $detalle = "", $imagenes = null;
+    public $clientes, $cliente_id = "",  $inicio, $final, $search = "", $visto_id = "";
 
-    public $fechaI = "", $fechaF = "", $actividades = null, $lat = "", $lng = "";
+    public  $lat = "", $lng = "";
 
     public function mount()
     {
-        $this->fechaI = date('Y-m-d');
-        $this->fechaF = date('Y-m-d');
-        $this->buscar();
+        $this->inicio = date('Y-m-d');
+        $this->final = date('Y-m-d');
+        $this->clientes = Cliente::all()->pluck('nombre', 'id');
     }
-
     public function render()
     {
+        $actividades = NULL;
+        $sql = "";
+        if ($this->cliente_id != "") {
 
-        $this->emit('dataTableRender');
-        return view('livewire.admin.regactividad')->extends('adminlte::page');
-    }
+            if ($this->visto_id == "") {
 
-    public function buscar()
-    {
-        $this->actividades = Registroguardia::whereDate('fechahora', '>=', $this->fechaI)
-            ->whereDate('fechahora', '<=', $this->fechaF)
-            ->get();
+                $actividades = Vwpanico::where([
+                    ["fecha", ">=", $this->inicio],
+                    ["fecha", "<=", $this->final],
+                    ["cliente_id", $this->cliente_id],
+                    ['prioridad', 'LIKE', '%' . $this->search . '%']
+                ])->orWhere(
+                    [
+                        ["fecha", ">=", $this->inicio],
+                        ["fecha", "<=", $this->final],
+                        ["cliente_id", $this->cliente_id],
+                        ['detalle', 'LIKE', '%' . $this->search . '%']
+                    ]
+                )
+                    ->orderBy('id', 'ASC')
+                    ->get();
+            } else {
+                $actividades = Vwpanico::where([
+                    ["fecha", ">=", $this->inicio],
+                    ["fecha", "<=", $this->final],
+                    ["cliente_id", $this->cliente_id],
+                    ['prioridad', 'LIKE', '%' . $this->search . '%'],
+                    ["visto", $this->visto_id],
+                ])
+                    ->orWhere([
+                        ["fecha", ">=", $this->inicio],
+                        ["fecha", "<=", $this->final],
+                        ["cliente_id", $this->cliente_id],
+                        ['detalle', 'LIKE', '%' . $this->search . '%'],
+                        ["visto", $this->visto_id],
+                    ])
+                    ->orderBy('id', 'ASC')
+                    ->get();
+            }
+            $parametros = array($this->cliente_id, $this->inicio, $this->final, $this->search);
+            Session::put('param-panico', $parametros);
+        }
+
+        $this->emit('dataTableRenderDes');
+        return view('livewire.admin.regactividad', compact('actividades'))->extends('adminlte::page');
     }
 
     public function cargaMensaje($id)

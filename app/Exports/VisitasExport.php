@@ -35,7 +35,7 @@ class VisitasExport implements FromView, ShouldAutoSize
                 ["cliente_id",  $parametros[0]],
                 ['docidentidad', 'LIKE', '%' . $parametros[4] . '%']
             ])
-                ->orderBy('fechaingreso', 'DESC')
+                ->orderBy('id', 'ASC')
                 ->get();
         } else {
             $resultados = Vwvisita::where([
@@ -59,7 +59,7 @@ class VisitasExport implements FromView, ShouldAutoSize
                     ['docidentidad', 'LIKE', '%' . $parametros[4] . '%'],
                     ["estado", $parametros[1]],
                 ])
-                ->orderBy('fechaingreso', 'DESC')
+                ->orderBy('id', 'ASC')
 
                 ->get();
         }

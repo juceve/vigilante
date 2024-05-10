@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('intervalos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('designacione_id')->constrained();
-            $table->string('hora',5);
+            $table->foreignId('designacione_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('hora', 5);
             $table->timestamps();
         });
     }

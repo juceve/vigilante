@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dialibres', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
-            $table->foreignId('designacione_id')->constrained();
+            $table->foreignId('designacione_id')->nullable()->constrained()->nullOnDelete();
             $table->string('observaciones')->nullable();
             $table->timestamps();
         });

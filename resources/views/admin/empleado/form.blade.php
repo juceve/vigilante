@@ -96,6 +96,15 @@
                     {!! $errors->first('oficina_id', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group{{ $errors->has('cubrerelevos') ? ' has-error' : '' }}">
+                    {!! Form::label('cubrerelevos', 'Cubre Relevos') !!}
+                    {!! Form::select('cubrerelevos',["0"=>"NO","1"=>"SI"],
+                    $empleado->cubrerelevos?$empleado->cubrerelevos:null, ['id' => 'cubrerelevos', 'class' =>
+                    'form-control']) !!}
+                    <small class="text-danger">{{ $errors->first('cubrerelevos') }}</small>
+                </div>
+            </div>
             <div class="col-12 col-md-6 ">
                 <div class="form-group">
                     @can('users.create')

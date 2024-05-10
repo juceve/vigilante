@@ -135,7 +135,7 @@ class VisitaController extends Controller
                 ["cliente_id", ">=", $parametros[0]],
                 ['docidentidad', 'LIKE', '%' . $parametros[4] . '%']
             ])
-                ->orderBy('fechaingreso', 'DESC')
+                ->orderBy('id', 'ASC')
                 ->get();
         } else {
             $resultados = Vwvisita::where([
@@ -159,7 +159,7 @@ class VisitaController extends Controller
                     ['docidentidad', 'LIKE', '%' . $parametros[4] . '%'],
                     ["estado", $parametros[1]],
                 ])
-                ->orderBy('fechaingreso', 'DESC')
+                ->orderBy('id', 'ASC')
 
                 ->get();
         }

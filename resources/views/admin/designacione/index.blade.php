@@ -1,6 +1,9 @@
 @extends('adminlte::page')
+@section('content')
+@livewire('admin.registrosdesignacion')
+@endsection
 
-@section('title')
+{{-- @section('title')
 Designaciones
 @endsection
 @section('content_header')
@@ -31,7 +34,7 @@ Designaciones
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered dataTable">
+                        <table class="table table-bordered dataTable" style="font-size: 13px;">
                             <thead class="table-info">
                                 <tr>
                                     <th>No</th>
@@ -39,8 +42,10 @@ Designaciones
                                     <th>EMPLEADO</th>
                                     <th>CLIENTE</th>
                                     <th>TURNO</th>
-                                    <th>INICIO</th>
-                                    <th>FINAL</th>
+                                    <th style="width: 45px;">INICIO</th>
+                                    <th style="width: 45px;">
+                                        FINAL
+                                    </th>
                                     <th>ESTADO</th>
 
                                     <th></th>
@@ -60,22 +65,23 @@ Designaciones
                                     <td>{{ $designacione->turno->cliente->nombre }}
                                     <td>{{ $designacione->turno->nombre }}</td>
                                     <td>{{ $designacione->fechaInicio }}</td>
-                                    <td>{{ $designacione->fechaFin }}</td>
                                     <td>
-                                        @if ($designacione->fechaFin < date('Y-m-d')) <span
-                                            class="badge badge-pill badge-secondary">Inactivo</span>
-                                            @else
-                                            <span class="badge badge-pill badge-success">Activo</span>
-                                            @endif
+                                        {{ $designacione->fechaFin }}
+
+                                    </td>
+                                    <td class="text-center">
+                                        @if (!$designacione->estado) <span
+                                            class="badge badge-pill badge-warning">Finalizado</span>
+                                        @else
+                                        <span class="badge badge-pill badge-success">Activo</span>
+                                        @endif
                                     </td>
 
                                     <td align="right">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-secondary btn-sm dropdown-toggle"
                                                 data-toggle="dropdown">Opciones</button>
-                                            {{-- <button type="button" class="btn btn-success dropdown-toggle"
-                                                data-toggle="dropdown" aria-expanded="false"> --}}
-                                                <span class="sr-only">Toggle Dropdown</span>
+                                            <span class="sr-only">Toggle Dropdown</span>
                                             </button>
                                             <div class="dropdown-menu" role="menu" style="">
                                                 <form action="{{ route('designaciones.destroy', $designacione->id) }}"
@@ -136,22 +142,6 @@ Designaciones
                                                 </form>
                                             </div>
                                         </div>
-                                        {{-- <form action="{{ route('designaciones.destroy', $designacione->id) }}"
-                                            method="POST" onsubmit="return false" class="delete">
-                                            <a class="btn btn-sm btn-outline-info"
-                                                href="{{ route('designaciones.show', $designacione->id) }}"
-                                                title="Cumplimiento de Rondas">
-                                                <i class="fas fa-street-view"></i>
-                                            </a>
-                                            <a class="btn btn-sm btn-outline-warning"
-                                                href="{{ route('designaciones.edit', $designacione->id) }}"
-                                                title="Editar"><i class="fa fa-fw fa-edit"></i></a>
-
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                title="Eliminar de la DB"><i class="fa fa-fw fa-trash"></i></button>
-                                        </form> --}}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -160,12 +150,8 @@ Designaciones
                     </div>
                 </div>
             </div>
-            {{-- {!! $designaciones->links() !!} --}}
+
         </div>
     </div>
 </div>
-@endsection
-@section('js')
-<script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
-@include('vendor.mensajes')
-@endsection
+@endsection --}}

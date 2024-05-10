@@ -1,9 +1,9 @@
 <div>
     @section('title')
-        Registro de Novedades
+    Registro de Novedades
     @endsection
     @section('content_header')
-        <h4>Registro de Novedades</h4>
+    <h4>Registro de Novedades</h4>
     @endsection
     <section class="content container-fluid">
         <div class="">
@@ -64,9 +64,9 @@
                                 <div class="form-group">
                                     <strong>Estado:</strong>
                                     @if ($designacione->fechaFin >= date('Y-m-d'))
-                                        <span class="badge badge-pill badge-success">Activo</span>
+                                    <span class="badge badge-pill badge-success">Activo</span>
                                     @else
-                                        <span class="badge badge-pill badge-secondary">Inactivo</span>
+                                    <span class="badge badge-pill badge-secondary">Inactivo</span>
                                     @endif
                                 </div>
                             </div>
@@ -106,33 +106,32 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($designacione->novedades as $novedad)
-                                        <tr align="center">
-                                            <td>
-                                                {{ $i++ }}
-                                            </td>
+                                    <tr align="center">
+                                        <td>
+                                            {{ $i++ }}
+                                        </td>
 
-                                            <td>
-                                                {{ $novedad->fecha }}
-                                            </td>
-                                            <td>
-                                                {{ $novedad->hora }}
-                                            </td>
-                                            <td align="left">
-                                                @if (strlen($novedad->contenido) > 30)
-                                                    {{ substr($novedad->contenido, 0, 30) . '...' }}
-                                                @else
-                                                    {{ $novedad->contenido }}
-                                                @endif
-                                            </td>
-                                            <td align="right">
-                                                <button class="btn btn-info btn-sm" data-toggle="modal"
-                                                    data-target="#messageView"
-                                                    wire:click='cargaDatos({{ $novedad->id }})'>
-                                                    <i class="fas fa-eye"></i>
-                                                    Detalles
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        <td>
+                                            {{ $novedad->fecha }}
+                                        </td>
+                                        <td>
+                                            {{ $novedad->hora }}
+                                        </td>
+                                        <td align="left">
+                                            @if (strlen($novedad->contenido) > 30)
+                                            {{ substr($novedad->contenido, 0, 30) . '...' }}
+                                            @else
+                                            {{ $novedad->contenido }}
+                                            @endif
+                                        </td>
+                                        <td align="right">
+                                            <button class="btn btn-info btn-sm" data-toggle="modal"
+                                                data-target="#messageView" wire:click='cargaDatos({{ $novedad->id }})'>
+                                                <i class="fas fa-eye"></i>
+                                                Detalles
+                                            </button>
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
 
@@ -174,33 +173,34 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Detalle</label>
-                                <textarea readonly rows="2" class="form-control bg-white" wire:model='contenido'></textarea>
+                                <textarea readonly rows="2" class="form-control bg-white"
+                                    wire:model='contenido'></textarea>
                             </div>
                         </div>
                     </div>
                     @if ($imagenes)
-                        <label>Capturas: </label>
-                        <div class="row">
-                            @foreach ($imagenes as $item)
-                                <div class="col col-12 col-md-3">
-                                    <a href="#{{ $item->id }}">
-                                        <img src="{{ asset('storage/' . $item->url) }}" style="height: 100px;">
-                                    </a>
-                                    <article class="light-box" id="{{ $item->id }}">
+                    <label>Capturas: </label>
+                    <div class="row">
+                        @foreach ($imagenes as $item)
+                        <div class="col col-12 col-md-3">
+                            <a href="#{{ $item->id }}">
+                                <img src="{{ asset('storage/' . $item->url) }}" style="height: 100px;">
+                            </a>
+                            <article class="light-box" id="{{ $item->id }}">
 
-                                        <img src="{{ asset('storage/' . $item->url) }}" class="img-fluid">
+                                <img src="{{ asset('storage/' . $item->url) }}" class="img-fluid">
 
-                                        <a href="#" class="light-box-close">X</a>
-                                    </article>
-                                </div>
-                            @endforeach
+                                <a href="#" class="light-box-close">X</a>
+                            </article>
                         </div>
+                        @endforeach
+                    </div>
                     @endif
                     <label>Ubicación:</label>
                     <div id="mapa1" style="width: 100%;height: 350px;">
                         @if ($lat && $lng)
-                            <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}"
-                                style="width: 100%; height: 100%" name="ubicacion"></iframe>
+                        <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}" style="width: 100%; height: 100%"
+                            name="ubicacion"></iframe>
                         @endif
 
                     </div>
@@ -217,8 +217,3 @@
         </div>
     </div>
 </div>
-@section('js')
-    <script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
-    @include('vendor.mensajes')
-    <script></script>
-@endsection

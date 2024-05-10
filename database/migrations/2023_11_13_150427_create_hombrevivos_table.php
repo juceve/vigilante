@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('hombrevivos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('intervalo_id')->constrained();
+            $table->foreignId('intervalo_id')->nullable()->constrained()->nullOnDelete();
             $table->date('fecha');
-            $table->string('hora',5);
+            $table->string('hora', 5);
             $table->string('anotaciones')->nullable();
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
-            $table->boolean('status')->default(true);            
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

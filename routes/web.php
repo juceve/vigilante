@@ -41,7 +41,7 @@ use App\Http\Livewire\Admin\Registrostareas;
 use App\Http\Livewire\Admin\Registrosvisita;
 use App\Http\Livewire\Admin\TurnoCliente;
 use App\Http\Livewire\Admin\RegNovedades;
-
+use App\Http\Livewire\Vigilancia\Activacubrerelevos;
 use App\Http\Livewire\Vigilancia\HombreVivo;
 use App\Http\Livewire\Vigilancia\Novedades;
 use App\Http\Livewire\Vigilancia\Panelvisitas;
@@ -49,6 +49,7 @@ use App\Http\Livewire\Vigilancia\Panico;
 use App\Http\Livewire\Vigilancia\RegIngreso;
 use App\Http\Livewire\Vigilancia\RegSalida;
 use App\Http\Livewire\Vigilancia\Ronda;
+use App\Http\Livewire\Vigilancia\Vtareas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -84,12 +85,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('admin/users', [UserController::class, 'index'])->name('users');
     Route::get('vigilancia/panico', Panico::class)->name('vigilancia.panico');
+    Route::get('vigilancia/cubrerelevos', Activacubrerelevos::class)->name('vigilancia.cubrerelevos');
     Route::get('vigilancia/ronda', Ronda::class)->name('vigilancia.ronda');
     Route::get('vigilancia/hombre-vivo/{intervalo}', HombreVivo::class)->name('vigilancia.hombre-vivo');
     Route::get('vigilancia/novedades/{designacion}', Novedades::class)->name('vigilancia.novedades');
     Route::get('vigilancia/panelvisitas/{designacion}', Panelvisitas::class)->name('vigilancia.panelvisitas');
     Route::get('vigilancia/visitas/reg-ingreso/{designacion}', RegIngreso::class)->name('vigilancia.regingreso');
     Route::get('vigilancia/visitas/reg-salida/{designacion}', RegSalida::class)->name('vigilancia.regsalida');
+    Route::get('vigilancia/tareas/{designacion}', Vtareas::class)->name('vigilancia.tareas');
     Route::get('admin/visitas', Registrosvisita::class)->middleware('can:admin.registros.visitas')->name('admin.visitas');
     Route::get('admin/rondas', Registrosronda::class)->middleware('can:admin.registros.rondas')->name('admin.rondas');
     Route::get('admin/novedades', Registrosnovedades::class)->middleware('can:admin.registros.novedades')->name('admin.novedades');

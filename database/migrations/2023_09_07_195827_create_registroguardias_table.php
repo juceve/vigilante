@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('registroguardias', function (Blueprint $table) {
             $table->id();
             $table->dateTime('fechahora');
-            $table->enum('prioridad',['BAJA','NORMAL','ALTA']);
-            $table->foreignId('user_id')->constrained();
+            $table->enum('prioridad', ['BAJA', 'NORMAL', 'ALTA']);
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->longText('detalle')->nullable();
             $table->string('latitud')->nullable();
             $table->string('longitud')->nullable();

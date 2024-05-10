@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Vigilancia;
 
 use App\Models\Designacione;
 use App\Models\Visita;
+use App\Models\Vwvisita;
 use Livewire\Component;
 
 class Panelvisitas extends Component
@@ -13,7 +14,10 @@ class Panelvisitas extends Component
     {
         $this->designacion = Designacione::find($designacion);
         $this->cliente = $this->designacion->turno->cliente;
-        $this->visitas = Visita::whereDate('created_at', date('Y-m-d'))->get();
+        $this->visitas = Vwvisita::where([
+            ['fechaingreso', date('Y-m-d')],
+            ['cliente_id', $this->cliente->id],
+        ])->get();
     }
 
     public function render()

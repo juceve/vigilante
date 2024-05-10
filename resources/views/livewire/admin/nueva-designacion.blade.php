@@ -8,8 +8,16 @@
                         placeholder="Seleccione un Empleado" readonly>
                     <div class="input-group-prepend">
                         <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#modalEmpleados"><i class="fas fa-search"></i> Buscar</button>
+                            data-target="#modalEmpleados"><i class="fas fa-search"></i> Buscar
+                            <div wire:loading>
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+
+                        </button>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -17,7 +25,7 @@
 
 
         </div>
-        @if ($clientes)
+        @if ($empleado)
         <div class="col-12 col-md-6">
             <div class="form-group">
                 <label>Clientes:</label>
@@ -179,7 +187,7 @@
                                         {{-- <td>{{ $item->oficina }}</td> --}}
                                         <td align="right">
                                             <button class="btn btn-sm btn-outline-success"
-                                                wire:click="$set('empleadoid', {{ $item->id }})" data-dismiss="modal">
+                                                onclick="seleccionaEmpleado({{ $item->id }})" data-dismiss="modal">
                                                 <i class="fas fa-check"></i>
                                                 Seleccionar
                                             </button>
@@ -199,6 +207,9 @@
     </div>
 </div>
 @section('js')
-<script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
-@include('vendor.mensajes')
+<script>
+    function seleccionaEmpleado(id){
+        Livewire.emit('seleccionaEmpleado',id);
+    }
+</script>
 @endsection

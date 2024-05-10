@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('fechaliteral');
             $table->string('objeto');
             $table->string('cliente');
-            $table->foreignId('cliente_id')->nullable()->constrained();
+            $table->foreignId('cliente_id')->nullable()->constrained()->nullOnDelete();
             $table->string('representante');
             $table->string('referencia');
             $table->longText('puntos');

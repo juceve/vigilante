@@ -1,9 +1,9 @@
 <div>
     @section('title')
-        Cotizaciones
+    Cotizaciones
     @endsection
     @section('content_header')
-        <h4>Cotizaciones Generados</h4>
+    <h4>Cotizaciones Generados</h4>
     @endsection
 
     <div class="container-fluid">
@@ -18,8 +18,9 @@
                             </span>
 
                             <div class="float-right">
-                                <button class="btn btn-info btn-sm float-right" data-placement="left" data-toggle="modal"
-                                    data-target="#modalMemo" onclick="boton('create')" wire:click='resetAll'>
+                                <button class="btn btn-info btn-sm float-right" data-placement="left"
+                                    data-toggle="modal" data-target="#modalMemo" onclick="boton('create')"
+                                    wire:click='resetAll'>
                                     Nuevo <i class="fas fa-plus"></i>
                                 </button>
                             </div>
@@ -83,37 +84,35 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($citecotizacions as $citecotizacion)
-                                        <tr>
-                                            <td>{{ $citecotizacion->correlativo }}</td>
-                                            <td>{{ $citecotizacion->cite }}</td>
-                                            <td>{{ $citecotizacion->fecha }}</td>
-                                            <td>{{ $citecotizacion->destinatario }}</td>
-                                            <td>
-                                                @if ($citecotizacion->estado)
-                                                    <span class="badge badge-pill badge-success">Activo</span>
-                                                @else
-                                                    <span class="badge badge-pill badge-secondary">Anulado</span>
-                                                @endif
-                                            </td>
+                                    <tr>
+                                        <td>{{ $citecotizacion->correlativo }}</td>
+                                        <td>{{ $citecotizacion->cite }}</td>
+                                        <td>{{ $citecotizacion->fecha }}</td>
+                                        <td>{{ $citecotizacion->destinatario }}</td>
+                                        <td>
+                                            @if ($citecotizacion->estado)
+                                            <span class="badge badge-pill badge-success">Activo</span>
+                                            @else
+                                            <span class="badge badge-pill badge-secondary">Anulado</span>
+                                            @endif
+                                        </td>
 
-                                            <td>
-                                                <a class="btn btn-sm btn-info "
-                                                    href="{{ route('pdf.cotizacion', $citecotizacion->id) }}"
-                                                    title="Reimprimir" target="_blank"><i
-                                                        class="fa fa-fw fa-print"></i></a>
-                                                @if ($citecotizacion->estado)
-                                                    <button class="btn btn-sm btn-warning" title="Editar"
-                                                        wire:click='editar({{ $citecotizacion->id }})'
-                                                        data-placement="left" data-toggle="modal"
-                                                        data-target="#modalMemo" onclick="boton('update')"><i
-                                                            class="fa fa-fw fa-edit"></i></button>
+                                        <td>
+                                            <a class="btn btn-sm btn-info "
+                                                href="{{ route('pdf.cotizacion', $citecotizacion->id) }}"
+                                                title="Reimprimir" target="_blank"><i class="fa fa-fw fa-print"></i></a>
+                                            @if ($citecotizacion->estado)
+                                            <button class="btn btn-sm btn-warning" title="Editar"
+                                                wire:click='editar({{ $citecotizacion->id }})' data-placement="left"
+                                                data-toggle="modal" data-target="#modalMemo"
+                                                onclick="boton('update')"><i class="fa fa-fw fa-edit"></i></button>
 
-                                                    <button class="btn btn-sm btn-danger" title="Anular"
-                                                        onclick="anular({{ $citecotizacion->id }})"><i
-                                                            class="fa fa-fw fa-ban"></i></button>
-                                                @endif
-                                            </td>
-                                        </tr>
+                                            <button class="btn btn-sm btn-danger" title="Anular"
+                                                onclick="anular({{ $citecotizacion->id }})"><i
+                                                    class="fa fa-fw fa-ban"></i></button>
+                                            @endif
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -162,8 +161,8 @@
                 <div class="modal-footer" wire:ignore>
                     <button class="btn btn-primary col-12 col-md-4" wire:click='previa'>Vista Previa <i
                             class="fas fa-eye"></i></button>
-                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar'
-                        class="close" data-dismiss="modal">Registrar
+                    <button class="btn btn-success col-12 col-md-4" id="registrar" wire:click='registrar' class="close"
+                        data-dismiss="modal">Registrar
                         <i class="fas fa-save"></i></button>
                     <button class="btn btn-warning col-12 col-md-4" id="actualizar" wire:click='actualizar'
                         class="close" data-dismiss="modal">Actualizar
@@ -174,17 +173,16 @@
     </div>
 </div>
 @section('js')
-    <script src="{{ asset('vendor/jquery/scripts.js') }}"></script>
-    @include('vendor.mensajes')
 
-    <script>
-        Livewire.on('renderizarpdf', data => {
+
+<script>
+    Livewire.on('renderizarpdf', data => {
             var win = window.open("../pdf/cotizacion/" + data, '_blank');
             win.focus();
         });
-    </script>
-    <script>
-        function boton(tipo) {
+</script>
+<script>
+    function boton(tipo) {
             if (tipo == 'create') {
                 $('#registrar').show();
                 $('#actualizar').hide();
@@ -210,5 +208,5 @@
                 }
             });
         }
-    </script>
+</script>
 @endsection
