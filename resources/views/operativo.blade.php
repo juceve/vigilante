@@ -31,7 +31,8 @@
 </div>
 @else
 @if (yaMarque($designaciones->id))
-@if (yaMarque($designaciones->id) > 1)
+@if (yaMarque($designaciones->id) == 1)
+@dump(yaMarque($designaciones->id))
 <section class="page-section portfolio p-0" id="portfolio">
     <div class="container">
         <!-- Portfolio Grid Items-->
@@ -61,11 +62,11 @@
                         <img class="w-50 py-4 temblor" src="{{ asset('web/assets/img/home/task.png') }}" alt="..." />
 
                         <img src="{{ asset('images/exclamation.png') }}" style="position:absolute;
-                                                top:0px;
-                                                left:0px;
-                                                border:none;
-                                                width: 50px;
-                                                float: right" class="temblor">
+                                                                            top:0px;
+                                                                            left:0px;
+                                                                            border:none;
+                                                                            width: 50px;
+                                                                            float: right" class="temblor">
                         <h6 class="text-primary">TAREAS</h6>
                     </a>
                     @else
@@ -85,11 +86,11 @@
                             alt="..." />
 
                         <img src="{{ asset('images/exclamation.png') }}" style="position:absolute;
-                                                top:0px;
-                                                left:0px;
-                                                border:none;
-                                                width: 50px;
-                                                float: right" class="temblor">
+                                                                            top:0px;
+                                                                            left:0px;
+                                                                            border:none;
+                                                                            width: 50px;
+                                                                            float: right" class="temblor">
                         <h6 class="text-primary">HOMBRE VIVO</h6>
                     </a>
                     @else
@@ -121,6 +122,7 @@
 
         </div>
     </div>
+    @livewire('vigilancia.marca-salida', ['designacione_id' => $designaciones->id])
 </section>
 @else
 <div class="alert alert-warning text-center" role="alert">
@@ -131,11 +133,11 @@
 @livewire('vigilancia.marca-ingreso', ['designacione_id' => $designaciones->id])
 @endif
 <hr>
-@if (yaMarque($designaciones->id))
+{{-- @if (yaMarque($designaciones->id))
 @if (yaMarque($designaciones->id) > 1)
-@livewire('vigilancia.marca-salida', ['designacione_id' => $designaciones->id])
+
 @endif
-@endif
+@endif --}}
 @endif
 @else
 <div class="alert alert-danger text-center" role="alert">

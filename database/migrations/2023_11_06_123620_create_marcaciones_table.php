@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('marcaciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('designacione_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('designacione_id')->constrained();
             $table->date('fecha');
             $table->string('hora');
             $table->string('lat')->nullable();

@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire\Vigilancia;
 
+use App\Models\Asistencia;
 use App\Models\Designacione;
 use App\Models\Marcacione;
 use Livewire\Component;
 
 class MarcaIngreso extends Component
 {
-    public $lat = "", $lng = "", $designacione_id = "", $designacione=null;
+    public $lat = "", $lng = "", $designacione_id = "", $designacione = null;
 
 
     public function render()
@@ -21,16 +22,16 @@ class MarcaIngreso extends Component
 
     public function marcar()
     {
-        $marcado = Marcacione::create([
+        $marcado = Asistencia::create([
             'designacione_id' => $this->designacione_id,
             'fecha' => date('Y-m-d'),
-            'hora' => date('H:i'),
-            'marcacion' => date('Y-m-d H:i:s'),
-            'lat' => $this->lat,
-            'lng' => $this->lng,
+            'ingreso' => date('Y-m-d H:i:s'),
+            // 'marcacion' => date('Y-m-d H:i:s'),
+            'latingreso' => $this->lat,
+            'lngingreso' => $this->lng,
         ]);
-        
-        return redirect()->route('home');        
+
+        return redirect()->route('home');
     }
 
     public function cargaPosicion($data)

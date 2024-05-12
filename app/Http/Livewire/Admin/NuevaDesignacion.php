@@ -34,7 +34,7 @@ class NuevaDesignacion extends Component
 
     public function seleccionaEmpleado($id)
     {
-
+        $this->empleadoid = $id;
         $this->empleado = Empleado::find($id);
         $this->nombres = $this->empleado->nombres . " " . $this->empleado->apellidos;
     }
@@ -101,6 +101,7 @@ class NuevaDesignacion extends Component
             DB::commit();
             redirect()->route('designaciones.index')->with('success', 'Designación registrada correctamente.');
         } catch (\Throwable $th) {
+            // $this->emit('error', $th->getMessage());
             $this->emit('error', 'Ha ocurrido un error');
             DB::rollBack();
         }

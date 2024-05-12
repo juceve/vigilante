@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire\Vigilancia\HombreVivo;
+use App\Models\Asistencia;
 use App\Models\Citecobro;
 use App\Models\Citecotizacion;
 use App\Models\Citeinforme;
@@ -170,19 +171,62 @@ function esDiaLibre2($designacione_id, $fecha)
 
 function yaMarque($designacione_id)
 {
-    $marcacion = Marcacione::where([
-        ['designacione_id', $designacione_id],
-        ['fecha', date('Y-m-d')],
-    ])->get();
+    $designacione = Designacione::find($designacione_id);
+    $hoy = date('Y-m-d');
+    $horaingreso = new DateTime($hoy . " " . $designacione->turno->horainicio);
+    $horaingreso = $horaingreso->modify('-1 hours');
+    $horaactual = date('H:i');
 
-    if ($marcacion->count() > 0) {
-        if ($marcacion->count() == 2) {
-            return 1;
+    if ($designacione->turno->horainicio < $designacione->turno->horafin) {
+        // DIURNO
+
+        $marcacion = Asistencia::where([
+            ['designacione_id', $designacione_id],
+            ['fecha', $hoy],
+        ])->first();
+        // dd($marcacion);
+        if ($marcacion) {
+            if ($marcacion->ingreso && $marcacion->salida) {
+                return 2;
+            } else {
+                return 1;
+            }
         } else {
-            return 2;
+            if ($horaactual >= $horaingreso) {
+                return 0;
+            } else {
+                return 2;
+            }
         }
     } else {
-        return 0;
+        // NOCTURNO
+        $ayer = new DateTime($hoy);
+        $ayer = $ayer->modify('-1 days');
+        $ayer = $ayer->format('Y-m-d');
+
+        $marcacion = [];
+        if ($horaactual > $horaingreso->format('H:i')) {
+            $marcacion = Asistencia::where('designacione_id', $designacione_id)
+                ->where('fecha', $hoy)
+                ->first();
+        } else {
+            $marcacion = Asistencia::where('designacione_id', $designacione_id)
+                ->where('fecha', $ayer)
+                ->first();
+        }
+        if ($marcacion) {
+            if ($marcacion->ingreso && $marcacion->salida) {
+                return 2;
+            } else {
+                return 1; //MARCO INGRESO
+            }
+        } else {
+            if ($horaactual >= $horaingreso) {
+                return 0; //NO MARCO INGRESO
+            } else {
+                return 2; //MARCO INGRESO Y SALIDA
+            }
+        }
     }
 }
 

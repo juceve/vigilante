@@ -103,15 +103,15 @@
                         <div class="form-group">
                             <label>Nombre:</label>
                             <input type="text" class="form-control" placeholder="Nombre de Turno" required
-                                wire:model.defer='enombre'>
+                                wire:model.defer='nombre'>
                         </div>
                         <div class="form-group">
                             <label>Hora Inicio:</label>
-                            <input type="time" class="form-control" required wire:model.defer='ehorainicio'>
+                            <input type="time" class="form-control" required wire:model.defer='horainicio'>
                         </div>
                         <div class="form-group">
                             <label>Hora Fin:</label>
-                            <input type="time" class="form-control" required wire:model.defer='ehorafin'>
+                            <input type="time" class="form-control" required wire:model.defer='horafin'>
                         </div>
                     </div>
                     <div class="modal-footer">
