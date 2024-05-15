@@ -175,16 +175,16 @@ function yaMarque($designacione_id)
     $hoy = date('Y-m-d');
     $horaingreso = new DateTime($hoy . " " . $designacione->turno->horainicio);
     $horaingreso = $horaingreso->modify('-1 hours');
+    $horaingreso = $horaingreso->format('H:i');
     $horaactual = date('H:i');
 
     if ($designacione->turno->horainicio < $designacione->turno->horafin) {
         // DIURNO
-
         $marcacion = Asistencia::where([
             ['designacione_id', $designacione_id],
             ['fecha', $hoy],
         ])->first();
-        // dd($marcacion);
+
         if ($marcacion) {
             if ($marcacion->ingreso && $marcacion->salida) {
                 return 2;
@@ -205,7 +205,7 @@ function yaMarque($designacione_id)
         $ayer = $ayer->format('Y-m-d');
 
         $marcacion = [];
-        if ($horaactual > $horaingreso->format('H:i')) {
+        if ($horaactual > $horaingreso) {
             $marcacion = Asistencia::where('designacione_id', $designacione_id)
                 ->where('fecha', $hoy)
                 ->first();

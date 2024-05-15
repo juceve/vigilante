@@ -77,7 +77,7 @@
 
                 @endif
 
-                <div class="table-responsive">
+                <div class="">
                     <table class="table table-bordered table-striped dataTableLiv" style="vertical-align: middle">
                         <thead>
                             <tr class="table-info">

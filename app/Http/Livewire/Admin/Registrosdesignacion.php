@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class Registrosdesignacion extends Component
 {
-    public $clientes, $cliente_id = "", $estado = "", $inicio, $final, $search = "";
+    public $clientes, $cliente_id = "", $estado = "1", $inicio, $final, $search = "";
 
     public function mount()
     {

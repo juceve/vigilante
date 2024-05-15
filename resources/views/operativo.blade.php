@@ -32,7 +32,7 @@
 @else
 @if (yaMarque($designaciones->id))
 @if (yaMarque($designaciones->id) == 1)
-@dump(yaMarque($designaciones->id))
+{{-- @dump(yaMarque($designaciones->id)) --}}
 <section class="page-section portfolio p-0" id="portfolio">
     <div class="container">
         <!-- Portfolio Grid Items-->
