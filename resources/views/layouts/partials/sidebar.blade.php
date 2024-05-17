@@ -49,7 +49,7 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        CITES
+        DOCUMENTOS VINCULADOS
     </div>
     <li class="nav-item">
         <a class="nav-link" href="{{route('customer.informes')}}">

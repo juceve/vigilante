@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asistencia;
+use App\Models\Cliente;
+use App\Models\Vwasistencia;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class AsistenciaController
@@ -105,5 +109,57 @@ class AsistenciaController extends Controller
 
         return redirect()->route('asistencias.index')
             ->with('success', 'Asistencia deleted successfully');
+    }
+
+    public function pdfAsistencia()
+    {
+        $parametros = Session::get('param-asistencias');
+        $cliente = Cliente::find($parametros[0]);
+        $resultados = "";
+
+        if ($parametros[4] == "") {
+            $resultados = Vwasistencia::where([
+                ["fecha", ">=", $parametros[1]],
+                ["fecha", "<=", $parametros[2]],
+                ["cliente_id", $parametros[0]],
+                ['empleado', 'LIKE', '%' . $parametros[3] . '%']
+            ])->orWhere(
+                [
+                    ["fecha", ">=", $parametros[1]],
+                    ["fecha", "<=", $parametros[2]],
+                    ["cliente_id", $parametros[0]],
+                    ['turno', 'LIKE', '%' . $parametros[3] . '%']
+                ]
+            )
+                ->orderBy('empleado_id', 'ASC')
+                ->orderBy('fecha', 'ASC')
+                ->get();
+        } else {
+            $resultados = Vwasistencia::where([
+                ["fecha", ">=", $parametros[1]],
+                ["fecha", "<=", $parametros[2]],
+                ["cliente_id", $parametros[0]],
+                ['empleado_id', $parametros[4]]
+            ])->orWhere(
+                [
+                    ["fecha", ">=", $parametros[1]],
+                    ["fecha", "<=", $parametros[2]],
+                    ["cliente_id", $parametros[0]],
+                    ['turno', 'LIKE', '%' . $parametros[3] . '%'],
+                    ['empleado_id', $parametros[4]]
+                ]
+            )
+                ->orderBy('empleado_id', 'ASC')
+                ->orderBy('fecha', 'ASC')
+                ->get();
+        }
+
+        $i = 1;
+        // return view('pdfs.pdfrondas', compact('resultados', 'parametros', 'cliente', 'i'));
+
+        $pdf = Pdf::loadView('pdfs.pdfasistencias', compact('resultados', 'parametros', 'cliente', 'i'))
+            ->setPaper('letter', 'portrait');
+
+        return $pdf->stream();
     }
 }

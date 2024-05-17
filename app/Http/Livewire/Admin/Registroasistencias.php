@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Exports\AsistenciasExport;
 use App\Models\Asistencia;
 use App\Models\Cliente;
 use App\Models\Vwasistencia;
@@ -33,7 +34,7 @@ class Registroasistencias extends Component
         $empleados = [];
         $sql = "";
         if ($this->cliente_id != "") {
-            $empleados = DB::select("SELECT DISTINCT(empleado_id) id,empleado nombre FROM vwasistencias");
+            $empleados = DB::select("SELECT DISTINCT(empleado_id) id,empleado nombre FROM vwasistencias WHERE cliente_id=" . $this->cliente_id);
             if ($this->auxcliente != $this->cliente_id) {
                 $this->auxcliente = $this->cliente_id;
                 $this->empleado_id = "";
@@ -53,7 +54,8 @@ class Registroasistencias extends Component
                         ['turno', 'LIKE', '%' . $this->search . '%']
                     ]
                 )
-                    ->orderBy('fecha', 'DESC')
+                    ->orderBy('empleado_id', 'ASC')
+                    ->orderBy('fecha', 'ASC')
                     ->paginate(10);
                 $this->empleado_id = "";
             } else {
@@ -71,10 +73,13 @@ class Registroasistencias extends Component
                         ['empleado_id', $this->empleado_id]
                     ]
                 )
-                    ->orderBy('fecha', 'DESC')
+                    ->orderBy('empleado_id', 'ASC')
+                    ->orderBy('fecha', 'ASC')
                     ->paginate(10);
             }
         }
+        $parametros = array($this->cliente_id, $this->inicio, $this->final, $this->search, $this->empleado_id);
+        Session::put('param-asistencias', $parametros);
 
         return view('livewire.admin.registroasistencias', compact('resultados', 'empleados'))->extends('adminlte::page');
     }
@@ -86,8 +91,8 @@ class Registroasistencias extends Component
 
     public function exporExcel()
     {
-        // $cliente = Cliente::find($this->cliente_id);
-        // return Excel::download(new NovedadesExport(), 'Novedades_' . $cliente->nombre . '_' . date('His') . '.xlsx');
+        $cliente = Cliente::find($this->cliente_id);
+        return Excel::download(new AsistenciasExport(), 'Asistencias_' . $cliente->nombre . '_' . date('His') . '.xlsx');
     }
 
     public function updatedCliente_id()

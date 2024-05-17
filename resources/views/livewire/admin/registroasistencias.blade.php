@@ -64,13 +64,13 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-2 mb-3">
-                            {{-- <button class="btn btn-success btn-block" wire:click='exporExcel'><i
+                            <button class="btn btn-success btn-block" wire:click='exporExcel'><i
                                     class="fas fa-file-excel"></i>
-                                Exportar</button> --}}
+                                Exportar</button>
                         </div>
                         <div class="col-12 col-md-2 mb-3">
-                            {{-- <a href="{{route('pdf.novedades')}}" class="btn btn-danger btn-block"
-                                target="_blank"><i class="fas fa-file-pdf"></i> Exportar</a> --}}
+                            <a href="{{route('pdf.asistencias')}}" class="btn btn-danger btn-block" target="_blank"><i
+                                    class="fas fa-file-pdf"></i> Exportar</a>
                         </div>
                     </div>
 
@@ -125,13 +125,13 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="d-flex justify-content-end">
+                    @if (!is_null($resultados))
+                    {{ $resultados->links() }}
+                    @endif
+                </div>
             </div>
-            <div class="d-flex justify-content-end">
-                @if (!is_null($resultados))
-                {{ $resultados->links() }}
-                @endif
 
-            </div>
         </div>
     </div>
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\CitecobroController;
 use App\Http\Controllers\CitecotizacionController;
 use App\Http\Controllers\CiteinformeController;
@@ -142,6 +143,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pdf/rondas/', [RegrondaController::class, 'pdfRondas'])->name('pdf.rondas');
     Route::get('pdf/novedades/', [NovedadeController::class, 'pdfNovedades'])->name('pdf.novedades');
     Route::get('pdf/tareas/', [TareaController::class, 'pdfTareas'])->name('pdf.tareas');
+    Route::get('pdf/asistencias/', [AsistenciaController::class, 'pdfAsistencia'])->name('pdf.asistencias');
 
 
     Route::get('pdf/informe/{data}', [CiteinformeController::class, 'previsualizacion'])->name('pdf.informe');
@@ -158,6 +160,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('pdf/cotizacion/{data}', [CitecotizacionController::class, 'previsualizacion'])->name('pdf.cotizacion');
     Route::get('admin/citescotizacion', ListadoCiteCotizacion::class)->middleware('can:admin.generador.cotizacion')->name('admin.citescotizacion');
+
 
     Route::get('/pruebas', [PruebasController::class, 'index'])->name('pruebas');
     Route::get('pruebas/pdf', [PruebasController::class, 'generarPDF'])->name('generarpdf');
