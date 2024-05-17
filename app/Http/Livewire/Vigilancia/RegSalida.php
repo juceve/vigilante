@@ -21,10 +21,10 @@ class RegSalida extends Component
 
     public function updatedSearch()
     {
-        $this->visitas = Visita::where([
+        $this->visitas = Vwvisita::where([
             ['estado', 1],
             ['cliente_id', $this->designacion->turno->cliente->id],
-            ['nombre', 'LIKE', '%' . $this->search . '%'],
+            ['visitante', 'LIKE', '%' . $this->search . '%'],
         ])
             ->orWhere([
                 ['estado', 1],

@@ -23,13 +23,15 @@
     @yield('css')
 
     @livewireStyles
-
+    @yield('recaptcha')
 </head>
 
 <body id="page-top">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
+
+
             <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('images/blackbird1.png') }}"
                     alt="logo" width="50" height="54"> {{ strtoupper(config('app.name')) }}</a>
             @auth

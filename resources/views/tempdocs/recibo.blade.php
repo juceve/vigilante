@@ -15,8 +15,11 @@ if ($datos1[0] != 0) {
     $cite_id = $datos1[0];
     $citecobro = traeCiteRecibo($cite_id);
 
-    $datos = [$citecobro['cite'], $citecobro['fechaliteral'], $citecobro['cliente'], $citecobro['mescobro'], $citecobro['monto']];
-    $mescobro = explode('-', $datos[3]);
+    if ($citecobro) {
+        $datos = [$citecobro['cite'], $citecobro['fechaliteral'], $citecobro['cliente'], $citecobro['mescobro'], $citecobro['monto']];
+        $mescobro = explode('-', $datos[3]);
+    }
+    
     // $mescobro = $mescobro[1] . '-' . $mescobro[0] . '-01';
     // $mescobro = ultDiaMes($mescobro);
 } else {
@@ -35,7 +38,7 @@ if ($datos1[0] != 0) {
     <title>Cobro</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/bs3/bootstrap.min.css') }}">
-
+    @if (count($datos))
     <style>
         body {
             background-size: initial;
@@ -51,10 +54,11 @@ if ($datos1[0] != 0) {
             z-index: -1;
         }
     </style>
-
+    @endif
 </head>
 
 <body>
+    @if (count($datos))
     <div class="contenido">
         <div class="row" style="width: 100%;margin-right: 3rem">
             <div class="col-xs-5 text-center">
@@ -123,6 +127,7 @@ if ($datos1[0] != 0) {
             </strong>
         </p>
     </div>
+    @endif
 
     <script src="{{ asset('vendor/bs3/bootstrap.min.js') }}"></script>
 </body>

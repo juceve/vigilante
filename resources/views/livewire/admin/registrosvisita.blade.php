@@ -189,7 +189,7 @@
                                     </tr>
                                     <tr>
                                         <td><strong>SALIDA:</strong></td>
-                                        <td>{{$visita->fechaSALIMOTIVO." ".$visita->horaSALIMOTIVO}}</td>
+                                        <td>{{$visita->fechasalida." ".$visita->horasalida}}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>MOTIVO:</strong></td>

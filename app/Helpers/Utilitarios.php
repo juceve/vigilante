@@ -16,6 +16,8 @@ use App\Models\Intervalo;
 use App\Models\Marcacione;
 use App\Models\Regronda;
 use App\Models\Tarea;
+use App\Models\Usercliente;
+use Illuminate\Support\Facades\Auth;
 
 function tablaRondas($designacione_id)
 {
@@ -360,8 +362,16 @@ function ultDiaMes($fecha)
 function traeCiteInforme($cite_id)
 {
     $citeinforme = Citeinforme::find($cite_id);
-
-    return $citeinforme->toArray();
+    if (Auth::user()->template == "CLIENTE") {
+        $usuariocliente = Usercliente::where('user_id', Auth::user()->id)->first();
+        if ($citeinforme->cliente_id == $usuariocliente->cliente_id) {
+            return $citeinforme->toArray();
+        } else {
+            return "";
+        }
+    } else {
+        return $citeinforme->toArray();
+    }
 }
 function traecitememo($cite_id)
 {
@@ -373,14 +383,30 @@ function traecitememo($cite_id)
 function traeCitecobro($cobro_id)
 {
     $citecobro = Citecobro::find($cobro_id);
-
-    return $citecobro->toArray();
+    if (Auth::user()->template == "CLIENTE") {
+        $usuariocliente = Usercliente::where('user_id', Auth::user()->id)->first();
+        if ($citecobro->cliente_id == $usuariocliente->cliente_id) {
+            return $citecobro->toArray();
+        } else {
+            return "";
+        }
+    } else {
+        return $citecobro->toArray();
+    }
 }
 function traeCiterecibo($recibo_id)
 {
     $citerecibo = Citerecibo::find($recibo_id);
-
-    return $citerecibo->toArray();
+    if (Auth::user()->template == "CLIENTE") {
+        $usuariocliente = Usercliente::where('user_id', Auth::user()->id)->first();
+        if ($citerecibo->cliente_id == $usuariocliente->cliente_id) {
+            return $citerecibo->toArray();
+        } else {
+            return "";
+        }
+    } else {
+        return $citerecibo->toArray();
+    }
 }
 function traeCitecotizacion($cotizacion_id)
 {

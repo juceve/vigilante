@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\Designacione;
 use App\Models\Marcacione;
+use App\Models\Usercliente;
+use App\Models\Vwdesignacione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -52,6 +54,20 @@ class HomeController extends Controller
             }
             $pts = substr($pts, 0, -1);
             return view('admin.home', compact('clientes', 'colores', 'pts'));
+        }
+
+        if (Auth::user()->template == "CLIENTE") {
+            $usuariocliente = Usercliente::where('user_id', Auth::user()->id)->first();
+            $cliente = $usuariocliente->cliente;
+            $hoy = date('Y-m-d');
+            $designaciones = Vwdesignacione::where([
+                ['cliente_id', $cliente->id],
+                ['fechaInicio', '<=', $hoy],
+                ['fechaFin', '>=', $hoy],
+                ['estado', true],
+            ])->get();
+
+            return view('customer.home', compact('cliente', 'designaciones'));
         }
     }
 }

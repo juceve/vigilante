@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 @php
-    $data = decodGet($data);
-    $myArray = explode('^', $data);
+$data = decodGet($data);
+$myArray = explode('^', $data);
 
-    $datos1 = explode('|', $myArray[0]);
-    $citeinforme;
-    $datos = [];
-    if ($datos1[0] != 0) {
-        $cite_id = $datos1[0];
-        $citeinforme = traeCiteInforme($cite_id);
-        $datos = [$citeinforme['cite'], $citeinforme['objeto'], $citeinforme['fechaliteral'], $citeinforme['cliente'], $citeinforme['representante'], $citeinforme['referencia']];
-
-        $puntos = explode('|', $citeinforme['puntos']);
-    } else {
-        $datos = $datos1;
-        $puntos = explode('|', $myArray[1]);
-    }
+$datos1 = explode('|', $myArray[0]);
+$citeinforme;
+$datos = [];
+if ($datos1[0] != 0) {
+$cite_id = $datos1[0];
+$citeinforme = traeCiteInforme($cite_id);
+if($citeinforme){
+$datos = [$citeinforme['cite'], $citeinforme['objeto'], $citeinforme['fechaliteral'], $citeinforme['cliente'],
+$citeinforme['representante'], $citeinforme['referencia']];
+$puntos = explode('|', $citeinforme['puntos']);
+}
+} else {
+$datos = $datos1;
+$puntos = explode('|', $myArray[1]);
+}
 @endphp
 
 <head>
@@ -27,6 +29,7 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/bs3/bootstrap.min.css') }}">
 
+    @if (count($datos))
     <style>
         body {
             background-size: initial;
@@ -44,10 +47,12 @@
             z-index: -1;
         }
     </style>
+    @endif
 
 </head>
 
 <body>
+    @if (count($datos))
     <div class="contenido">
 
         <div class="row" style="width: 100%;margin-right: 3rem">
@@ -101,9 +106,9 @@
         </p>
 
         @foreach ($puntos as $punto)
-            <p style="margin-left: 6rem;margin-right: 3rem;text-align: justify; margin-bottom: 2rem">
-                &#8226; {{ $punto }}
-            </p>
+        <p style="margin-left: 6rem;margin-right: 3rem;text-align: justify; margin-bottom: 2rem">
+            &#8226; {{ $punto }}
+        </p>
         @endforeach
 
 
@@ -123,6 +128,7 @@
             LCM/ir.
         </p>
     </div>
+    @endif
 
     <script src="{{ asset('vendor/bs3/bootstrap.min.js') }}"></script>
 </body>

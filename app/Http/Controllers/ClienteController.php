@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\Oficina;
 use App\Models\Tipodocumento;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -55,6 +56,14 @@ class ClienteController extends Controller
         request()->validate(Cliente::$rules);
 
         $cliente = Cliente::create($request->all());
+
+        $usuario = User::create([
+            "name" => $request->nombre,
+            "email" => $request->email,
+            "password" => bcrypt($request->nrodocumento),
+            "template" => 'CLIENTE',
+            "status" => true
+        ]);
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente creado correctamente.');

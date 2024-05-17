@@ -14,6 +14,7 @@ class CitereciboController extends Controller
 {
     public function previsualizacion($data = NULL)
     {
+
         $pdf = Pdf::loadView('tempdocs.recibo', compact('data'))
             ->setPaper('letter', 'portrait');
 

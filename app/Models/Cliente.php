@@ -7,24 +7,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cliente extends Model
 {
-    
+
     static $rules = [
-		'nombre' => 'required',
-		'nrodocumento' => 'required',
-		'direccion' => 'required',
-		'uv' => 'required',
-		'manzano' => 'required',
-		'latitud' => 'required',
-		'longitud' => 'required',
-		'personacontacto' => 'required',
-		'telefonocontacto' => 'required',
-		'oficina_id' => 'required',
+        'nombre' => 'required',
+        'nrodocumento' => 'required',
+        'direccion' => 'required',
+        'uv' => 'required',
+        'manzano' => 'required',
+        'latitud' => 'required',
+        'longitud' => 'required',
+        'personacontacto' => 'required',
+        'telefonocontacto' => 'required',
+        'oficina_id' => 'required',
         'status' => 'required',
     ];
 
     protected $perPage = 20;
 
-    protected $fillable = ['nombre','tipodocumento_id','nrodocumento','direccion','uv','manzano','latitud','longitud','personacontacto','telefonocontacto','oficina_id','observaciones','status'];
+    protected $fillable = ['nombre', 'tipodocumento_id', 'nrodocumento', 'direccion', 'uv', 'manzano', 'latitud', 'longitud', 'personacontacto', 'telefonocontacto', 'oficina_id', 'observaciones', 'status'];
 
     public function oficina()
     {
@@ -34,7 +34,8 @@ class Cliente extends Model
     public function tipodocumento()
     {
         return $this->hasOne('App\Models\Tipodocumento', 'id', 'tipodocumento_id');
-    }    
+    }
+
 
     public function turnos(): HasMany
     {

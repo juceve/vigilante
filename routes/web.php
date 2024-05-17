@@ -18,6 +18,7 @@ use App\Http\Controllers\RegrondaController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UbicacionController;
+use App\Http\Controllers\UserclienteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitaController;
 use App\Http\Controllers\WordToPDFController;
@@ -34,6 +35,7 @@ use App\Http\Livewire\Admin\Nuevoptctrl;
 use App\Http\Livewire\Admin\partials\PtCobro;
 use App\Http\Livewire\Admin\PuntosControl;
 use App\Http\Livewire\Admin\Regactividad;
+use App\Http\Livewire\Admin\Registroasistencias;
 use App\Http\Livewire\Admin\Registroshv;
 use App\Http\Livewire\Admin\Registrosnovedades;
 use App\Http\Livewire\Admin\Registrosronda;
@@ -41,6 +43,13 @@ use App\Http\Livewire\Admin\Registrostareas;
 use App\Http\Livewire\Admin\Registrosvisita;
 use App\Http\Livewire\Admin\TurnoCliente;
 use App\Http\Livewire\Admin\RegNovedades;
+use App\Http\Livewire\Admin\Usuariocliente;
+use App\Http\Livewire\Customer\Cobros;
+use App\Http\Livewire\Customer\Informes;
+use App\Http\Livewire\Customer\Novedades as CustomerNovedades;
+use App\Http\Livewire\Customer\Recibos;
+use App\Http\Livewire\Customer\Rondas;
+use App\Http\Livewire\Customer\Visitas;
 use App\Http\Livewire\Vigilancia\Activacubrerelevos;
 use App\Http\Livewire\Vigilancia\HombreVivo;
 use App\Http\Livewire\Vigilancia\Novedades;
@@ -50,6 +59,7 @@ use App\Http\Livewire\Vigilancia\RegIngreso;
 use App\Http\Livewire\Vigilancia\RegSalida;
 use App\Http\Livewire\Vigilancia\Ronda;
 use App\Http\Livewire\Vigilancia\Vtareas;
+use App\Models\Empleado;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -96,6 +106,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/visitas', Registrosvisita::class)->middleware('can:admin.registros.visitas')->name('admin.visitas');
     Route::get('admin/rondas', Registrosronda::class)->middleware('can:admin.registros.rondas')->name('admin.rondas');
     Route::get('admin/novedades', Registrosnovedades::class)->middleware('can:admin.registros.novedades')->name('admin.novedades');
+    Route::get('admin/asistencias', Registroasistencias::class)->name('admin.asistencias');
 
 
     Route::get('admin/registro-actividad', Regactividad::class)->middleware('can:admin.registros.panico')->name('admin.regactividad');
@@ -150,4 +161,19 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/pruebas', [PruebasController::class, 'index'])->name('pruebas');
     Route::get('pruebas/pdf', [PruebasController::class, 'generarPDF'])->name('generarpdf');
+
+    ////////////////// AREA DE CLIENTES ///////////////////////
+    Route::get('admin/usuariocliente/{cliente_id}', Usuariocliente::class)->name('usuariocliente');
+
+    Route::get('customers/personal/{empleado_id}', function ($empleado_id) {
+        $empleado = Empleado::find($empleado_id);
+        return view('customer.perfilguardia', compact('empleado'));
+    })->name('customer.perfilguardia');
+
+    Route::get('customer/visitas', Visitas::class)->name('customer.visitas');
+    Route::get('customer/novedades', CustomerNovedades::class)->name('customer.novedades');
+    Route::get('customer/rondas', Rondas::class)->name('customer.rondas');
+    Route::get('customer/informes', Informes::class)->name('customer.informes');
+    Route::get('customer/cobros', Cobros::class)->name('customer.cobros');
+    Route::get('customer/recibos', Recibos::class)->name('customer.recibos');
 });

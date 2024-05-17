@@ -304,10 +304,18 @@ return [
             'icon'  =>  'fas fa-user-clock',
             'can'   =>  'designaciones.index',
         ],
+
+
         [
             'text'    => 'Registros',
             'icon'    => 'fas fa-fw fa-folder-open',
             'submenu' => [
+                [
+                    'text'  =>  'Asistencias',
+                    'route' =>  'admin.asistencias',
+                    'icon'  =>  'fas fa-user-clock',
+                    // 'can'   =>  'designaciones.index',
+                ],
                 [
                     'text'  =>  'Pánico',
                     'route' =>  'admin.regactividad',
@@ -338,6 +346,7 @@ return [
                     'can'   =>  'tareas.index',
                     'icon'  =>  'fas fa-fw fa-tasks'
                 ],
+
             ],
         ],
         [
