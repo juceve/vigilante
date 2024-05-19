@@ -129,7 +129,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header table-secondary">
-                    <h5 class="modal-title" id="modalMemoLabel">DETALLE MEMORANDUM</h5>
+                    <h5 class="modal-title" id="modalMemoLabel">DETALLE COTIZACIÓN</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

@@ -50,7 +50,6 @@ class Registrosronda extends Component
                 ->orderBy('fecha', 'DESC')
                 ->paginate(10);
 
-
             $parametros = array($this->cliente_id, $this->inicio, $this->final, $this->search);
             Session::put('param-ronda', $parametros);
         }

@@ -6,6 +6,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\Citerecibo;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -78,9 +79,11 @@ class ListadoCiteRecibo extends Component
         $data[] = 0;
 
         $datos = '0^0|' . fechaEs($this->fecha) . '|' . $this->cliente->nombre .  '|' . $this->mescobro . '-' . $this->gestioncobro . '|' . $this->monto;
-        // $datos .= $puntos;
+
         $datos = codGet($datos);
-        $this->emit('renderizarpdf', $datos);
+        Session::put('data-citerecibo', $datos);
+
+        $this->emit('renderizarpdf');
     }
 
     public function registrar()

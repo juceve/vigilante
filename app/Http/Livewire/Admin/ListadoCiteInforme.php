@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\Citeinforme;
 use App\Models\Cliente;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -87,7 +88,8 @@ class ListadoCiteInforme extends Component
         $datos = '0|' . $this->i_objeto . '|' . fechaEs($this->i_fecha) . '|' . $this->cliente->nombre . '|' . $this->i_representante . '|' . $this->i_referencia . '^';
         $datos .= $puntos;
         $datos = codGet($datos);
-        $this->emit('renderizarpdf', $datos);
+        Session::put('data-citeinforme', $datos);
+        $this->emit('renderizarpdf');
     }
 
     public function resetAll()

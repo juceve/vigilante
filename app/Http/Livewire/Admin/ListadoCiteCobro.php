@@ -95,9 +95,11 @@ class ListadoCiteCobro extends Component
         $data[] = 0;
 
         $datos = '0^0|' . fechaEs($this->c_fecha) . '|' . $this->cliente->nombre . '|' .  $this->c_representante . '|' . $this->c_mescobro . '-' . $this->c_gestion . '|' . $this->c_factura . '|' . $this->c_monto . '|' . $this->confactura;
-        // $datos .= $puntos;
+
         $datos = codGet($datos);
-        $this->emit('renderizarpdf', $datos);
+        Session::put('data-citecobro', $datos);
+
+        $this->emit('renderizarpdf');
     }
 
     public function registrar()

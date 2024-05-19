@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
 @php
-    $data = decodGet($data);
-    $myArray = explode('^', $data);
+$data = decodGet($data);
+$myArray = explode('^', $data);
 
-    $datos1 = explode('|', $myArray[0]);
-    $citememo;
-    $datos = [];
-    if ($datos1[0] != 0) {
-        $cite_id = $datos1[0];
-        $citememo = traecitememo($cite_id);
-        $datos = [$citememo['cite'], $citememo['empleado'], $citememo['fechaliteral'], $citememo['cuerpo']];
-    } else {
-        $datos = $datos1;
-        $puntos = explode('|', $myArray[0]);
-    }
+$datos1 = explode('|', $myArray[0]);
+$citememo;
+$datos = [];
+if ($datos1[0] != 0) {
+$cite_id = $datos1[0];
+$citememo = traecitememo($cite_id);
+$datos = [$citememo['cite'], $citememo['empleado'], $citememo['fechaliteral'], $citememo['cuerpo']];
+} else {
+$datos = $datos1;
+$puntos = explode('|', $myArray[0]);
+}
 
 @endphp
 
@@ -76,7 +76,7 @@
 
                     <br><br>
                     <br> <br>
-                    Santa Cruz, {{ $datos[2] }} <br>
+                    Santa Cruz, {{ $datos[2] }} <br><br>
 
 
                 </div>
@@ -86,8 +86,14 @@
                 <div style="margin-left: 2rem;margin-bottom: 2rem;">
 
                     CITE: {{ $datos[0] }} <br><br>
+                    @php
+                    $cadena =$datos[1];
+                    @endphp
+
                     Al Señor(a): {{ $datos[1] }} <br> <br>
-                    Presente.- <br>
+
+                    Presente.- <br>@if (strlen($cadena)<24) <br>
+                        @endif
 
                 </div>
             </div>

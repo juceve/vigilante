@@ -6,6 +6,7 @@ use App\Models\Citememorandum;
 use App\Models\Cliente;
 use App\Models\Empleado;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -76,7 +77,8 @@ class ListadoCiteMemorandum extends Component
         $datos .= fechaEs($this->m_fecha) . "|";
         $datos .= $this->m_motivo;
         $datos = codGet($datos);
-        $this->emit('renderizarpdf', $datos);
+        Session::put('data-citememorandum', $datos);
+        $this->emit('renderizarpdf');
     }
 
     public function registrar()

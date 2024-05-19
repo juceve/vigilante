@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Citecotizacion;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -59,9 +60,11 @@ class ListadoCiteCotizacion extends Component
         $data[] = 0;
 
         $datos = '0^0|' . fechaEs($this->fecha) . '|' . $this->destinatario . '|' .  $this->cargo . '|' . $this->monto;
-        // $datos .= $puntos;
+
         $datos = codGet($datos);
-        $this->emit('renderizarpdf', $datos);
+        Session::put('data-citecotizacion', $datos);
+
+        $this->emit('renderizarpdf');
     }
 
     public function registrar()
