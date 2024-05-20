@@ -113,24 +113,44 @@ class NovedadeController extends Controller
 
     public function pdfNovedades()
     {
-        $parametros = Session::get('param-ronda');
+        $parametros = Session::get('param-novedades');
         $cliente = Cliente::find($parametros[0]);
         $resultados = "";
 
-        $resultados = Vwnovedade::where([
-            ["fecha", ">=", $parametros[1]],
-            ["fecha", "<=", $parametros[2]],
-            ["cliente_id", $parametros[0]],
-            ['empleado', 'LIKE', '%' . $parametros[3] . '%']
-        ])->orWhere(
-            [
+        if ($parametros[4] == "") {
+            $resultados = Vwnovedade::where([
                 ["fecha", ">=", $parametros[1]],
                 ["fecha", "<=", $parametros[2]],
                 ["cliente_id", $parametros[0]],
+                ['empleado', 'LIKE', '%' . $parametros[3] . '%']
+            ])->orWhere(
+                [
+                    ["fecha", ">=", $parametros[1]],
+                    ["fecha", "<=", $parametros[2]],
+                    ["cliente_id", $parametros[0]],
+                    ['turno', 'LIKE', '%' . $parametros[3] . '%'],
+                ]
+            )->orderBy('fecha', 'DESC')
+                ->get();
+        } else {
+            $resultados = Vwnovedade::where([
+                ["fecha", ">=", $parametros[1]],
+                ["fecha", "<=", $parametros[2]],
+                ["cliente_id", $parametros[0]],
+                ['empleado_id', $parametros[4]],
                 ['turno', 'LIKE', '%' . $parametros[3] . '%'],
-            ]
-        )->orderBy('fecha', 'DESC')
-            ->get();
+            ])->orWhere(
+                [
+                    ["fecha", ">=", $parametros[1]],
+                    ["fecha", "<=", $parametros[2]],
+                    ["cliente_id", $parametros[0]],
+                    ['empleado_id', $parametros[4]],
+                    ['turno', 'LIKE', '%' . $parametros[3] . '%'],
+                ]
+            )
+                ->orderBy('fecha', 'DESC')
+                ->get();
+        }
 
         $i = 1;
         // return view('pdfs.pdfrondas', compact('resultados', 'parametros', 'cliente', 'i'));

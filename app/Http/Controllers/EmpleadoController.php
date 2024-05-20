@@ -8,6 +8,7 @@ use App\Models\Oficina;
 use App\Models\Tipodocumento;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -28,9 +29,8 @@ class EmpleadoController extends Controller
 
     public function index()
     {
-        $empleados = Empleado::all();
 
-        return view('admin.empleado.index', compact('empleados'));
+        return view('admin.empleado.index');
     }
 
     /**
@@ -217,14 +217,21 @@ class EmpleadoController extends Controller
      */
     public function destroy($id)
     {
-        $empleado = Empleado::find($id);
-        if ($empleado->user_id) {
-            $usuario = User::find($empleado->user_id)->delete();
+        DB::beginTransaction();
+        try {
+            $empleado = Empleado::find($id);
+
+            if ($empleado->user_id) {
+                $usuario = User::find($empleado->user_id)->delete();
+            }
+            $empleado->delete();
+            DB::commit();
+            return redirect()->route('empleados.index')
+                ->with('success', 'Empleado eliminado correctamente');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('empleados.index')
+                ->with('error', 'Ha ocurrido un error');
         }
-        $empleado->delete();
-
-
-        return redirect()->route('empleados.index')
-            ->with('success', 'Empleado eliminado correctamente');
     }
 }

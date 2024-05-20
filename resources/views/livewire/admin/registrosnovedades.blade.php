@@ -38,10 +38,15 @@
                         </div>
 
                     </div>
-                    {{-- <div class="col-12 col-md-3">
-                        {!! Form::select('estado', [''=>'Todos','1'=>'En proceso','0'=>'Finalizado'],
-                        null, ['class'=>'form-control','wire:model'=>'estado']) !!}
-                    </div> --}}
+                    <div class="col-12 col-md-3">
+                        <select name="empleado_id" class="form-control" wire:model='empleado_id'>
+                            <option value="">Todos</option>
+                            @foreach ($empleados as $item)
+                            <option value="{{$item->id}}">{{$item->nombre}}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
                 </div>
                 <hr>
                 <div class="table-responsive">
@@ -67,6 +72,7 @@
                             <a href="{{route('pdf.novedades')}}" class="btn btn-danger btn-block" target="_blank"><i
                                     class="fas fa-file-pdf"></i> Exportar</a>
                         </div>
+
                     </div>
 
                 </div>

@@ -6,6 +6,7 @@ use App\Exports\NovedadesExport;
 use App\Models\Cliente;
 use App\Models\Novedade;
 use App\Models\Vwnovedade;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,7 +16,7 @@ class Registrosnovedades extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $clientes, $cliente_id = "",  $inicio, $final, $search = "";
+    public $clientes, $cliente_id = "",  $inicio, $final, $search = "", $empleado_id = "", $auxcliente = "";
     public $novedade = null;
 
     public function mount()
@@ -29,30 +30,56 @@ class Registrosnovedades extends Component
     {
         $resultados = NULL;
         $sql = "";
+        $empleados = [];
         if ($this->cliente_id != "") {
+            $empleados = DB::select("SELECT DISTINCT(empleado_id) id,empleado nombre FROM vwasistencias WHERE cliente_id=" . $this->cliente_id);
+            if ($this->auxcliente != $this->cliente_id) {
+                $this->auxcliente = $this->cliente_id;
+                $this->empleado_id = "";
+            }
 
-            $resultados = Vwnovedade::where([
-                ["fecha", ">=", $this->inicio],
-                ["fecha", "<=", $this->final],
-                ["cliente_id", $this->cliente_id],
-                ['empleado', 'LIKE', '%' . $this->search . '%']
-            ])->orWhere(
-                [
+            if ($this->empleado_id == "") {
+                $resultados = Vwnovedade::where([
                     ["fecha", ">=", $this->inicio],
                     ["fecha", "<=", $this->final],
                     ["cliente_id", $this->cliente_id],
+                    ['empleado', 'LIKE', '%' . $this->search . '%']
+                ])->orWhere(
+                    [
+                        ["fecha", ">=", $this->inicio],
+                        ["fecha", "<=", $this->final],
+                        ["cliente_id", $this->cliente_id],
+                        ['turno', 'LIKE', '%' . $this->search . '%']
+                    ]
+                )
+                    ->orderBy('fecha', 'DESC')
+                    ->paginate(10);
+            } else {
+                $resultados = Vwnovedade::where([
+                    ["fecha", ">=", $this->inicio],
+                    ["fecha", "<=", $this->final],
+                    ["cliente_id", $this->cliente_id],
+                    ['empleado_id', $this->empleado_id],
                     ['turno', 'LIKE', '%' . $this->search . '%']
-                ]
-            )
-                ->orderBy('fecha', 'DESC')
-                ->paginate(10);
+                ])->orWhere(
+                    [
+                        ["fecha", ">=", $this->inicio],
+                        ["fecha", "<=", $this->final],
+                        ["cliente_id", $this->cliente_id],
+                        ['empleado_id', $this->empleado_id],
+                        ['turno', 'LIKE', '%' . $this->search . '%']
+                    ]
+                )
+                    ->orderBy('fecha', 'DESC')
+                    ->paginate(10);
+            }
 
 
-            $parametros = array($this->cliente_id, $this->inicio, $this->final, $this->search);
+            $parametros = array($this->cliente_id, $this->inicio, $this->final, $this->search, $this->empleado_id);
             Session::put('param-novedades', $parametros);
         }
 
-        return view('livewire.admin.registrosnovedades', compact('resultados'))->extends('adminlte::page');
+        return view('livewire.admin.registrosnovedades', compact('resultados', 'empleados'))->extends('adminlte::page');
     }
 
     public function verInfo($id)
