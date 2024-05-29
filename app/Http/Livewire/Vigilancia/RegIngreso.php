@@ -15,7 +15,7 @@ class RegIngreso extends Component
 {
     public $designacion, $motivos, $motivo;
     public $docidentidad, $nombrevisitante, $residente, $nrovivienda, $motivoid, $otros, $observaciones;
-    public $photo, $filename;
+    public $photo, $filename, $filesname = [];
 
     public function mount($designacion)
     {
@@ -53,6 +53,8 @@ class RegIngreso extends Component
         $this->otros = "";
     }
 
+    protected $listeners = ['deleteInput'];
+
     protected $rules = [
         "docidentidad" => "required",
         "nombrevisitante" => "required",
@@ -77,13 +79,19 @@ class RegIngreso extends Component
                 "estado" => true,
             ]);
 
-            if ($this->filename) {
+            if (count($this->filesname)) {
+                $imgs = "";
+                foreach ($this->filesname as $filename) {
+                    $nombreimg = "images/visitas/" . rand(1, 10000) . '_' . $visita->id . ".png";
+                    if (Storage::disk('public')->exists("livewire-tmp/" . $filename)) {
 
-                if (Storage::disk('public')->exists("livewire-tmp/" . $this->filename)) {
-                    Storage::disk('public')->move("livewire-tmp/" . $this->filename, "images/visitas/" . $visita->id . ".png");
+                        Storage::disk('public')->move("livewire-tmp/" . $filename, $nombreimg);
+                    }
+
+                    $imgs .= $nombreimg . "|";
                 }
-
-                $visita->imgs = "images/visitas/" . $visita->id . ".png";
+                $imgs = substr($imgs, 0, -1);
+                $visita->imgs = $imgs;
                 $visita->save();
             }
             DB::commit();
@@ -100,10 +108,15 @@ class RegIngreso extends Component
         if (count($imageData) == 2) {
             $image = base64_decode($imageData[1]);
             $filename = uniqid() . date('Hms') . '.png';
-            $this->filename = $filename;
+            // $this->filename = $filename;
+            $this->filesname[] = $filename;
             $path = storage_path('app/public/livewire-tmp/' . $filename);
 
             $img = Image::make($image)->save($path);
         }
+    }
+    public function deleteInput($id)
+    {
+        unset($this->filesname[$id]);
     }
 }

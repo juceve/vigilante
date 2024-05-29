@@ -59,6 +59,7 @@ use App\Http\Livewire\Vigilancia\Panico;
 use App\Http\Livewire\Vigilancia\RegIngreso;
 use App\Http\Livewire\Vigilancia\RegSalida;
 use App\Http\Livewire\Vigilancia\Ronda;
+use App\Http\Livewire\Vigilancia\SalidaVisita;
 use App\Http\Livewire\Vigilancia\Vtareas;
 use App\Models\Empleado;
 use Illuminate\Support\Facades\Auth;
@@ -103,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('vigilancia/panelvisitas/{designacion}', Panelvisitas::class)->name('vigilancia.panelvisitas');
     Route::get('vigilancia/visitas/reg-ingreso/{designacion}', RegIngreso::class)->name('vigilancia.regingreso');
     Route::get('vigilancia/visitas/reg-salida/{designacion}', RegSalida::class)->name('vigilancia.regsalida');
+    Route::get('vigilancia/salidavisita/{visita_id}', SalidaVisita::class)->name('salidavisita');
     Route::get('vigilancia/tareas/{designacion}', Vtareas::class)->name('vigilancia.tareas');
     Route::get('admin/visitas', Registrosvisita::class)->middleware('can:admin.registros.visitas')->name('admin.visitas');
     Route::get('admin/rondas', Registrosronda::class)->middleware('can:admin.registros.rondas')->name('admin.rondas');

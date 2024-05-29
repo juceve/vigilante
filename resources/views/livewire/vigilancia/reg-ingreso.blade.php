@@ -77,15 +77,32 @@
             </div>
             <div class="col-12 mb-3">
                 <label>Capturas:</label>
-                {{-- <input class="form-control" type="file" id="formFile" capture="camera"> --}}
+                {{--
                 <div class="input-group mb-3">
                     <div class="custom-file">
                         <input type="file" id="imageInput" capture="camera" class="form-control custom-file-input"
                             accept="image/*" onchange="procesar()">
-                        {{-- <label class="custom-file-label" for="inputGroupFile01">Seleccione una Imagen</label> --}}
+
                     </div>
                 </div>
-                <div id="preview" class="p-3 py-3" wire:ignore></div>
+                <div id="preview" class="p-3 py-3" wire:ignore></div> --}}
+
+                <div class="container-fluid mt-1" wire:ignore>
+                    <form id="uploadForm">
+                        <div class="row mb-3 input-row" id="inputRow0">
+                            <div class="col">
+                                {{-- <label for="fileInput0" class="form-label">Upload Image</label> --}}
+                                <input type="file" class="form-control" id="fileInput0" name="fileInput0"
+                                    onchange="CARGAFOTO('fileInput0')" accept="image/*" capture="camera">
+                            </div>
+                            <div class="col-auto" id="thumbnailContainer0"></div>
+                            <div class="col-auto d-none" id="deleteButtonContainer0">
+                                <button type="button" class="btn btn-danger"
+                                    onclick="deleteInput('inputRow0');remArray(0)">x</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
 
         </div>
@@ -110,58 +127,173 @@
     <br>
 </div>
 @section('js')
+{{-- <script src="{{asset('vendor/jquery/inputsfiles.js')}}"></script> --}}
 <script>
-    function procesar(){
-    var srcEncoded;
-    @this.set('filename',"");
-    document.getElementById('preview').innerHTML='';
-    const preview = document.getElementById('preview');
-    const input = document.querySelector('#imageInput');
-        // const file = document.querySelector('#imageInput').files[0];
-    for (let i = 0; i < input.files.length; i++) {
-        const file = input.files[i];
-        if (!file) {
-            return;
+    let inputCount = 1;
+    function remArray(id){
+        Livewire.emit('deleteInput',id);
+    }
+
+    function CARGAFOTO(inputId) {
+        var srcEncoded;
+        @this.set('filename',"");
+        const inputElement = document.getElementById(inputId);
+        const file = inputElement.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const thumbnailContainerId = `thumbnailContainer${inputId.replace('fileInput', '')}`;
+                createThumbnail(e.target.result, thumbnailContainerId);
+                showDeleteButton(inputId);
+                createNewFileInput();
+
+                const imgElement = document.createElement("img");
+                imgElement.src = event.target.result;            
+
+                imgElement.onload = function (e) {
+                    const canvas = document.createElement("canvas");
+                    const MAX_WIDTH = 400;
+
+                    const scaleSize = MAX_WIDTH / e.target.width;
+                    canvas.width = MAX_WIDTH;
+                    canvas.height = e.target.height * scaleSize;
+
+                    const ctx = canvas.getContext("2d");
+
+                    ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
+
+                    srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
+                    
+                    @this.cargaImagenBase64(srcEncoded);
+                };
+            }
+            reader.readAsDataURL(file);
         }
+        inputElement.disabled=true;
+    }
 
-        const reader = new FileReader();
+    function createThumbnail(src, containerId) {
+        const thumbnailContainer = document.getElementById(containerId);
+        thumbnailContainer.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'img-thumbnail';
+        img.style.maxWidth = '100px';
+        thumbnailContainer.appendChild(img);
+    }
 
-        reader.readAsDataURL(file);
+    function showDeleteButton(inputId) {
+        const deleteButtonContainerId = `deleteButtonContainer${inputId.replace('fileInput', '')}`;
+        const deleteButtonContainer = document.getElementById(deleteButtonContainerId);
+        deleteButtonContainer.classList.remove('d-none');
+    }
 
-        reader.onload = function (event) {
-            const imgElement = document.createElement("img");
-            imgElement.src = event.target.result;
+    function createNewFileInput() {
+        const form = document.getElementById('uploadForm');
+        const divRow = document.createElement('div');
+        divRow.className = 'row mb-3 input-row';
+        divRow.id = `inputRow${inputCount}`;
+
+        const divInput = document.createElement('div');
+        divInput.className = 'col';
+
+        const label = document.createElement('label');
+        label.className = 'form-label';
+        label.textContent = 'Upload Image';
+
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.className = 'form-control';
+        input.id = `fileInput${inputCount}`;
+        input.name = `fileInput${inputCount}`;
+        input.accept = 'image/*';
+        input.setAttribute('capture', `camera`);
+        input.setAttribute('onchange', `CARGAFOTO('${input.id}')`);
+
+        const divThumbnail = document.createElement('div');
+        divThumbnail.className = 'col-auto';
+        divThumbnail.id = `thumbnailContainer${inputCount}`;
+
+        const divButton = document.createElement('div');
+        divButton.className = 'col-auto d-none';
+        divButton.id = `deleteButtonContainer${inputCount}`;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-danger';
+        button.textContent = 'x';
+        button.setAttribute('onclick', `deleteInput('${divRow.id}');remArray('${inputCount}')`);
+        // button.setAttribute('wire:click', `deleteInput('${inputCount}')`);
+
+        divInput.appendChild(label);
+        divInput.appendChild(input);
+        divButton.appendChild(button);
+        divRow.appendChild(divInput);
+        divRow.appendChild(divThumbnail);
+        divRow.appendChild(divButton);
+
+        form.appendChild(divRow);
+        inputCount++;
+    }
+
+    function deleteInput(rowId) {
+        const row = document.getElementById(rowId);
+        row.remove();
+        // Ensure at least one empty input file remains
+        const inputs = document.querySelectorAll('input[type="file"]');
+        if (inputs.length === 0) {
+            createNewFileInput();
+        }
+    }
+</script>
+<script>
+    //     function procesar(){
+//     var srcEncoded;
+//     @this.set('filename',"");
+//     document.getElementById('preview').innerHTML='';
+//     const preview = document.getElementById('preview');
+//     const input = document.querySelector('#imageInput');
+        
+//     for (let i = 0; i < input.files.length; i++) {
+//         const file = input.files[i];
+//         if (!file) {
+//             return;
+//         }
+
+//         const reader = new FileReader();
+
+//         reader.readAsDataURL(file);
+
+//         reader.onload = function (event) {
+//             const imgElement = document.createElement("img");
+//             imgElement.src = event.target.result;
             
 
-            imgElement.onload = function (e) {
-                const canvas = document.createElement("canvas");
-                const MAX_WIDTH = 400;
+//             imgElement.onload = function (e) {
+//                 const canvas = document.createElement("canvas");
+//                 const MAX_WIDTH = 400;
 
-                const scaleSize = MAX_WIDTH / e.target.width;
-                canvas.width = MAX_WIDTH;
-                canvas.height = e.target.height * scaleSize;
+//                 const scaleSize = MAX_WIDTH / e.target.width;
+//                 canvas.width = MAX_WIDTH;
+//                 canvas.height = e.target.height * scaleSize;
 
-                const ctx = canvas.getContext("2d");
+//                 const ctx = canvas.getContext("2d");
 
-                ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
+//                 ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
 
-                srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
+//                 srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
 
-                // document.querySelector("#output").src = srcEncoded;    
-                // document.querySelector("#divOutput").classList.remove('d-none');
-
-                const resizedImg = new Image();
+//                 const resizedImg = new Image();
                 
-                resizedImg.src = srcEncoded;
-                resizedImg.classList.add('img-fluid');
-                resizedImg.classList.add('img-thumbnail');
-                preview.innerHTML='<b>Vista previa:</b><br>';
-                preview.appendChild(resizedImg);
-                @this.cargaImagenBase64(srcEncoded);
-            };
-        };
-    }
+//                 resizedImg.src = srcEncoded;
+//                 resizedImg.classList.add('img-fluid');
+//                 resizedImg.classList.add('img-thumbnail');
+//                 preview.innerHTML='<b>Vista previa:</b><br>';
+//                 preview.appendChild(resizedImg);
+//                 @this.cargaImagenBase64(srcEncoded);
+//             };
+//         };
+//     }
     
-}
+// }
 </script>
 @endsection

@@ -2,71 +2,63 @@
 
 namespace App\Http\Livewire\Vigilancia;
 
-use App\Models\Designacione;
-use App\Models\Tarea;
+use App\Models\Visita;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Intervention\Image\ImageManagerStatic as Image;
 
-class Vtareas extends Component
+class SalidaVisita extends Component
 {
-    public  $designacion, $tareas, $search = '', $tarea;
-    public $empleado;
-    public $photo, $filename, $filesname = [];
+    public $filename, $filesname = [], $visita, $observaciones = "", $imgs = [];
 
-    public function mount($designacion)
+    public function render()
     {
-        $this->designacion = Designacione::find($designacion);
-        $this->empleado = $this->designacion->empleado;
-        $this->tareas = Tarea::where([
-            ["cliente_id", $this->designacion->turno->cliente_id],
-            ["empleado_id", $this->designacion->empleado_id],
-            ["fecha", date('Y-m-d')],
-            ["estado", 1],
-        ])->get();
+        return view('livewire.vigilancia.salida-visita')->extends('layouts.app');
     }
 
     protected $listeners = ['deleteInput'];
 
-    public function render()
+    public function mount($visita_id)
     {
-        return view('livewire.vigilancia.vtareas')->extends('layouts.app');
+        $this->visita = Visita::find($visita_id);
+        $this->observaciones = $this->visita->observaciones;
+        if ($this->visita->imgs) {
+            $this->imgs = explode('|', $this->visita->imgs);
+        }
     }
 
-    public function cargarTarea($id)
-    {
-        $this->tarea = Tarea::find($id);
-    }
-
-    public function procesar()
+    public function marcarSalida()
     {
         DB::beginTransaction();
-
         try {
-            $this->tarea->estado = false;
-            $this->tarea->save();
+            $this->visita->observaciones = $this->observaciones;
+            $this->visita->estado = 0;
+            $this->visita->save();
+
 
             if (count($this->filesname)) {
-                $imgs = "";
+                $imgs = $this->visita->imgs . "|";
                 foreach ($this->filesname as $filename) {
-                    $nombreimg = "images/tareas/" . rand(1, 10000) . '_' . $this->tarea->id . ".png";
+                    $nombreimg = "images/visitas/" . rand(1, 10000) . '_' . $this->visita->id . ".png";
                     if (Storage::disk('public')->exists("livewire-tmp/" . $filename)) {
-
                         Storage::disk('public')->move("livewire-tmp/" . $filename, $nombreimg);
                     }
-
                     $imgs .= $nombreimg . "|";
                 }
                 $imgs = substr($imgs, 0, -1);
-                $this->tarea->imgs = $imgs;
-                $this->tarea->save();
+                $this->visita->imgs = $imgs;
+                $this->visita->save();
             }
 
+
             DB::commit();
-            return redirect()->route('vigilancia.tareas', $this->designacion->id)->with('success', 'Tarea finalizada correctamentE.');
+            $designacione_id = $data = Session::get('designacion-oper');
+            return redirect()->route('vigilancia.regsalida', $designacione_id)->with('success', 'Registro de Salida exitoso!');
         } catch (\Throwable $th) {
-            $this->emit('error', 'Ha ocurrido un error.');
+            DB::rollBack();
+            return redirect()->route('vigilancia.regsalida', $designacione_id)->with('error', 'Ha ocurrido un error');
         }
     }
 
@@ -83,6 +75,7 @@ class Vtareas extends Component
             $img = Image::make($image)->save($path);
         }
     }
+
     public function deleteInput($id)
     {
         unset($this->filesname[$id]);

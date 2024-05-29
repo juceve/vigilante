@@ -17,7 +17,7 @@ class Registrosvisita extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $clientes, $cliente_id = "", $estado = "", $inicio, $final, $search = "";
-    public $visita = null;
+    public $visita = null, $imgs = [];
 
     public function mount()
     {
@@ -92,6 +92,7 @@ class Registrosvisita extends Component
     public function verInfo($id)
     {
         $this->visita = Vwvisita::find($id);
+        $this->imgs = explode('|', $this->visita->imgs);
     }
 
     public function exporExcel()

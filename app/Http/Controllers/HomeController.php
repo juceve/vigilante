@@ -9,6 +9,7 @@ use App\Models\Usercliente;
 use App\Models\Vwdesignacione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -41,7 +42,7 @@ class HomeController extends Controller
                     ->where('estado', 1)
                     ->orderBy('fechaInicio', 'ASC')->first();
             }
-
+            Session::put('designacion-oper', $designaciones->id);
             return view('operativo', compact('designaciones'));
         }
         if (Auth::user()->template == "ADMIN") {

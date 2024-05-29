@@ -154,7 +154,7 @@
     <!-- Modal -->
     <div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true"
         wire:ignore.self>
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalInfoLabel"><strong>INFO TAREA - ID: {{$tarea->id}}</strong></h5>
@@ -172,7 +172,7 @@
                     </div>
                     <div wire:loading.remove>
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-12 col-md-6">
 
                                 <table class="table table-bordered table-striped">
                                     <tr>
@@ -202,6 +202,28 @@
                                         </td>
                                     </tr>
                                 </table>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                @if (count($imgs))
+                                <h6>CAPTURAS:</h6>
+                                <hr>
+                                <div class="row">
+                                    @foreach ($imgs as $img)
+
+                                    <div class="col-sm-4">
+                                        <a href="{{asset('storage/'.$img)}}" data-toggle="lightbox" data-title="Galeria"
+                                            data-gallery="gallery">
+                                            <img src="{{asset('storage/'.$img)}}" class="img-fluid img-thumbnail mb-2"
+                                                style="height: 150px;" />
+                                        </a>
+                                    </div>
+                                    @endforeach
+
+                                </div>
+                                @else
+                                <span>No se encontraron capturas.</span><img src="{{asset('images/sinimagen.jpg')}}"
+                                    class="img-fluid img-thumbnail">@endif
+
                             </div>
                         </div>
                     </div>
@@ -297,7 +319,22 @@
         </div>
     </div>
 </div>
+@section('css')
+<link rel="stylesheet" href="{{asset('vendor/ekko-lightbox/ekko-lightbox.css')}}">
+@endsection
 @section('js')
+<script src="{{asset('vendor/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
+<script>
+    $(function () {
+      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+          alwaysShowClose: true
+        });
+      });
+    })
+</script>
+
 <script>
     Livewire.on('cerrarModalNuevo',()=>{
         $('#modalNuevo').modal('hide');

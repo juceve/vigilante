@@ -17,6 +17,7 @@ return new class extends Migration
             $table->longText('contenido');
             $table->foreignId('cliente_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('empleado_id')->nullable()->constrained()->nullOnDelete();
+            $table->longText('imgs')->nullable();
             $table->boolean('estado')->default(true);
             $table->timestamps();
         });

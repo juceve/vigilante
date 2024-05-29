@@ -190,10 +190,20 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 @if ($novedade->imgnovedades->count()>0)
-                                <h6>CAPTURA:</h6>
-                                @foreach ($novedade->imgnovedades as $item)
-                                <img src="{{asset('storage/'.$item->url)}}" class="img-fluid img-thumbnail">
-                                @endforeach
+                                <h6>CAPTURAS:</h6>
+                                <hr>
+                                <div class="row">
+                                    @foreach ($novedade->imgnovedades as $img)
+                                    <div class="col-sm-4">
+                                        <a href="{{asset('storage/'.$img->url)}}" data-toggle="lightbox"
+                                            data-title="Galeria" data-gallery="gallery">
+                                            <img src="{{asset('storage/'.$img->url)}}"
+                                                class="img-fluid img-thumbnail mb-2" style="height: 150px;" />
+                                        </a>
+                                    </div>
+                                    @endforeach
+
+                                </div>
 
                                 @else
                                 <img src="{{asset('images/sinimagen.jpg')}}" class="img-fluid img-thumbnail"
@@ -212,3 +222,19 @@
         </div>
     </div>
 </div>
+@section('css')
+<link rel="stylesheet" href="{{asset('vendor/ekko-lightbox/ekko-lightbox.css')}}">
+@endsection
+@section('js')
+<script src="{{asset('vendor/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
+<script>
+    $(function () {
+      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+          alwaysShowClose: true
+        });
+      });
+    })
+</script>
+@endsection

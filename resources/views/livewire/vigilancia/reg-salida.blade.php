@@ -41,10 +41,10 @@
                         <td class="text-center">{{$item->docidentidad}}</td>
                         <td class="text-center">{{$item->fechaingreso. " ".$item->horaingreso}}</td>
                         <td class="text-end">
-                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalInfo"
-                                wire:click='cargarVisita({{$item->id}})' style="font-size: 12px;">
+                            <a href="{{route('salidavisita',$item->id)}}" class="btn btn-sm btn-warning"
+                                style="font-size: 12px;">
                                 Ver <i class="fas fa-eye"></i>
-                            </button>
+                            </a>
                         </td>
                     </tr>
                     @empty
@@ -58,7 +58,7 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true"
+    {{-- <div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true"
         wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -68,66 +68,14 @@
                         wire:click='reiniciar'></button>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-bordered">
-                        <tr class="table-success">
-                            <td><strong>Ingreso:</strong></td>
-                            <td>{{$created_at}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Visitante:</strong></td>
-                            <td>{{$nombrevisitante}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Doc. Identidad:</strong></td>
-                            <td>{{$docidentidad}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Residente:</strong></td>
-                            <td>{{$residente}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Nro. Vivienda:</strong></td>
-                            <td>{{$nrovivienda}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Motivo visita:</strong></td>
-                            <td>{{$motivo}}</td>
-                        </tr>
-                        @if ($otros!="")
-                        <tr>
-                            <td><strong>Otros:</strong></td>
-                            <td>{{$otros}}</td>
-                        </tr>
-                        @endif
-                        <tr>
-                            <td><strong>Observaciones:</strong></td>
-                            <td>
-                                <input type="search" class="form-control" wire:model='observaciones' />
-                            </td>
-                        </tr>
-                    </table>
-                    @if ($img)
-                    <div class="d-flex justify-content-center">
-                        <img src="{{asset('storage/'.$img)}}" class="img-fluid" style="max-height: 150px;">
-                    </div>
-                    @endif
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        wire:click='reiniciar'>Cerrar</button>
-                    <button type="button" class="btn btn-primary" wire:click='marcarSalida'
-                        wire:loading.attr="disabled">
-                        Marcar Salida
-                        <div wire:loading wire:target="marcarSalida">
-                            <div class="spinner-border spinner-border-sm" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </button>
+
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 @section('js')
 <script>

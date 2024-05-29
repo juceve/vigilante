@@ -6,25 +6,29 @@ use App\Models\Imgnovedade;
 use App\Models\Novedade;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class Novedades extends Component
 {
     use WithFileUploads;
 
     public $files = [], $lat = "", $lng = "";
-    public $designacion, $informe="";
+    public $designacion, $informe = "";
+    public $photo, $filename, $filesname = [];
 
-    public function mount($designacion){
+    public function mount($designacion)
+    {
         $this->designacion = $designacion;
     }
 
     public function render()
-    {        
+    {
         return view('livewire.vigilancia.novedades')->extends('layouts.app');
     }
-    protected $listeners = ['ubicacionAprox'];
+    protected $listeners = ['ubicacionAprox', 'deleteInput'];
 
     public function enviar()
     {
@@ -39,19 +43,39 @@ class Novedades extends Component
                 "lng" => $this->lng,
             ]);
 
+            // $x = 1;
+            // foreach ($this->files as $key => $file) {
+            //     $arrF = explode('.', $file->getFilename());
+            //     $name = date('YmdHis') . $x;
+
+            //     $x++;
+            //     $path = $file->storeAs('images/registros/novedades', $name . '.' . $arrF[1]);
+
+            //     $imgreg = Imgnovedade::create([
+            //         "novedade_id" => $registro->id,
+            //         "url" => $path,
+            //         "tipo" => $arrF[1],
+            //     ]);
+            // }
+
             $x = 1;
-            foreach ($this->files as $key => $file) {
-                $arrF = explode('.', $file->getFilename());
-                $name = date('YmdHis') . $x;
+            if (count($this->filesname)) {
 
-                $x++;
-                $path = $file->storeAs('images/registros/novedades', $name . '.' . $arrF[1]);
+                foreach ($this->filesname as $filename) {
+                    $name = date('YmdHis') . $x;
+                    $nombreimg = 'images/registros/novedades/' . $name . ".png";
+                    if (Storage::disk('public')->exists("livewire-tmp/" . $filename)) {
 
-                $imgreg = Imgnovedade::create([
-                    "novedade_id" => $registro->id,
-                    "url" => $path,
-                    "tipo" => $arrF[1],
-                ]);
+                        Storage::disk('public')->move("livewire-tmp/" . $filename, $nombreimg);
+                    }
+                    $x++;
+
+                    $imgreg = Imgnovedade::create([
+                        "novedade_id" => $registro->id,
+                        "url" => $nombreimg,
+                        "tipo" => "png",
+                    ]);
+                }
             }
             DB::commit();
 
@@ -67,7 +91,23 @@ class Novedades extends Component
     {
         $this->lat = $data[0];
         $this->lng = $data[1];
-        // dd($this->lat);
-        // dd($data);
+    }
+
+    public function cargaImagenBase64($imagebase64)
+    {
+        $imageData = explode(';base64,', $imagebase64);
+        if (count($imageData) == 2) {
+            $image = base64_decode($imageData[1]);
+            $filename = uniqid() . date('Hms') . '.png';
+            // $this->filename = $filename;
+            $this->filesname[] = $filename;
+            $path = storage_path('app/public/livewire-tmp/' . $filename);
+
+            $img = Image::make($image)->save($path);
+        }
+    }
+    public function deleteInput($id)
+    {
+        unset($this->filesname[$id]);
     }
 }

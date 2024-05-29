@@ -2,9 +2,12 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Exports\EmpleadosExport;
 use App\Models\Empleado;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListadoEmpleados extends Component
 {
@@ -12,6 +15,8 @@ class ListadoEmpleados extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $busqueda = "", $filas = 10;
+
+    protected $data;
 
     public function render()
     {
@@ -22,7 +27,15 @@ class ListadoEmpleados extends Component
             ->orWhere('areas.nombre', 'LIKE', '%' . $this->busqueda . '%')
             ->paginate($this->filas);
 
+        $parametros = $this->busqueda;
+        Session::put('param-empleados', $parametros);
+
         return view('livewire.admin.listado-empleados', compact('empleados'));
+    }
+
+    public function exporExcel()
+    {
+        return Excel::download(new EmpleadosExport(), 'Listado_Empleados_' . date('His') . '.xlsx');
     }
 
     public function updatedBusqueda()

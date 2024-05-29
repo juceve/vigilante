@@ -48,7 +48,9 @@
                 <div class="form-group">
                     <label>El usuario ya fue generado:</label><br>
                     <span><strong>Usuario:</strong>{{$usercliente->user->email}}</span><br>
-                    <span><strong>Password:</strong>{{$cliente->nrodocumento}}</span>
+                    <span><strong>Password:</strong>blackbird{{$cliente->id}}</span><br><br>
+                    <button class="btn btn-danger" onclick='eliminar({{$cliente->id}})'>Eliminar usuario <i
+                            class="fas fa-trash"></i></button>
                 </div>
                 @endif
 
@@ -56,3 +58,23 @@
         </div>
     </div>
 </div>
+@section('js')
+<script>
+    function eliminar(id){
+    Swal.fire({
+  title: "ELIMINAR USUARIO",
+  text: "Está seguro de realizar esta operación?",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Sí, continuar",
+  cancelButtonText: "No, cancelar",
+}).then((result) => {
+  if (result.isConfirmed) {
+    Livewire.emit('eliminar',id);
+  }
+});
+}
+</script>
+@endsection

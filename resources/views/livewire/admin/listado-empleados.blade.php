@@ -1,6 +1,6 @@
 <div>
     <div class="row">
-        <div class="col-12 col-md-10">
+        <div class="col-12 col-md-8">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -8,6 +8,10 @@
                 <input type="search" class="form-control" placeholder="Ingrese su busqueda..."
                     wire:model.debounce.500ms='busqueda'>
             </div>
+        </div>
+        <div class="col-12 col-md-2">
+            <button class="btn btn-success btn-block" wire:click='exporExcel'><i class="fas fa-file-excel"></i>
+                Exportar</button>
         </div>
         <div class="col-12 col-md-2">
             <div class="input-group mb-3">

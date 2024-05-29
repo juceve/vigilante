@@ -66,8 +66,7 @@
                                 <a class="dropdown-item" href="{{ route('clientes.edit', $cliente->id) }}"><i
                                         class="fa fa-fw fa-edit text-secondary"></i> Editar</a>
                                 <a class="dropdown-item" href="{{ route('usuariocliente', $cliente->id) }}">
-                                    <i class="fas fa-user-plus text-secondary"></i> Crear
-                                    usuario</a>
+                                    <i class="fas fa-user-plus text-secondary"></i> Usuario externo</a>
                                 @endcan
                                 @can('turnos.index')
                                 <a class="dropdown-item" href="{{ route('admin.turnos-cliente', $cliente->id) }}"><i

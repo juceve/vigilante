@@ -20,7 +20,7 @@ class Registrostareas extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $clientes, $selCliente = "", $guardias, $estado = "", $inicio, $final, $search = "";
-    public $tarea = null, $fecha = "", $cliente_id = "", $empleado_id = "", $contenido = "";
+    public $tarea = null, $fecha = "", $cliente_id = "", $empleado_id = "", $contenido = "", $imgs = [];
 
     public function mount()
     {
@@ -117,7 +117,11 @@ class Registrostareas extends Component
 
     public function verInfo($id)
     {
+        $this->reset('imgs');
         $this->tarea = Vwtarea::find($id);
+        if ($this->tarea->imgs) {
+            $this->imgs = explode('|', $this->tarea->imgs);
+        }
     }
 
     public function destroy($id)

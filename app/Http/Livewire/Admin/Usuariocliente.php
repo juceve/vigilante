@@ -53,4 +53,23 @@ class Usuariocliente extends Component
             return redirect()->route('clientes.index')->with('error', 'Ha ocurrido un error');
         }
     }
+
+    protected $listeners = ['eliminar'];
+
+    public function eliminar()
+    {
+        DB::beginTransaction();
+        try {
+            $usuario = User::find($this->usercliente->user_id);
+            $usuario->delete();
+
+            $this->usercliente->delete();
+
+            DB::commit();
+            return redirect()->route('clientes.index')->with('success', 'Usuario eliminado correctamente.');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('clientes.index')->with('error', 'Ha ocurrido un error.');
+        }
+    }
 }

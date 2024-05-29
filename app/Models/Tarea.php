@@ -23,11 +23,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Tarea extends Model
 {
-    
+
     static $rules = [
-		'fecha' => 'required',
-		'contenido' => 'required',
-		'estado' => 'required',
+        'fecha' => 'required',
+        'contenido' => 'required',
+        'estado' => 'required',
     ];
 
     protected $perPage = 20;
@@ -37,7 +37,7 @@ class Tarea extends Model
      *
      * @var array
      */
-    protected $fillable = ['fecha','contenido','cliente_id','empleado_id','estado'];
+    protected $fillable = ['fecha', 'contenido', 'cliente_id', 'empleado_id', 'imgs', 'estado'];
 
 
     /**
@@ -47,7 +47,7 @@ class Tarea extends Model
     {
         return $this->hasOne('App\Models\Cliente', 'id', 'cliente_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -55,6 +55,4 @@ class Tarea extends Model
     {
         return $this->hasOne('App\Models\Empleado', 'id', 'empleado_id');
     }
-    
-
 }
