@@ -73,7 +73,7 @@ class Registrosnovedades extends Component
                     ->orderBy('fecha', 'DESC')
                     ->paginate(10);
             }
-
+            $this->resetPage();
 
             $parametros = array($this->cliente_id, $this->inicio, $this->final, $this->search, $this->empleado_id);
             Session::put('param-novedades', $parametros);
@@ -93,24 +93,24 @@ class Registrosnovedades extends Component
         return Excel::download(new NovedadesExport(), 'Novedades_' . $cliente->nombre . '_' . date('His') . '.xlsx');
     }
 
-    public function updatedCliente_id()
-    {
-        $this->resetPage();
-    }
-    public function updatedEstado()
-    {
-        $this->resetPage();
-    }
-    public function updatedInicio()
-    {
-        $this->resetPage();
-    }
-    public function updatedFinal()
-    {
-        $this->resetPage();
-    }
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
+    // public function updatedClienteId()
+    // {
+    //     $this->resetPage();
+    // }
+    // public function updatedEstado()
+    // {
+    //     $this->resetPage();
+    // }
+    // public function updatedInicio()
+    // {
+    //     $this->resetPage();
+    // }
+    // public function updatedFinal()
+    // {
+    //     $this->resetPage();
+    // }
+    // public function updatedSearch()
+    // {
+    //     $this->resetPage();
+    // }
 }

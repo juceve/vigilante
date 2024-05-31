@@ -84,7 +84,6 @@ class RegIngreso extends Component
                 foreach ($this->filesname as $filename) {
                     $nombreimg = "images/visitas/" . rand(1, 10000) . '_' . $visita->id . ".png";
                     if (Storage::disk('public')->exists("livewire-tmp/" . $filename)) {
-
                         Storage::disk('public')->move("livewire-tmp/" . $filename, $nombreimg);
                     }
 

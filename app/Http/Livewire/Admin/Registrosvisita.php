@@ -52,7 +52,7 @@ class Registrosvisita extends Component
                     ["cliente_id", $this->cliente_id],
                     ['docidentidad', 'LIKE', '%' . $this->search . '%']
                 ])
-                    ->orderBy('fechaingreso', 'DESC')
+                    ->orderBy('id', 'DESC')
                     ->paginate(10);
             } else {
                 $resultados = Vwvisita::where([
@@ -76,7 +76,7 @@ class Registrosvisita extends Component
                         ['docidentidad', 'LIKE', '%' . $this->search . '%'],
                         ["estado", $this->estado],
                     ])
-                    ->orderBy('fechaingreso', 'DESC')
+                    ->orderBy('id', 'DESC')
 
                     ->paginate(10);
             }
@@ -92,7 +92,10 @@ class Registrosvisita extends Component
     public function verInfo($id)
     {
         $this->visita = Vwvisita::find($id);
-        $this->imgs = explode('|', $this->visita->imgs);
+        if ($this->visita->imgs) {
+            $this->imgs = explode('|', $this->visita->imgs);
+        }
+        // $this->imgs = explode('|', $this->visita->imgs);
     }
 
     public function exporExcel()

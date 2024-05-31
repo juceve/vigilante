@@ -1,17 +1,16 @@
 <div>
-    @section('page_header')
-    <div class="container-fluid">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Registro de Rondas</h1>
-
-            <a href="/home" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-arrow-left fa-sm"></i> Volver</a>
-        </div>
-    </div>
-    @endsection
-
     <div class="container-fluid">
         <div class="card">
-
+            <div class="card-header">
+                <div class="d-sm-flex align-items-center justify-content-between">
+                    <label>
+                        REGISTRO DE RONDAS
+                    </label>
+                    <a href="javascript:history.back();" class="btn btn-sm btn-light shadow-sm"><i
+                            class="fa fa-long-arrow-left fa-sm"></i>
+                        Volver</a>
+                </div>
+            </div>
             <div class="card-body">
                 <label for="">Filtrar:</label>
                 <div class="row">
@@ -48,8 +47,7 @@
                         <div class="col-12 mb-3">
                             <div class="input-group ">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1"><i
-                                            class="fas fa-search"></i></span>
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
                                 </div>
                                 <input type="search" class="form-control" placeholder="Busqueda..."
                                     aria-label="Busqueda..." aria-describedby="basic-addon1"
@@ -88,7 +86,7 @@
                                     <button class="btn btn-info btn-sm" title="Ver info"
                                         wire:click='verInfo({{$item->id}})' data-toggle='modal'
                                         data-target='#modalInfo'>
-                                        <i class="fas fa-eye"></i>
+                                        <i class="fa fa-eye"></i>
                                     </button>
                                 </td>
                             </tr>

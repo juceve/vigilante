@@ -25,7 +25,7 @@ class Recibos extends Component
             ->orderBy('correlativo', 'DESC')
             ->paginate($this->filas);
 
-        return view('livewire.customer.recibos', compact('citerecibos'))->extends('layouts.customers');
+        return view('livewire.customer.recibos', compact('citerecibos'))->extends('layouts.clientes');
     }
 
     public function mount()

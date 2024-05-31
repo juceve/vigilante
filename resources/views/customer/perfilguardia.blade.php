@@ -1,15 +1,19 @@
-@extends('layouts.customers')
+@extends('layouts.clientes')
 
-@section('page_header')
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Perfil del Personal</h1>
 
-    <a href="/home" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-arrow-left fa-sm"></i> Volver</a>
-</div>
-@endsection
 
 @section('content')
 <div class="card">
+    <div class="card-header">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <label>
+                PERFIL DEL PERSONAL
+            </label>
+            <a href="javascript:history.back();" class="btn btn-sm btn-light shadow-sm"><i
+                    class="fa fa-long-arrow-left fa-sm"></i>
+                Volver</a>
+        </div>
+    </div>
     <div class="card-body">
         <div class="row">
             <div class="col-12 col-md-6">

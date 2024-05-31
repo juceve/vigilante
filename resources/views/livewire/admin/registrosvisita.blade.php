@@ -77,6 +77,7 @@
                     <table class="table table-bordered table-striped" style="vertical-align: middle">
                         <thead>
                             <tr class="table-info">
+                                <th>ID</th>
                                 <th>VISITANTE</th>
                                 <th class="text-center">DOC. IDENTIDAD</th>
                                 <th>RESIDENTE</th>
@@ -90,6 +91,7 @@
                             @if (!is_null($resultados))
                             @forelse ($resultados as $item)
                             <tr>
+                                <td>{{$item->id}}</td>
                                 <td>{{$item->visitante}}</td>
                                 <td class="text-center">{{$item->docidentidad}}</td>
                                 <td>{{$item->residente}}</td>

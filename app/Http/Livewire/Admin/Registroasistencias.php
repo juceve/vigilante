@@ -78,6 +78,7 @@ class Registroasistencias extends Component
                     ->paginate(10);
             }
         }
+        $this->resetPage();
         $parametros = array($this->cliente_id, $this->inicio, $this->final, $this->search, $this->empleado_id);
         Session::put('param-asistencias', $parametros);
 

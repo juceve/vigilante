@@ -26,7 +26,7 @@ class Informes extends Component
             ->orWhere([["referencia", "like", "%$this->busqueda%"], ['gestion', $this->gestion], ['cliente_id', $this->cliente_id]])
             ->orderBy('correlativo', 'DESC')
             ->paginate(10);
-        return view('livewire.customer.informes', compact('citeinformes'))->with('i', 1)->extends('layouts.customers');
+        return view('livewire.customer.informes', compact('citeinformes'))->with('i', 1)->extends('layouts.clientes');
     }
 
     protected $listeners = ['anular'];

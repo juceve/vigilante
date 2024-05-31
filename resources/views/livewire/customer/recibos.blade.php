@@ -14,13 +14,22 @@
             <div class="col-sm-12">
                 <div class="card">
 
-
+                    <div class="card-header">
+                        <div class="d-sm-flex align-items-center justify-content-between">
+                            <label>
+                                REGISTRO DE RECIBOS
+                            </label>
+                            <a href="javascript:history.back();" class="btn btn-sm btn-light shadow-sm"><i
+                                    class="fa fa-long-arrow-left fa-sm"></i>
+                                Volver</a>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-md-9">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
                                     </div>
                                     <input type="search" class="form-control" placeholder="Ingrese su busqueda..."
                                         wire:model.debounce.500ms='busqueda'>

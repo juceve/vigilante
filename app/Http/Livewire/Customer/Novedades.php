@@ -53,7 +53,7 @@ class Novedades extends Component
             // Session::put('param-novedades', $parametros);
         }
 
-        return view('livewire.customer.novedades', compact('resultados'))->extends('layouts.customers');
+        return view('livewire.customer.novedades', compact('resultados'))->extends('layouts.clientes');
     }
 
     public function verInfo($id)

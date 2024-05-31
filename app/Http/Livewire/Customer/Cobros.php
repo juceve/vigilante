@@ -27,7 +27,7 @@ class Cobros extends Component
             ->orderBy('correlativo', 'DESC')
             ->paginate(10);
 
-        return view('livewire.customer.cobros', compact('citecobros'))->extends('layouts.customers');
+        return view('livewire.customer.cobros', compact('citecobros'))->extends('layouts.clientes');
     }
 
     public function mount()

@@ -1,4 +1,4 @@
-@extends('layouts.customers')
+@extends('layouts.clientes')
 
 @section('page_header')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -14,7 +14,7 @@
 <div class="row g-1">
     <div class="col-12 col-md-7">
         <div class="card">
-            <div class="card-header font-weight-bold text-primary">Datos de Cliente</div>
+            <div class="card-header font-weight-bold text-info">Datos de Cliente</div>
             <div class="card-body">
                 <div class="row">
                     <table class="table table-bordered table-striped">
@@ -70,7 +70,7 @@
     </div>
     <div class="col-12 col-md-5">
         <div class="card">
-            <div class="card-header font-weight-bold text-primary">Personal de Seguridad Asignado</div>
+            <div class="card-header font-weight-bold text-info">Personal de Seguridad Asignado</div>
             <div class="card-body">
                 <table class="table table-bordered">
                     <thead>
