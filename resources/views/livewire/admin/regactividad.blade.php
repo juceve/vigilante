@@ -165,7 +165,7 @@
                     <label>Ubicación:</label>
                     <div id="mapa1" style="width: 100%;height: 350px;">
                         @if ($lat && $lng)
-                        <iframe src="./ubicacion/{{ $lat }}/{{ $lng }}" style="width: 100%; height: 100%"
+                        <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}" style="width: 100%; height: 100%"
                             name="ubicacion"></iframe>
                         @endif
 

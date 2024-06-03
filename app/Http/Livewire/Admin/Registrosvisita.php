@@ -16,7 +16,7 @@ class Registrosvisita extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $clientes, $cliente_id = "", $estado = "", $inicio, $final, $search = "";
+    public $clientes, $cliente_id = "", $estado = "", $inicio, $final, $search = "", $clienteid = "";
     public $visita = null, $imgs = [];
 
     public function mount()
@@ -32,24 +32,24 @@ class Registrosvisita extends Component
         // DB::enableQueryLog();
         $resultados = NULL;
         $sql = "";
-        if ($this->cliente_id != "") {
+        if ($this->clienteid != "") {
             if ($this->estado == "") {
                 $resultados = Vwvisita::where([
                     ["fechaingreso", ">=", $this->inicio],
                     ["fechaingreso", "<=", $this->final],
-                    ["cliente_id", $this->cliente_id],
+                    ["cliente_id", $this->clienteid],
                     ['visitante', 'LIKE', '%' . $this->search . '%']
                 ])->orWhere(
                     [
                         ["fechaingreso", ">=", $this->inicio],
                         ["fechaingreso", "<=", $this->final],
-                        ["cliente_id", $this->cliente_id],
+                        ["cliente_id", $this->clienteid],
                         ['residente', 'LIKE', '%' . $this->search . '%']
                     ]
                 )->orWhere([
                     ["fechaingreso", ">=", $this->inicio],
                     ["fechaingreso", "<=", $this->final],
-                    ["cliente_id", $this->cliente_id],
+                    ["cliente_id", $this->clienteid],
                     ['docidentidad', 'LIKE', '%' . $this->search . '%']
                 ])
                     ->orderBy('id', 'DESC')
@@ -58,21 +58,21 @@ class Registrosvisita extends Component
                 $resultados = Vwvisita::where([
                     ["fechaingreso", ">=", $this->inicio],
                     ["fechaingreso", "<=", $this->final],
-                    ["cliente_id", $this->cliente_id],
+                    ["cliente_id", $this->clienteid],
                     ['visitante', 'LIKE', '%' . $this->search . '%'],
                     ["estado", $this->estado],
                 ])
                     ->orWhere([
                         ["fechaingreso", ">=", $this->inicio],
                         ["fechaingreso", "<=", $this->final],
-                        ["cliente_id", $this->cliente_id],
+                        ["cliente_id", $this->clienteid],
                         ['residente', 'LIKE', '%' . $this->search . '%'],
                         ["estado", $this->estado],
                     ])
                     ->orWhere([
                         ["fechaingreso", ">=", $this->inicio],
                         ["fechaingreso", "<=", $this->final],
-                        ["cliente_id", $this->cliente_id],
+                        ["cliente_id", $this->clienteid],
                         ['docidentidad', 'LIKE', '%' . $this->search . '%'],
                         ["estado", $this->estado],
                     ])
@@ -81,7 +81,7 @@ class Registrosvisita extends Component
                     ->paginate(10);
             }
 
-            $parametros = array($this->cliente_id, $this->estado, $this->inicio, $this->final, $this->search);
+            $parametros = array($this->clienteid, $this->estado, $this->inicio, $this->final, $this->search);
             Session::put('param-visitas', $parametros);
         }
 
@@ -100,11 +100,11 @@ class Registrosvisita extends Component
 
     public function exporExcel()
     {
-        $cliente = Cliente::find($this->cliente_id);
+        $cliente = Cliente::find($this->clienteid);
         return Excel::download(new VisitasExport(), 'Visitas_' . $cliente->nombre . '_' . date('His') . '.xlsx');
     }
 
-    public function updatedCliente_id()
+    public function updatedClienteid()
     {
         $this->resetPage();
     }

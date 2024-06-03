@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col-12 col-md-3 mb-3">
                         {!! Form::select('cliente_id', $clientes, null,
-                        ['class'=>'form-control','placeholder'=>'Seleccione un cliente','wire:model'=>'cliente_id']) !!}
+                        ['class'=>'form-control','placeholder'=>'Seleccione un cliente','wire:model'=>'clienteid']) !!}
                     </div>
                     <div class="col-12 col-md-3">
                         <div class="input-group mb-3">
@@ -120,24 +120,25 @@
                             </tr>
                             @empty
                             <tr>
-                                <td class="text-center" colspan="7">No se econtraron resultados.</td>
+                                <td class="text-center" colspan="8">No se econtraron resultados.</td>
                             </tr>
                             @endforelse
                             @else
                             <tr>
-                                <td class="text-center" colspan="7">No se econtraron resultados.</td>
+                                <td class="text-center" colspan="8">No se econtraron resultados.</td>
                             </tr>
                             @endif
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-end">
+                        @if (!is_null($resultados))
+                        {{ $resultados->links() }}
+                        @endif
+
+                    </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-end">
-                @if (!is_null($resultados))
-                {{ $resultados->links() }}
-                @endif
 
-            </div>
         </div>
     </div>
 

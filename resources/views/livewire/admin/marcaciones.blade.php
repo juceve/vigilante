@@ -13,45 +13,29 @@
             </thead>
             <tbody>
                 @if (count($marcaciones) > 0)
-                    @foreach ($marcaciones as $marcado)
-                        <tr align="center">
-                            <td>{{ $marcado[0] }}</td>
-                            <td>
-                                @switch($marcado[1])
-                                    @case(0)
-                                        &#10060;
-                                    @break
+                @foreach ($marcaciones as $marcado)
+                <tr align="center">
+                    <td>{{ $marcado->fecha }}</td>
+                    <td>
+                        @if ($marcado->ingreso)
+                        <a href="javascript:void(0);" class="text-dark" data-toggle="modal" data-target="#modalMarca"
+                            wire:click='cargar({{ $marcado->id }},1)'>{{ substr($marcado->ingreso,11,5) }}</a>
+                        @else
+                        &#10060;
+                        @endif
 
-                                    @case(1)
-                                        --
-                                    @break
+                    </td>
 
-                                    @default
-                                        <a href="javascript:void(0);" class="text-dark" data-toggle="modal"
-                                            data-target="#modalMarca"
-                                            wire:click='cargar({{ $marcado[3] }})'>{{ $marcado[1] }}</a>
-                                @endswitch
-
-                            </td>
-
-                            <td>
-                                @switch($marcado[2])
-                                    @case(0)
-                                        &#10060;
-                                    @break
-
-                                    @case(1)
-                                        --
-                                    @break
-
-                                    @default
-                                        <a href="javascript:void(0);" class="text-dark" data-toggle="modal"
-                                            data-target="#modalMarca"
-                                            wire:click='cargar({{ $marcado[4] }})'>{{ $marcado[2] }}</a>
-                                @endswitch
-                            </td>
-                        </tr>
-                    @endforeach
+                    <td>
+                        @if ($marcado->salida)
+                        <a href="javascript:void(0);" class="text-dark" data-toggle="modal" data-target="#modalMarca"
+                            wire:click='cargar({{ $marcado->id }},2)'>{{ substr($marcado->salida,11,5) }}</a>
+                        @else
+                        &#10060;
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
                 @endif
 
             </tbody>
@@ -65,7 +49,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalMarcaLabel">Marcado de Ronda</h5>
+                    <h5 class="modal-title" id="modalMarcaLabel">Marcado de Asistencia</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -101,8 +85,8 @@
                     <label>Ubicación:</label>
                     <div id="mapa1" style="width: 100%;height: 350px;">
                         @if ($lat && $lng)
-                            <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}"
-                                style="width: 100%; height: 100%" name="ubicacion"></iframe>
+                        <iframe src="../ubicacion/{{ $lat }}/{{ $lng }}" style="width: 100%; height: 100%"
+                            name="ubicacion"></iframe>
                         @endif
 
                     </div>

@@ -111,7 +111,7 @@
     </div>
     <div class="container-fluid d-grid mt-3 mb-3">
 
-        <button class="btn btn-success" wire:click='registrar' wire:loading.remove wire:loading.attr="disabled">
+        <button class="btn btn-success" onclick='registrar()' wire:loading.remove wire:loading.attr="disabled">
             REGISTRAR VISITA <i class="fas fa-save"></i>
         </button>
 
@@ -128,6 +128,24 @@
 </div>
 @section('js')
 {{-- <script src="{{asset('vendor/jquery/inputsfiles.js')}}"></script> --}}
+<script>
+    function registrar(){
+        Swal.fire({
+            title: "REGISTRAR VISITA",
+            text: "Está seguro de realizar esta operación?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#146c43",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, registrar",
+            cancelButtonText: "No, cancelar",
+            }).then((result) => {
+            if (result.isConfirmed) {
+                @this.registrar();
+            }
+            });
+        }
+</script>
 <script>
     let inputCount = 1;
     function remArray(id){
@@ -245,55 +263,5 @@
         }
     }
 </script>
-<script>
-    //     function procesar(){
-//     var srcEncoded;
-//     @this.set('filename',"");
-//     document.getElementById('preview').innerHTML='';
-//     const preview = document.getElementById('preview');
-//     const input = document.querySelector('#imageInput');
-        
-//     for (let i = 0; i < input.files.length; i++) {
-//         const file = input.files[i];
-//         if (!file) {
-//             return;
-//         }
 
-//         const reader = new FileReader();
-
-//         reader.readAsDataURL(file);
-
-//         reader.onload = function (event) {
-//             const imgElement = document.createElement("img");
-//             imgElement.src = event.target.result;
-            
-
-//             imgElement.onload = function (e) {
-//                 const canvas = document.createElement("canvas");
-//                 const MAX_WIDTH = 400;
-
-//                 const scaleSize = MAX_WIDTH / e.target.width;
-//                 canvas.width = MAX_WIDTH;
-//                 canvas.height = e.target.height * scaleSize;
-
-//                 const ctx = canvas.getContext("2d");
-
-//                 ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
-
-//                 srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
-
-//                 const resizedImg = new Image();
-                
-//                 resizedImg.src = srcEncoded;
-//                 resizedImg.classList.add('img-fluid');
-//                 resizedImg.classList.add('img-thumbnail');
-//                 preview.innerHTML='<b>Vista previa:</b><br>';
-//                 preview.appendChild(resizedImg);
-//                 @this.cargaImagenBase64(srcEncoded);
-//             };
-//         };
-//     }
-    
-// }
-</script>
 @endsection

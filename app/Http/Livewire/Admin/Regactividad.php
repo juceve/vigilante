@@ -15,11 +15,15 @@ class Regactividad extends Component
 
     public  $lat = "", $lng = "";
 
-    public function mount()
+    public function mount($cliente_id = NULL)
     {
         $this->inicio = date('Y-m-d');
         $this->final = date('Y-m-d');
         $this->clientes = Cliente::all()->pluck('nombre', 'id');
+        if (!is_null($cliente_id)) {
+            $this->cliente_id = $cliente_id;
+            $this->visto_id = 0;
+        }
     }
     public function render()
     {

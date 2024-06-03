@@ -112,7 +112,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/asistencias', Registroasistencias::class)->name('admin.asistencias');
 
 
-    Route::get('admin/registro-actividad', Regactividad::class)->middleware('can:admin.registros.panico')->name('admin.regactividad');
+    Route::get('admin/registro-actividad/{cliente_id?}', Regactividad::class)->middleware('can:admin.registros.panico')->name('admin.regactividad');
     Route::get('admin/turnos-cliente/{cliente_id}', TurnoCliente::class)->middleware('can:turnos.index')->name('admin.turnos-cliente');
     Route::get('admin/puntos-control/{turno_id}', PuntosControl::class)->name(('puntoscontrol'));
     Route::get('admin/control-rondas', Admrondas::class)->name('control.rondas');

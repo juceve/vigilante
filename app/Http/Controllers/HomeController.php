@@ -46,15 +46,8 @@ class HomeController extends Controller
             return view('operativo', compact('designaciones'));
         }
         if (Auth::user()->template == "ADMIN") {
-            $colores = array("primary", "success", "info", "warning", "danger", "secondary");
-            $clientes = Cliente::where('status', 1)->orderBy('oficina_id', 'ASC')->get();
-            $pts = "";
-            foreach ($clientes as $cliente) {
-                $fila = $cliente->nombre . "|" . $cliente->latitud . "|" . $cliente->longitud . "|" . $cliente->direccion . "|" . $cliente->personacontacto . "|" . $cliente->telefonocontacto . "|" . $cliente->id;
-                $pts .= $fila . "$";
-            }
-            $pts = substr($pts, 0, -1);
-            return view('admin.home', compact('clientes', 'colores', 'pts'));
+
+            return view('admin.home');
         }
 
         if (Auth::user()->template == "CLIENTE") {

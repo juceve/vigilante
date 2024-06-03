@@ -17,6 +17,8 @@ use App\Models\Marcacione;
 use App\Models\Regronda;
 use App\Models\Tarea;
 use App\Models\Usercliente;
+use App\Models\Vwnovedade;
+use App\Models\Vwpanico;
 use Illuminate\Support\Facades\Auth;
 
 function tablaRondas($designacione_id)
@@ -123,6 +125,7 @@ function tablaMarcaciones($designacione_id)
 
         $actual->modify('+1 day');
     }
+
     return $marcaciones;
 }
 
@@ -230,6 +233,19 @@ function yaMarque($designacione_id)
             }
         }
     }
+}
+
+function tengoPanicos($user_id, $cliente_id)
+{
+    $hoy = date('Y-m-d');
+    $panicos = Vwpanico::where([
+        ['cliente_id', $cliente_id],
+        ['user_id', $user_id],
+        ['fecha', $hoy],
+        ['visto', 0],
+    ])->get();
+
+    return $panicos->count();
 }
 
 function crearIntervalo($horaI, $horaF, $intervalo)
