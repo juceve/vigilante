@@ -42,7 +42,10 @@ class HomeController extends Controller
                     ->where('estado', 1)
                     ->orderBy('fechaInicio', 'ASC')->first();
             }
-            Session::put('designacion-oper', $designaciones->id);
+            if ($designaciones) {
+                Session::put('designacion-oper', $designaciones->id);
+            }
+
             return view('operativo', compact('designaciones'));
         }
         if (Auth::user()->template == "ADMIN") {

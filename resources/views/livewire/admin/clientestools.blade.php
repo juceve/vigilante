@@ -22,20 +22,21 @@
                             <tr>
                                 <td>
                                     <div class="custom-control custom-radio">
-                                        {{-- <input class="custom-control-input custom-control-input-{{ $colores[$i] }}"
-                                            --}} <input class="custom-control-input custom-control-input-primary"
-                                            type="radio" id="{{ $cliente->id }}" checked="">
-                                        <label for="{{ $cliente->id }}" class="custom-control-label">
+                                        @if ($cliente[3])
+                                        <input class="custom-control-input custom-control-input-danger" @else <input
+                                            class="custom-control-input custom-control-input-primary" @endif
+                                            type="radio" id="{{ $cliente[0] }}" checked="">
+                                        <label for="{{ $cliente[0] }}" class="custom-control-label">
                                             <a href="javascript:void(0);" class="text-dark"
-                                                wire:click="cargarCliente({{$cliente->id}})">
-                                                {{ $cliente->nombre }}
+                                                wire:click="cargarCliente({{$cliente[0]}})">
+                                                {{ $cliente[1] }}
 
                                             </a>
                                         </label>
                                     </div>
                                 </td>
                                 <td align="right">
-                                    {{ $cliente->oficina->nombre }}
+                                    {{ $cliente[2] }}
                                 </td>
                             </tr>
                             @php
@@ -102,8 +103,8 @@
                                         <tr class="table-info">
                                             <th>Nombre</th>
                                             <th>Turno</th>
-                                            <th>Asistencia</th>
-                                            <th>Alertas</th>
+                                            <th class="text-center">Asistencia</th>
+                                            <th class="text-center">Alertas</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -177,8 +178,15 @@
         const puntos = [];
 
         var myIcon = L.icon({
-            iconUrl: "{{ asset('images/punt.png') }}",
-            iconSize: [35, 35],
+            iconUrl: "{{ asset('images/img-maps/marker_blue.png') }}",
+            iconSize: [20, 35],
+            iconAnchor: [35, 35],
+            popupAnchor: [-15, -30],
+        });
+
+        var myIconR = L.icon({
+            iconUrl: "{{ asset('images/img-maps/marker_red.png') }}",
+            iconSize: [20, 35],
             iconAnchor: [35, 35],
             popupAnchor: [-15, -30],
         });
@@ -186,14 +194,31 @@
         for (let i = 0; i < arr1.length; i++) {
             const pt = arr1[i].split("|");
             puntos[i] = pt;
-            L.marker([pt[1], pt[2]]).addTo(map).bindPopup('<h6>' + pt[0] + '</h6><small>' + pt[3] +
+            if (pt[7]==1) {
+                L.marker(
+            [pt[1], pt[2]], 
+            {icon: myIconR}
+            ).addTo(map).bindPopup('<h6>' + pt[0] + '</h6><small>' + pt[3] +
+                '</small><p><a href="javascript:void(0);" onclick="cargarCliente('+ pt[6]+')" style="color: red">Ver alertas!</a><br><br><a href="./admin/clientes/' + pt[6] + '">' +
+                'Mas Información</a></p>');
+            } else {
+                L.marker(
+            [pt[1], pt[2]], 
+            {icon: myIcon}
+            ).addTo(map).bindPopup('<h6>' + pt[0] + '</h6><small>' + pt[3] +
                 '</small><p><a href="./admin/clientes/' + pt[6] + '">' +
                 'Mas Información</a></p>');
+            }
+            
         }
         // map.on('click', onMapClick)
 
         // function onMapClick(e) {
         //     alert("Posición: " + e.latlng)
         // }
+        function cargarCliente(id){
+            @this.cargarCliente(id);
+        }
 </script>
+
 @endsection
