@@ -41,7 +41,7 @@ class SalidaVisita extends Component
             if (count($this->filesname)) {
                 $imgs = $this->visita->imgs . "|";
                 foreach ($this->filesname as $filename) {
-                    $nombreimg = "images/visitas/" . rand(1, 10000) . '_' . $this->visita->id . ".png";
+                    $nombreimg = "images/visitas/salida" . rand(1, 10000) . '_' . $this->visita->id . ".png";
                     if (Storage::disk('public')->exists("livewire-tmp/" . $filename)) {
                         Storage::disk('public')->move("livewire-tmp/" . $filename, $nombreimg);
                     }
@@ -58,6 +58,7 @@ class SalidaVisita extends Component
             return redirect()->route('vigilancia.regsalida', $designacione_id)->with('success', 'Registro de Salida exitoso!');
         } catch (\Throwable $th) {
             DB::rollBack();
+            $designacione_id = $data = Session::get('designacion-oper');
             return redirect()->route('vigilancia.regsalida', $designacione_id)->with('error', 'Ha ocurrido un error');
         }
     }

@@ -91,7 +91,11 @@ class Ronda extends Component
             foreach ($this->files as $key => $file) {
                 $arrF = explode('.', $file->getFilename());
                 $name = date('YmdHis') . $x;
-
+                // if ($arrF[1] != "jpg" && $arrF[1] != "png" && $arrF[1] != "jpeg" && $arrF[1] != "gif") {
+                //     DB::rollBack();
+                //     $this->emit('error', 'Solo son permitidos archivos de imagen.');
+                //     return;
+                // }
                 $x++;
                 $path = $file->storeAs('images/registros/ronda', $name . '.' . $arrF[1]);
 

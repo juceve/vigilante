@@ -218,6 +218,10 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td><strong>OPERADOR:</strong></td>
+                                        <td>{{$visita->empleado}}</td>
+                                    </tr>
                                 </table>
                             </div>
                             <div class="col-12 col-md-6">
@@ -226,7 +230,7 @@
                                 <hr>
                                 <div class="row">
                                     @foreach ($imgs as $img)
-
+                                    @if (!str_contains($img,'salida'))
                                     <div class="col-sm-4">
                                         <a href="{{asset('storage/'.$img)}}" data-toggle="lightbox" data-title="Galeria"
                                             data-gallery="gallery">
@@ -234,9 +238,28 @@
                                                 style="height: 150px;" />
                                         </a>
                                     </div>
+                                    @endif
+
                                     @endforeach
 
                                 </div>
+                                <hr>
+                                <h6>SALIDA:</h6>
+                                <div class="row">
+                                    @foreach ($imgs as $img)
+                                    @if (str_contains($img,'salida'))
+                                    <div class="col-sm-4">
+                                        <a href="{{asset('storage/'.$img)}}" data-toggle="lightbox" data-title="Galeria"
+                                            data-gallery="gallery">
+                                            <img src="{{asset('storage/'.$img)}}" class="img-fluid img-thumbnail mb-2"
+                                                style="height: 150px;" />
+                                        </a>
+                                    </div>
+                                    @endif
+
+                                    @endforeach
+                                </div>
+
                                 @else
                                 <span>No se encontraron capturas.</span><img src="{{asset('images/sinimagen.jpg')}}"
                                     class="img-fluid img-thumbnail">@endif

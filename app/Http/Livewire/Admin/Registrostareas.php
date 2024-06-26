@@ -57,7 +57,7 @@ class Registrostareas extends Component
                     ->orderBy('id', 'DESC')
                     ->paginate(10);
             }
-            $this->resetPage();
+            // $this->resetPage();
             $parametros = array($this->selCliente, $this->estado, $this->inicio, $this->final, $this->search);
             Session::put('param-tarea', $parametros);
         }

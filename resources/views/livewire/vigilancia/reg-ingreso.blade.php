@@ -93,7 +93,7 @@
                             <div class="col">
                                 {{-- <label for="fileInput0" class="form-label">Upload Image</label> --}}
                                 <input type="file" class="form-control" id="fileInput0" name="fileInput0"
-                                    onchange="CARGAFOTO('fileInput0')" accept="image/*" capture="camera">
+                                    onchange="CARGAFOTO('fileInput0')" accept="image/*,audio/*" capture="camera">
                             </div>
                             <div class="col-auto" id="thumbnailContainer0"></div>
                             <div class="col-auto d-none" id="deleteButtonContainer0">
@@ -158,6 +158,18 @@
         const inputElement = document.getElementById(inputId);
         const file = inputElement.files[0];
         if (file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                document.getElementById(inputId).value="";
+                Swal.fire({
+                    title: "Error",
+                    text: "Solo se permiten imagenes.",
+                    icon: "error"
+                });
+                event.preventDefault();
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = function (e) {
                 const thumbnailContainerId = `thumbnailContainer${inputId.replace('fileInput', '')}`;
@@ -224,7 +236,7 @@
         input.className = 'form-control';
         input.id = `fileInput${inputCount}`;
         input.name = `fileInput${inputCount}`;
-        input.accept = 'image/*';
+        input.accept = 'image/*,audio/*';
         input.setAttribute('capture', `camera`);
         input.setAttribute('onchange', `CARGAFOTO('${input.id}')`);
 

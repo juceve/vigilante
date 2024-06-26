@@ -41,7 +41,7 @@
             <div class="col-12 col-md-6 d-grid mb-3">
                 <div class="mb-3">
                     <label for="files" class="form-label text-primary"><strong>Multimedia</strong></label>
-                    <input class="form-control" type="file" id="files" multiple accept="image/*,audio/*,video/*"
+                    <input class="form-control" type="file" id="files" multiple accept="image/*,audio/*"
                         wire:model='files'>
                     @foreach ($files as $file)
                     @error('file')

@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Clientestools extends Component
 {
-    public $selCliente = NULL, $designaciones = NULL, $panicos = NULL;
+    public $selCliente = NULL, $designaciones = NULL, $panicos = NULL, $marque = 2, $arrayClientes = [];
 
     public function render()
     {
@@ -26,29 +26,47 @@ class Clientestools extends Component
                 ['fechaFin', '>=', $hoy],
                 ['estado', true],
             ])->get();
-
+            $marque = 2;
             foreach ($designaciones as $item) {
-                if (yaMarque($item->id) == 0) {
-                    $alerta = 1;
-                    break;
-                } else {
-                    if (tengoPanicos($item->datosempleado->user_id, $cliente->id) > 0) {
-                        $alert = 1;
+                switch (yaMarque($item->id)) {
+                    case '0':
+                        $alerta = 1;
+                        $marque = 0;
                         break;
-                    }
+                    case '1':
+                        if (tengoPanicos($item->datosempleado->user_id, $cliente->id) > 0) {
+                            $alerta = 1;
+                            $marque = 0;
+                            break;
+                        } else {
+                            $alerta = 0;
+                            $marque = 1;
+                        }
+                        break;
                 }
+                // if (yaMarque($item->id) == 0) {
+                //     $alerta = 1;
+                //     $marque = 0;
+                //     break;
+                // } else {
+                //     if (tengoPanicos($item->datosempleado->user_id, $cliente->id) > 0) {
+                //         $alert = 1;
+                //         break;
+                //     }
+                // }
             }
-            $clientes[] = array($cliente->id, $cliente->nombre, $cliente->oficina->nombre, $alerta);
-            $fila = $cliente->nombre . "|" . $cliente->latitud . "|" . $cliente->longitud . "|" . $cliente->direccion . "|" . $cliente->personacontacto . "|" . $cliente->telefonocontacto . "|" . $cliente->id . "|" . $alerta;
+            $clientes[] = array($cliente->id, $cliente->nombre, $cliente->oficina->nombre, $alerta, $marque);
+            $fila = $cliente->nombre . "|" . $cliente->latitud . "|" . $cliente->longitud . "|" . $cliente->direccion . "|" . $cliente->personacontacto . "|" . $cliente->telefonocontacto . "|" . $cliente->id . "|" . $alerta . "|" . $marque;
             $pts .= $fila . "$";
         }
         $pts = substr($pts, 0, -1);
-
+        $this->arrayClientes = $clientes;
         return view('livewire.admin.clientestools', compact('clientes', 'colores', 'pts'));
     }
 
     public function cargarCliente($cliente_id)
     {
+
         $this->reset('selCliente', 'designaciones');
         $this->selCliente = Cliente::find($cliente_id);
         $hoy = date('Y-m-d');
@@ -58,5 +76,11 @@ class Clientestools extends Component
             ['fechaFin', '>=', $hoy],
             ['estado', true],
         ])->get();
+
+        foreach ($this->arrayClientes as $item) {
+            if ($item[0] == $cliente_id) {
+                $this->marque = $item[4];
+            }
+        }
     }
 }
