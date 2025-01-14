@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Exports\AsistenciasExport;
+use App\Exports\ContactosExport;
 use App\Models\Asistencia;
 use App\Models\Cliente;
 use App\Models\Vwasistencia;
@@ -92,8 +93,8 @@ class Registroasistencias extends Component
 
     public function exporExcel()
     {
-        $cliente = Cliente::find($this->cliente_id);
-        return Excel::download(new AsistenciasExport(), 'Asistencias_' . $cliente->nombre . '_' . date('His') . '.xlsx');
+
+        return Excel::download(new ContactosExport(), 'Contactos' . '_' . date('His') . '.xlsx');
     }
 
     public function updatedCliente_id()
