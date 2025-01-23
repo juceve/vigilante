@@ -80,6 +80,13 @@
 
 <body class="@yield('classes_body')" @yield('body_data')>
 
+    <div wire:loading>
+        <div class="loading-screen" id="loadingScreen">
+            <div class="spinner"></div> &nbsp;&nbsp;
+            <p>Cargando...</p>
+        </div>
+    </div>
+
     {{-- Body Content --}}
     @yield('body')
 
@@ -567,12 +574,7 @@
     </script>
 
 
-    <div wire:loading>
-        <div class="loading-screen" id="loadingScreen">
-            <div class="spinner"></div> &nbsp;&nbsp;
-            <p>Cargando...</p>
-        </div>
-    </div>
+    
 </body>
 
 </html>

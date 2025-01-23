@@ -29,7 +29,7 @@
                     Ubicación</button>
             </div> --}}
             <div class="col-12 d-grid mb-3">
-                <a class="btn btn-primary" href="tel:+59177011691" id="llamar" onclick="llamada()"><i
+                <a class="btn btn-primary" href="tel:+59178458561" id="llamar" onclick="llamada()"><i
                         class="fas fa-phone-square-alt fa-rotate-90 fa-2x"></i><br>Llamar a
                     Central</a>
             </div>

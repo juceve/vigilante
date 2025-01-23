@@ -89,7 +89,7 @@
                             <td>{{$item->empleado}}</td>
                             <td class="text-right">
                                 <a href="{{route('customer.perfilguardia',$item->empleado_id)}}"
-                                    class="btn btn-success btn-sm" title="Ver datos"><i class="fas fa-eye"></i></a>
+                                    class="btn btn-success btn-sm" title="Ver datos"><i class="fa fa-eye"></i></a>
                             </td>
                         </tr>
                         @endforeach

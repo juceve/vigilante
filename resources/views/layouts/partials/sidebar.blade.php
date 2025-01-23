@@ -16,6 +16,11 @@
                 <i class="fa fa-street-view"></i>
                 <span>Rondas</span></a>
         </li>
+        <li>
+            <a class="nav-link" href="{{route('customer.links')}}">
+                <i class="fa fa-file-text-o"></i>
+                <span>Airbnb</span></a>
+        </li>
     </ul>
     <br>
     <h3>DOCUMENTOS VINCULADOS</h3>

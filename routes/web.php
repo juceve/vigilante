@@ -10,6 +10,7 @@ use App\Http\Controllers\CitereciboController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DesignacioneController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\FormularioAirbnbController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NovedadeController;
 use App\Http\Controllers\OficinaController;
@@ -47,6 +48,7 @@ use App\Http\Livewire\Admin\RegNovedades;
 use App\Http\Livewire\Admin\Usuariocliente;
 use App\Http\Livewire\Customer\Cobros;
 use App\Http\Livewire\Customer\Informes;
+use App\Http\Livewire\Customer\Links;
 use App\Http\Livewire\Customer\Novedades as CustomerNovedades;
 use App\Http\Livewire\Customer\Recibos;
 use App\Http\Livewire\Customer\Rondas;
@@ -181,4 +183,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('customer/informes', Informes::class)->name('customer.informes');
     Route::get('customer/cobros', Cobros::class)->name('customer.cobros');
     Route::get('customer/recibos', Recibos::class)->name('customer.recibos');
+    Route::get('customer/links', Links::class)->name('customer.links');
 });
+
+Route::middleware('throttle:10,1')->get('formulario-airbnb/{link_id}',[FormularioAirbnbController::class,'index'])->name('formairbnb');
+Route::middleware('throttle:10,1')->get('register-success/{registro_id}',[FormularioAirbnbController::class,'regsuccess'])->name('regsuccess');
+Route::middleware('throttle:10,1')->get('downloadqr/{contenido}',[FormularioAirbnbController::class,'descargarQr'])->name('downloadqr');

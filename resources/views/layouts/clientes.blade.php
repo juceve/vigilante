@@ -116,7 +116,7 @@
     <script src="{{asset('customers/vendors/nprogress/nprogress.js')}}"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="{{asset('customers/build/js/custom.min.js')}}"></script>
+    <script src="{{asset('customers/build/js/custom.js')}}"></script>
     @livewireScripts
     @yield('js')
 
