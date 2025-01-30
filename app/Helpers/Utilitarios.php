@@ -449,3 +449,8 @@ function decodGet($myString)
     $myString = str_replace("^&10&^", "/", $myString);
     return $myString;
 }
+
+function cerosIzq($num){
+    $num = str_pad($num,5,'0',STR_PAD_LEFT);
+    return $num;
+}

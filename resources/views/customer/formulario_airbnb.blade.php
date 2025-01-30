@@ -98,6 +98,7 @@
     <div class="container">
         <div class="form-container">
             <h2 class="text-secondary">Formulario de Registro Airbnb</h2>
+            <h2 class="text-secondary">{{ $cliente->nombre }}</h2>
             @livewire('customer.travelerform', ['link_id' => $link_id])
         </div>
     </div>

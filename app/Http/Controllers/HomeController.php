@@ -38,9 +38,10 @@ class HomeController extends Controller
             $designaciones = null;
             if ($empleado_id) {
                 $designaciones = Designacione::where('fechaFin', '>=', date('Y-m-d'))
+                    ->where('fechaInicio', '<=', date('Y-m-d'))
                     ->where('empleado_id', $empleado_id)
                     ->where('estado', 1)
-                    ->orderBy('fechaInicio', 'ASC')->first();
+                    ->orderBy('id', 'DESC')->first();
             }
             if ($designaciones) {
                 Session::put('designacion-oper', $designaciones->id);

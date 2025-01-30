@@ -32,6 +32,7 @@ return new class extends Migration
             $table->integer('luggage_count')->nullable(); // Cantidad de equipajes
             $table->string('company')->nullable(); // Empresa (opcional)
             $table->string('travel_purpose')->nullable(); // Propósito de viaje
+            $table->enum('status',['CREADO','ACTIVADO','FINALIZADO'])->default('CREADO'); // Propósito de viaje
             $table->timestamps();
         });
     }

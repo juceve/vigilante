@@ -54,6 +54,7 @@ use App\Http\Livewire\Customer\Recibos;
 use App\Http\Livewire\Customer\Rondas;
 use App\Http\Livewire\Customer\Visitas;
 use App\Http\Livewire\Vigilancia\Activacubrerelevos;
+use App\Http\Livewire\Vigilancia\Checkairbnb;
 use App\Http\Livewire\Vigilancia\HombreVivo;
 use App\Http\Livewire\Vigilancia\Novedades;
 use App\Http\Livewire\Vigilancia\Panelvisitas;
@@ -98,6 +99,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/home/marcacion/{id}', [HomeController::class, 'marcar'])->name('marcacion');
     Route::get('admin/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('admin/users', [UserController::class, 'index'])->name('users');
+
     Route::get('vigilancia/panico', Panico::class)->name('vigilancia.panico');
     Route::get('vigilancia/cubrerelevos', Activacubrerelevos::class)->name('vigilancia.cubrerelevos');
     Route::get('vigilancia/ronda', Ronda::class)->name('vigilancia.ronda');
@@ -108,6 +110,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('vigilancia/visitas/reg-salida/{designacion}', RegSalida::class)->name('vigilancia.regsalida');
     Route::get('vigilancia/salidavisita/{visita_id}', SalidaVisita::class)->name('salidavisita');
     Route::get('vigilancia/tareas/{designacion}', Vtareas::class)->name('vigilancia.tareas');
+    Route::get('vigilancia/airbnb/{designacione_id}', Checkairbnb::class)->name('vigilancia.airbnb');
+
     Route::get('admin/visitas', Registrosvisita::class)->middleware('can:admin.registros.visitas')->name('admin.visitas');
     Route::get('admin/rondas', Registrosronda::class)->middleware('can:admin.registros.rondas')->name('admin.rondas');
     Route::get('admin/novedades', Registrosnovedades::class)->middleware('can:admin.registros.novedades')->name('admin.novedades');
@@ -166,8 +170,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/citescotizacion', ListadoCiteCotizacion::class)->middleware('can:admin.generador.cotizacion')->name('admin.citescotizacion');
 
 
-    Route::get('/pruebas', [PruebasController::class, 'index'])->name('pruebas');
-    Route::get('pruebas/pdf', [PruebasController::class, 'generarPDF'])->name('generarpdf');
+    // Route::get('/pruebas', [PruebasController::class, 'index'])->name('pruebas');
+    // Route::get('pruebas/pdf', [PruebasController::class, 'generarPDF'])->name('generarpdf');
+    // Route::get('pdfprueba', function () {
+    //     return view('pdfs.pdfformularioairbnb');
+    // });
 
     ////////////////// AREA DE CLIENTES ///////////////////////
     Route::get('admin/usuariocliente/{cliente_id}', Usuariocliente::class)->name('usuariocliente');
@@ -186,6 +193,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('customer/links', Links::class)->name('customer.links');
 });
 
-Route::middleware('throttle:10,1')->get('formulario-airbnb/{link_id}',[FormularioAirbnbController::class,'index'])->name('formairbnb');
-Route::middleware('throttle:10,1')->get('register-success/{registro_id}',[FormularioAirbnbController::class,'regsuccess'])->name('regsuccess');
-Route::middleware('throttle:10,1')->get('downloadqr/{contenido}',[FormularioAirbnbController::class,'descargarQr'])->name('downloadqr');
+Route::middleware('throttle:10,1')->get('formulario-airbnb/{link_id}', [FormularioAirbnbController::class, 'index'])->name('formairbnb');
+Route::middleware('throttle:10,1')->get('register-success/{registro_id}', [FormularioAirbnbController::class, 'regsuccess'])->name('regsuccess');
+Route::middleware('throttle:10,1')->get('downloadqr/{contenido}', [FormularioAirbnbController::class, 'descargarQr'])->name('downloadqr');
+Route::middleware('throttle:10,1')->get('downloadpdf/{id}', [FormularioAirbnbController::class, 'descargarPdf'])->name('downloadpdf');

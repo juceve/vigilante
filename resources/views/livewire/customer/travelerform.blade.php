@@ -1,6 +1,6 @@
 <div>
 
-    <h3 class="mb-2 text-center  text-white" style="background-color: #1987547a">Viajero Titular</h3>
+    <h3 class="mb-2 text-center  text-white" style="background-color: #1987547a">Titular</h3>
 
     <div class="row">
         <div class="col-md-6 mb-3">
@@ -27,7 +27,7 @@
     </div>
 <div class="row mb-3">
     <div class="col-12">
-        <label for="department_info" class="form-label">Informacion del Inmueble</label>
+        <label for="department_info" class="form-label">Datos del Departamento</label>
             <input type="text" id="department_info" wire:model.lazy="department_info"
                 class="form-control  @error('department_info')
                     is-invalid

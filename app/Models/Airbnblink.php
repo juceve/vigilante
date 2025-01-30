@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $created_at
  * @property $updated_at
  *
+ * @property Airbnbtraveler[] $airbnbtravelers
  * @property Cliente $cliente
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
@@ -45,6 +46,14 @@ class Airbnblink extends Model
     protected $fillable = ['cliente_id','solicitante','cedula','celular','link','vigencia','observaciones','status'];
 
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function airbnbtravelers()
+    {
+        return $this->hasMany('App\Models\Airbnbtraveler', 'airbnblink_id', 'id');
+    }
+    
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

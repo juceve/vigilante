@@ -4,8 +4,10 @@ namespace App\Http\Livewire\Customer;
 
 use App\Models\Airbnbcompanion;
 use App\Models\Airbnbtraveler;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Termwind\Components\Dd;
 
 class Travelerform extends Component
 {
@@ -37,19 +39,21 @@ class Travelerform extends Component
         $this->companions = array_values($this->companions);
     }
 
+
+    protected $rules = [        
+        'arrival_date' => 'required|date',
+        'departure_date' => 'required|date',
+        'name' => 'required|string|max:255',
+        'department_info' => 'required',
+        'birth_date' => 'required|date',
+        'document_type' => 'required|string',
+        'document_number' => 'required',
+    ];
+
     public function registrar()
     {
-        $this->validate([
-            'link_id' => 'required|string|max:255',
-            'arrival_date' => 'required|date',
-            'departure_date' => 'required|date',
-            'name' => 'required|string|max:255',
-            'department_info' => 'required',
-            'birth_date' => 'required|date',
-            'document_type' => 'required|string',
-            'document_number' => 'required',
-
-        ]);
+        // dd('Entro');
+        $this->validate();
 
         DB::beginTransaction();
 
@@ -89,7 +93,8 @@ class Travelerform extends Component
             }
 
             DB::commit();
-            return redirect()->route('regsuccess', [$traveler->id]);
+            $encryptedId = Crypt::encrypt($traveler->id);
+            return redirect()->route('regsuccess', [$encryptedId]);
         } catch (\Throwable $th) {
             DB::rollBack();
             $this->emit('error', $th->getMessage());

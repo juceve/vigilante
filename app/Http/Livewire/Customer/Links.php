@@ -3,10 +3,13 @@
 namespace App\Http\Livewire\Customer;
 
 use App\Models\Airbnblink;
+use App\Models\Airbnbtraveler;
 use App\Models\Usercliente;
 use App\Models\Vwvisita;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -90,7 +93,8 @@ class Links extends Component
                     "link"=>""
                 ]
             );
-            $link = url('/') .'/formulario-airbnb'.'/'.$airbnblink->id;
+            $encryptedId = Crypt::encrypt($airbnblink->id);
+            $link = url('/') .'/formulario-airbnb'.'/'.$encryptedId;
             $airbnblink->link =$link;
             $airbnblink->save();
 
@@ -128,6 +132,29 @@ class Links extends Component
         // return redirect($whatsappUrl);
         $this->emit('open-whatsapp', ['url' => $whatsappUrl]);
     }
+
+    public function exportarPDF($id)
+    {
+        $airbnbtraveler = Airbnbtraveler::find($id);
+        $data = $airbnbtraveler->toArray();
+        $companions_count = $airbnbtraveler->airbnbcompanions->count();
+        $condominio=$airbnbtraveler->airbnblink->cliente->nombre;
+        $data['condominio']=$condominio;
+        $data['companions_count'] = $companions_count;
+        $companions = array();
+        if ($companions_count > 0) {
+            foreach ($airbnbtraveler->airbnbcompanions as $airbnbcompanion) {
+                $companions[] = $airbnbcompanion->toArray();
+            }
+        }
+        $data['companions_data'] = $companions;
+
+        $pdf = Pdf::loadView('pdfs.pdfformularioairbnb', $data);
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'formularioairbnb.pdf');
+    }
+
     public function updatedCliente_id()
     {
         $this->resetPage();

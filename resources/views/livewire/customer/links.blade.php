@@ -181,18 +181,40 @@
                                     </tr>
                                     <tr>
                                         <td><strong>LINK GENERADO:</strong></td>
-                                        <td>{{ $airbnblink->link }}</td>
+                                        <td style=" max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            {{ $airbnblink->link }} <br>
+                                            <button class="btn btn-warning btn-sm" style="height: 25px;font-size: 11px;vertical-align: middle" onclick="copyToClipboard()">
+                                                Copian Link <i class="fa fa-link"></i>
+                                            </button><input type="hidden" id="hiddenInput" value="{{ $airbnblink->link }}">   
+                                        </td>
                                     </tr>
+                                    {{-- <tr>
+                                        <td>
+                                            
+                                        </td>
+                                        <td>
+                                            
+                                            
+                                        </td>
+                                    </tr> --}}
                                     <tr>
                                         <td>
-                                            <input type="hidden" id="hiddenInput" value="{{ $airbnblink->link }}">
+                                            <strong>REGISTROS REALIZADOS:</strong>
                                         </td>
                                         <td>
-                                            <button class="btn btn-warning btn-sm" onclick="copyToClipboard()">
-                                                Copian Link <i class="fa fa-link"></i>
-                                            </button>
-                                        </td>
+                                            @if ($airbnblink->airbnbtravelers->count() > 0)
+                                                @foreach ($airbnblink->airbnbtravelers as $item)
+                                                    <button class="btn btn-info btn-sm"
+                                                        wire:click='exportarPDF({{ $item->id }})'>
+                                                        Descargar Reg.: {{ str_pad($item->id, 6, '0', STR_PAD_LEFT) }}
+                                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                    </button><br>
+                                                @endforeach
+                                            @else
+                                                <i>No existen registros</i>
+                                            @endif
 
+                                        </td>
                                     </tr>
 
                                 </table>

@@ -95,7 +95,9 @@
                             @if (!is_null($resultados))
                             @foreach ($resultados as $designacione)
                             <tr>
-                                <td>{{ ++$i }}</td>
+                                {{-- <td>{{ ++$i }}</td> --}}
+                                
+                                <td>{{ $designacione->id}}</td>
                                 <td>{{ $designacione->empleado}}</td>
                                 <td>{{ $designacione->cliente }}
                                 <td>{{ $designacione->turno }}</td>

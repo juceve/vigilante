@@ -36,7 +36,7 @@
                     <div class="table-responsive d-flex justify-content-center">
                         <table class="table table-bordered table-sm" >
                             <tr>
-                                <td> <label><strong>Datos del Inmueble</strong></label></td>
+                                <td> <label><strong>Datos del Departamento</strong></label></td>
                                 <td>{{ $traveler->department_info }}</td>
                             </tr>
                             <tr>
@@ -111,9 +111,9 @@
                                 <img src="{{ $qrUrl }}" alt="QR Code">
                             </div>
                             <p style="font-size: 14px;">
-                                {{-- <strong>Cod. Registro: {{ str_pad($traveler->id,5, '0', STR_PAD_LEFT) }}</strong><br> --}}
-                                Válido: <br>
-                                <label><strong>Del </strong></label> {{ $traveler->arrival_date }}                                 <label><strong>hasta </strong></label> {{ $traveler->departure_date }}
+                                <strong>Cod. Registro: {{ str_pad($traveler->id,5, '0', STR_PAD_LEFT) }}</strong><br>
+                                {{-- Válido: <br> --}}
+                                <label><strong>Válido Del </strong></label> {{ $traveler->arrival_date }}                                 <label><strong>hasta </strong></label> {{ $traveler->departure_date }}
                             </p>
                         </div>
                     </div>
@@ -133,7 +133,11 @@
                             Descargar Formulario <i class="fas fa-file-alt"></i>
                         </button>
                     </div>
-                    {{-- <div class="col-12 col-md-2"></div> --}}
+                    <div class="col-12 d-grid">
+                        <a href="{{ route('downloadpdf', $traveler->id) }}" class="btn btn-secondary">
+                            Descargar Formulario Completo <i class="fas fa-file-pdf"></i>
+                        </a>
+                    </div>
 
                 </div>
             </div>
