@@ -17,7 +17,7 @@ class Airbnbtraveler extends Model
      *
      * @var array
      */
-    protected $fillable = ['airbnblink_id','arrival_date','departure_date','name','department_info','birth_date','document_type','document_number','city_of_origin','marital_status','address','city','country','email','phone','occupation','luggage_count','company','travel_purpose','status'];
+    protected $fillable = ['airbnblink_id','arrival_date','departure_date','name','department_info','birth_date','document_type','document_number','city_of_origin','marital_status','address','city','country','email','phone','occupation','luggage_count','company','travel_purpose','reg_in','reg_out','status'];
 
 
     /**

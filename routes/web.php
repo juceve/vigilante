@@ -111,6 +111,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('vigilancia/salidavisita/{visita_id}', SalidaVisita::class)->name('salidavisita');
     Route::get('vigilancia/tareas/{designacion}', Vtareas::class)->name('vigilancia.tareas');
     Route::get('vigilancia/airbnb/{designacione_id}', Checkairbnb::class)->name('vigilancia.airbnb');
+    Route::get('vigilancia/controlairbnb', function(){
+        return view('vigilancia.listadoairbnb');
+    })->name('vigilancia.ctrlairbnb');
 
     Route::get('admin/visitas', Registrosvisita::class)->middleware('can:admin.registros.visitas')->name('admin.visitas');
     Route::get('admin/rondas', Registrosronda::class)->middleware('can:admin.registros.rondas')->name('admin.rondas');

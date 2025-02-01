@@ -12,9 +12,9 @@
 @section('content')
 
 <div class="row g-1">
-    <div class="col-12 col-md-7">
+    <div class="col-12 col-md-7 mb-3">
         <div class="card">
-            <div class="card-header font-weight-bold text-info">Datos de Cliente</div>
+            <div class="card-header font-weight-bold bg-info text-white">Datos de Cliente</div>
             <div class="card-body">
                 <div class="row">
                     <table class="table table-bordered table-striped">
@@ -68,13 +68,13 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-5">
+    <div class="col-12 col-md-5 mb-3">
         <div class="card">
-            <div class="card-header font-weight-bold text-info">Personal de Seguridad Asignado</div>
+            <div class="card-header font-weight-bold bg-info text-white">Personal de Seguridad Asignado</div>
             <div class="card-body">
                 <table class="table table-bordered">
                     <thead>
-                        <tr class="table-secondary">
+                        <tr class="bg-secondary text-white">
                             <th>
                                 NOMBRE
                             </th>
@@ -98,6 +98,9 @@
                 </table>
             </div>
         </div>
+    </div>
+    <div class="col-12 mb-3">
+        @livewire('ctrlairbnb')
     </div>
 </div>
 

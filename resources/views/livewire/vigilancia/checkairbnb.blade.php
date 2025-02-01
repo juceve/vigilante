@@ -153,6 +153,9 @@
         </div>
 
     @endif
+    <div class="d-grid mt-3">
+        <a href="{{ route('vigilancia.ctrlairbnb') }}" id="ctrlbutton" class="btn btn-warning" style="height: 70px; align-content:center">Control de Registros <i class="fas fa-clock"></i></a>
+    </div>
 
 </div>
 @section('js')
@@ -177,6 +180,7 @@
             const startButton = document.getElementById("startScanner");
             const reloadButton = document.getElementById("reloadPage");
             const cancelButton = document.getElementById("cancelScanner");
+            const ctrlButton = document.getElementById("ctrlbutton");
 
             // Variable de control para el estado del escaneo
             let isScanning = false;
@@ -185,6 +189,7 @@
             startButton.addEventListener("click", () => {
                 isScanning = true; // Permitir escaneo
                 startButton.style.display = "none"; // Ocultar botón de inicio
+                ctrlButton.style.display = "none"; // Ocultar botón de inicio
                 cancelButton.style.display = "inline-block"; // Mostrar botón de cancelar
                 readerDiv.style.display = "block"; // Mostrar lector
 
@@ -240,6 +245,7 @@
                 statusDiv.innerText = "Escaneo cancelado.";
                 detenerScanner(); // Detener el lector
                 startButton.style.display = "inline-block"; // Mostrar botón de inicio
+                ctrlButton.style.display = "inline-block"; // Mostrar botón de inicio
             });
 
             // Evento del botón "Recargar Página"

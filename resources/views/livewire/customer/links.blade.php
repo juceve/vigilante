@@ -250,7 +250,7 @@
                         <div class="col-12 col-md-6">
                             <div class="form-group">
                                 {{ Form::label('solicitante') }}
-                                {{ Form::text('solicitante', null, ['class' => 'form-control' . ($errors->has('solicitante') ? ' is-invalid' : ''), 'placeholder' => 'Nombre Solicitante', 'wire:model.lazy' => 'solicitante']) }}
+                                {{ Form::text('solicitante', null, ['class' => 'form-control text-uppercase' . ($errors->has('solicitante') ? ' is-invalid' : ''), 'placeholder' => 'Nombre Solicitante', 'wire:model.lazy' => 'solicitante']) }}
                                 {!! $errors->first('solicitante', '<div class="invalid-feedback">:message</div>') !!}
                             </div>
                         </div>
@@ -272,7 +272,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 {{ Form::label('observaciones') }}
-                                {{ Form::text('observaciones', null, ['class' => 'form-control' . ($errors->has('observaciones') ? ' is-invalid' : ''), 'placeholder' => 'Observaciones', 'wire:model.lazy' => 'observaciones']) }}
+                                {{ Form::text('observaciones', null, ['class' => 'form-control text-uppercase' . ($errors->has('observaciones') ? ' is-invalid' : ''), 'placeholder' => 'Observaciones', 'wire:model.lazy' => 'observaciones']) }}
                                 {!! $errors->first('observaciones', '<div class="invalid-feedback">:message</div>') !!}
                             </div>
                         </div>

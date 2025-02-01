@@ -4,43 +4,55 @@
 
     <div class="row">
         <div class="col-md-6 mb-3">
-            <label for="arrival_date" class="form-label">Fecha de Ingreso</label>
-            <input type="date" id="arrival_date" wire:model.lazy="arrival_date"
-                class="form-control  @error('arrival_date')
+            <label for="arrival_date" class="form-label">Fecha-Hora Ingreso</label>
+            <div class="d-flex">
+                <input type="date" id="arrival_date" wire:model.lazy="arrival_date"
+                    class="form-control  @error('arrival_date')
                     is-invalid
                 @enderror"
-                required>
+                    required>
+                <input type="time" class="form-control @error('arrival_hour')
+                    is-invalid
+                @enderror"  wire:model='arrival_hour'>
+            </div>
+
             @error('arrival_date')
                 <small class="text-danger">El campo es obligatorio</small>
             @enderror
         </div>
         <div class="col-md-6 mb-3">
-            <label for="departure_date" class="form-label">Fecha de Salida</label>
-            <input type="date" id="departure_date" wire:model.lazy="departure_date"
-                class="form-control  @error('departure_date')
-                    is-invalid
-                @enderror">
+            <label for="departure_date" class="form-label">Fecha-Hora Salida</label>
+            <div class="d-flex">
+                <input type="date" id="departure_date" wire:model.lazy="departure_date"
+                    class="form-control  @error('departure_date')
+                        is-invalid
+                    @enderror"
+                    required>
+                <input type="time" class="form-control  @error('departure_hour')
+                        is-invalid
+                    @enderror" wire:model='departure_hour'>
+            </div>
             @error('departure_date')
                 <small class="text-danger">El campo es obligatorio</small>
             @enderror
         </div>
     </div>
-<div class="row mb-3">
-    <div class="col-12">
-        <label for="department_info" class="form-label">Datos del Departamento</label>
-            <input type="text" id="department_info" wire:model.lazy="department_info"
-                class="form-control  @error('department_info')
+    <div class="row mb-3">
+        <div class="col-12">
+            <label for="department_info" class="form-label">Datos del Departamento</label>
+            <input type="text" oninput="this.value = this.value.toUpperCase()" id="department_info" wire:model.lazy="department_info"
+                class="form-control   @error('department_info')
                     is-invalid
                 @enderror">
             @error('department_info')
                 <small class="text-danger">El campo es obligatorio</small>
             @enderror
+        </div>
     </div>
-</div>
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="name" class="form-label">Nombre del Titular</label>
-            <input type="text" id="name" wire:model.lazy="name"
+            <input type="text" oninput="this.value = this.value.toUpperCase()" id="name" wire:model.lazy="name"
                 class="form-control  @error('name')
                     is-invalid
                 @enderror">
@@ -79,8 +91,8 @@
         </div>
         <div class="col-md-6 mb-3">
             <label for="document_number" class="form-label">Número de Documento</label>
-            <input type="text" id="document_number" wire:model.lazy="document_number"
-                class="form-control @error('document_number')
+            <input type="text" oninput="this.value = this.value.toUpperCase()" id="document_number" wire:model.lazy="document_number"
+                class="form-control  @error('document_number')
                 is-invalid
             @enderror">
             @error('document_number')
@@ -92,7 +104,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="city_of_origin" class="form-label">Ciudad de Procedencia</label>
-            <input type="text" id="city_of_origin" wire:model.lazy="city_of_origin" class="form-control ">
+            <input type="text" oninput="this.value = this.value.toUpperCase()" id="city_of_origin" wire:model.lazy="city_of_origin" class="form-control ">
             @error('city_of_origin')
                 <small class="text-danger">El campo es obligatorio</small>
             @enderror
@@ -113,7 +125,7 @@
 
     <div class="mb-3">
         <label for="address" class="form-label">Dirección de Residencia</label>
-        <input type="text" id="address" wire:model.lazy="address" class="form-control">
+        <input type="text" oninput="this.value = this.value.toUpperCase()" id="address" wire:model.lazy="address" class="form-control ">
         @error('address')
             <span class="text-danger">{{ $message }}</span>
         @enderror
@@ -123,14 +135,14 @@
 
         <div class="col-md-6 mb-3">
             <label for="pais" class="form-label">País</label>
-            <input type="text" id="pais" wire:model.lazy="country" class="form-control">
+            <input type="text" oninput="this.value = this.value.toUpperCase()" id="pais" wire:model.lazy="country" class="form-control ">
             @error('country')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
         <div class="col-md-6 mb-3">
             <label for="city" class="form-label">Ciudad</label>
-            <input type="text" id="city" wire:model.lazy="city" class="form-control">
+            <input type="text" oninput="this.value = this.value.toUpperCase()" id="city" wire:model.lazy="city" class="form-control ">
             @error('city')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -140,14 +152,14 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="email" class="form-label">Correo Electrónico</label>
-            <input type="email" id="email" wire:model.lazy="email" class="form-control">
+            <input type="email" id="email" wire:model.lazy="email" class="form-control text-lowercase">
             @error('email')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
         <div class="col-md-6 mb-3">
             <label for="phone" class="form-label">Teléfono</label>
-            <input type="text" id="phone" wire:model.lazy="phone" class="form-control">
+            <input type="text" oninput="this.value = this.value.toUpperCase()" id="phone" wire:model.lazy="phone" class="form-control ">
             @error('phone')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -157,7 +169,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="occupation" class="form-label">Ocupación</label>
-            <input type="text" id="occupation" wire:model.lazy="occupation" class="form-control">
+            <input type="text" oninput="this.value = this.value.toUpperCase()" id="occupation" wire:model.lazy="occupation" class="form-control ">
             @error('occupation')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
@@ -173,7 +185,7 @@
 
     <div class="mb-3">
         <label for="company" class="form-label">Empresa (opcional)</label>
-        <input type="text" id="company" wire:model.defer="company" class="form-control">
+        <input type="text" oninput="this.value = this.value.toUpperCase()" id="company" wire:model.defer="company" class="form-control ">
         @error('company')
             <span class="text-danger">{{ $message }}</span>
         @enderror
@@ -197,7 +209,7 @@
     <div class="row">
         <div class="col-12 col-md-6 mb-3">
             <label class="form-label" for="name">Nombre</label>
-            <input type="text" placeholder="Nombre" wire:model.defer="cname" class="form-control">
+            <input type="text" oninput="this.value = this.value.toUpperCase()" placeholder="Nombre" wire:model.defer="cname" class="form-control" oninput="this.value = this.value.toUpperCase()">
         </div>
         <div class="col-12 col-md-6 mb-3">
             <label class="form-label" for="f">Fecha de Nacimiento</label>
@@ -219,12 +231,12 @@
         </div>
         <div class="col-12 col-md-6 mb-3">
             <label class="form-label" for="f">Nro. Documento</label>
-            <input type="text" placeholder="Número Documento" wire:model.defer="cdocument_number"
-                class="form-control">
+            <input type="text" oninput="this.value = this.value.toUpperCase()" placeholder="Número Documento" wire:model.defer="cdocument_number"
+                class="form-control" oninput="this.value = this.value.toUpperCase()">
         </div>
         <div class="col-12 col-md-6 mb-3">
             <label class="form-label" for="f">Nacionalidad</label>
-            <input type="text" placeholder="Nacionalidad" wire:model.defer="cnationality" class="form-control">
+            <input type="text" oninput="this.value = this.value.toUpperCase()" placeholder="Nacionalidad" wire:model.defer="cnationality" class="form-control" oninput="this.value = this.value.toUpperCase()">
         </div>
         <div class="col-12 col-md-6 mb-3">
             <label class="form-label" for="f">Cantidad Equipaje</label>
@@ -255,8 +267,8 @@
                     @forelse ($companions as $item)
                         <tr>
                             <td class="align-middle">{{ $item[0] }}</td>
-                            <td class="align-middle">{{ $item[0] }}</td>
-                            <td class="align-middle">{{ $item[0] }}</td>
+                            <td class="align-middle">{{ $item[3] }}</td>
+                            <td class="align-middle">{{ $item[5] }}</td>
                             <td class="align-middle text-end">
                                 <button class="btn btn-sm btn-outline-danger" style="font-size: 10px"
                                     title="Eliminar" wire:click='delCompanion({{ $c }})'><i
@@ -295,9 +307,6 @@
     </div>
 
 
-
-    <!-- Vinculación de jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </div>

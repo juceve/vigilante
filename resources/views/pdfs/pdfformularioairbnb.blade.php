@@ -59,7 +59,7 @@
                 <td style="width: 30%">
                     <label>
                         <strong>
-                            Fecha llegada:
+                            Fecha-Hora llegada:
                         </strong>
                     </label>
                 </td>
@@ -71,7 +71,7 @@
                 <td style="width: 30%">
                     <label>
                         <strong>
-                            Fecha salida:
+                            Fecha-Hora salida:
                         </strong>
                     </label>
                 </td>

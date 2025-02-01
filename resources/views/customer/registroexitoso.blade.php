@@ -40,11 +40,11 @@
                                 <td>{{ $traveler->department_info }}</td>
                             </tr>
                             <tr>
-                                <td> <label><strong>Fecha de Ingreso</strong></label></td>
+                                <td> <label><strong>Fecha-Hora Ingreso</strong></label></td>
                                 <td>{{ $traveler->arrival_date }}</td>
                             </tr>
                             <tr>
-                                <td><label><strong>Fecha de Salida</strong></label></td>
+                                <td><label><strong>Fecha-Hora Salida</strong></label></td>
                                 <td>{{ $traveler->departure_date }}</td>
                             </tr>
                         </table>
@@ -113,7 +113,7 @@
                             <p style="font-size: 14px;">
                                 <strong>Cod. Registro: {{ str_pad($traveler->id,5, '0', STR_PAD_LEFT) }}</strong><br>
                                 {{-- Válido: <br> --}}
-                                <label><strong>Válido Del </strong></label> {{ $traveler->arrival_date }}                                 <label><strong>hasta </strong></label> {{ $traveler->departure_date }}
+                                <label><strong>Ingreso: </strong></label> {{ $traveler->arrival_date }}    <br> <label><strong>Salida: </strong></label> {{ $traveler->departure_date }}
                             </p>
                         </div>
                     </div>

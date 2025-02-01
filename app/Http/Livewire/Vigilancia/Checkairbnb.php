@@ -41,7 +41,7 @@ class Checkairbnb extends Component
             $airbnbtraveler = Airbnbtraveler::find($data[1]);
             if ($airbnbtraveler) {
                 if ($airbnbtraveler->airbnblink->cliente_id == $cliente_id) {
-                    if ($airbnbtraveler->arrival_date <= date('Y-m-d') && $airbnbtraveler->departure_date >= date('Y-m-d')) {
+                    if ($airbnbtraveler->arrival_date <= date('Y-m-d H:i:s') && $airbnbtraveler->departure_date >= date('Y-m-d H:i:s')) {
                         $this->airbnbtraveler = $airbnbtraveler;
                         $this->status = $this->airbnbtraveler->status;
                     } else {
@@ -64,6 +64,7 @@ class Checkairbnb extends Component
         try {
 
             $this->airbnbtraveler->status = 'ACTIVADO';
+            $this->airbnbtraveler->reg_in = date('Y-m-d H:i:s');
             $this->airbnbtraveler->save();
             $this->status = 'ACTIVADO';
             $this->mensaje = 'Updated';
@@ -80,6 +81,7 @@ class Checkairbnb extends Component
         try {
 
             $this->airbnbtraveler->status = 'FINALIZADO';
+            $this->airbnbtraveler->reg_out = date('Y-m-d H:i:s');
             $this->airbnbtraveler->save();
             $this->status = 'FINALIZADO';
             $this->mensaje = 'Updated';
@@ -94,9 +96,9 @@ class Checkairbnb extends Component
     public function copiarAlPortapapeles()
     {
         if ($this->airbnbtraveler->status == 'ACTIVADO') {
-            $this->mensaje = "Acaba de realizar su registro de INGRESO al Airbnb el huesped: " . $this->airbnbtraveler->name . " al departamento: " . $this->airbnbtraveler->department_info . " en fecha: " . $this->airbnbtraveler->updated_at;
+            $this->mensaje = "Acaba de realizar su registro de INGRESO al Airbnb el huesped: " . $this->airbnbtraveler->name . " al departamento: " . $this->airbnbtraveler->department_info . " en fecha: " . $this->airbnbtraveler->reg_in;
         } else {
-            $this->mensaje = "Acaba de realizar su registro de SALIDA del Airbnb el huesped: " . $this->airbnbtraveler->name . " del departamento: " . $this->airbnbtraveler->department_info . " en fecha: " . $this->airbnbtraveler->updated_at;
+            $this->mensaje = "Acaba de realizar su registro de SALIDA del Airbnb el huesped: " . $this->airbnbtraveler->name . " del departamento: " . $this->airbnbtraveler->department_info . " en fecha: " . $this->airbnbtraveler->reg_out;
         }
 
         $this->emit('copiarTexto', $this->mensaje);

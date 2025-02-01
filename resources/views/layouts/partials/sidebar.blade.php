@@ -1,4 +1,11 @@
 <div class="menu_section">
+    <ul class="nav side-menu">
+        <li>
+            <a class="nav-link" href="{{route('home')}}">
+                <i class="fa fa-home"></i>
+                <span>INICIO</span></a>
+        </li>
+    </ul>
     <h3>REGISTROS</h3>
     <ul class="nav side-menu">
         <li>

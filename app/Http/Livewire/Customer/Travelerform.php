@@ -12,7 +12,7 @@ use Termwind\Components\Dd;
 class Travelerform extends Component
 {
 
-    public $link_id, $arrival_date, $departure_date, $name, $department_info, $birth_date, $document_type;
+    public $link_id, $arrival_date, $arrival_hour="11:00", $departure_date, $departure_hour="10:00", $name, $department_info, $birth_date, $document_type;
     public $document_number, $city_of_origin, $marital_status, $address, $city, $country;
     public $email, $phone, $occupation, $luggage_count, $company, $travel_purpose;
 
@@ -40,9 +40,11 @@ class Travelerform extends Component
     }
 
 
-    protected $rules = [        
+    protected $rules = [
         'arrival_date' => 'required|date',
+        'arrival_hour' => 'required',
         'departure_date' => 'required|date',
+        'departure_hour' => 'required',
         'name' => 'required|string|max:255',
         'department_info' => 'required',
         'birth_date' => 'required|date',
@@ -60,8 +62,8 @@ class Travelerform extends Component
         try {
             $traveler = Airbnbtraveler::create([
                 'airbnblink_id' => $this->link_id,
-                'arrival_date' => $this->arrival_date,
-                'departure_date' => $this->departure_date,
+                'arrival_date' => $this->arrival_date . ' ' . $this->arrival_hour,
+                'departure_date' => $this->departure_date . ' ' . $this->departure_hour,
                 'name' => $this->name,
                 'department_info' => $this->department_info,
                 'birth_date' => $this->birth_date,

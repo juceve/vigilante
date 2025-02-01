@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('airbnbtravelers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('airbnblink_id')->nullable()->constrained()->nullOnDelete(); // Identificador del enlace
-            $table->date('arrival_date')->nullable(); // Fecha de ingreso
-            $table->date('departure_date')->nullable(); // Fecha de salida
+            $table->dateTime('arrival_date')->nullable(); // Fecha de ingreso            
+            $table->dateTime('departure_date')->nullable(); // Fecha de salida            
             $table->string('name')->nullable(); // Nombre titular
             $table->string('department_info')->nullable(); // Informacion del DPTO
             $table->date('birth_date')->nullable(); // Fecha de nacimiento
@@ -32,6 +32,8 @@ return new class extends Migration
             $table->integer('luggage_count')->nullable(); // Cantidad de equipajes
             $table->string('company')->nullable(); // Empresa (opcional)
             $table->string('travel_purpose')->nullable(); // Propósito de viaje
+            $table->dateTime('reg_in')->nullable();
+            $table->dateTime('reg_out')->nullable();
             $table->enum('status',['CREADO','ACTIVADO','FINALIZADO'])->default('CREADO'); // Propósito de viaje
             $table->timestamps();
         });

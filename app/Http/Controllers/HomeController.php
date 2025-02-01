@@ -43,8 +43,14 @@ class HomeController extends Controller
                     ->where('estado', 1)
                     ->orderBy('id', 'DESC')->first();
             }
+            
             if ($designaciones) {
                 Session::put('designacion-oper', $designaciones->id);
+                if ($designaciones->turno) {
+                    Session::put('cliente_id-oper', $designaciones->turno->cliente_id);
+                }
+               
+                
             }
 
             return view('operativo', compact('designaciones'));
@@ -64,7 +70,7 @@ class HomeController extends Controller
                 ['fechaFin', '>=', $hoy],
                 ['estado', true],
             ])->get();
-
+            Session::put('cliente_id-oper', $cliente->id);
             return view('customer.home', compact('cliente', 'designaciones'));
         }
     }

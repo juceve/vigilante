@@ -19,6 +19,7 @@ use App\Models\Tarea;
 use App\Models\Usercliente;
 use App\Models\Vwnovedade;
 use App\Models\Vwpanico;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 function tablaRondas($designacione_id)
@@ -31,9 +32,13 @@ function tablaRondas($designacione_id)
     $ctrlpuntos = $designacione->turno->ctrlpuntos;
     $diasL = array(
         "",
-        $diaslaborables['lunes'], $diaslaborables['martes'], $diaslaborables['miercoles'],
-        $diaslaborables['jueves'], $diaslaborables['viernes'],
-        $diaslaborables['sabado'], $diaslaborables['domingo']
+        $diaslaborables['lunes'],
+        $diaslaborables['martes'],
+        $diaslaborables['miercoles'],
+        $diaslaborables['jueves'],
+        $diaslaborables['viernes'],
+        $diaslaborables['sabado'],
+        $diaslaborables['domingo']
     );
     $rondas = [];
     $actual = new DateTime($designacione->fechaInicio);
@@ -88,9 +93,13 @@ function tablaMarcaciones($designacione_id)
 
     $diasL = array(
         "",
-        $diaslaborables['lunes'], $diaslaborables['martes'], $diaslaborables['miercoles'],
-        $diaslaborables['jueves'], $diaslaborables['viernes'],
-        $diaslaborables['sabado'], $diaslaborables['domingo']
+        $diaslaborables['lunes'],
+        $diaslaborables['martes'],
+        $diaslaborables['miercoles'],
+        $diaslaborables['jueves'],
+        $diaslaborables['viernes'],
+        $diaslaborables['sabado'],
+        $diaslaborables['domingo']
     );
     $marcaciones = [];
     $actual = new DateTime($designacione->fechaInicio);
@@ -315,9 +324,13 @@ function registrosHV($designacione_id)
     $intervalos = $designacione->intervalos;
     $diasL = array(
         "",
-        $diaslaborables['lunes'], $diaslaborables['martes'], $diaslaborables['miercoles'],
-        $diaslaborables['jueves'], $diaslaborables['viernes'],
-        $diaslaborables['sabado'], $diaslaborables['domingo']
+        $diaslaborables['lunes'],
+        $diaslaborables['martes'],
+        $diaslaborables['miercoles'],
+        $diaslaborables['jueves'],
+        $diaslaborables['viernes'],
+        $diaslaborables['sabado'],
+        $diaslaborables['domingo']
     );
     $rondas = [];
     $actual = new DateTime($designacione->fechaInicio);
@@ -450,7 +463,53 @@ function decodGet($myString)
     return $myString;
 }
 
-function cerosIzq($num){
-    $num = str_pad($num,5,'0',STR_PAD_LEFT);
+function cerosIzq($num)
+{
+    $num = str_pad($num, 5, '0', STR_PAD_LEFT);
     return $num;
+}
+
+function verifAirbnb($fechaFutura)
+{
+    // Obtener la fecha y hora actual
+    $ahora = Carbon::now();
+
+    // Calcular la diferencia entre la fecha actual y la fecha futura
+    $diferencia = $ahora->diff($fechaFutura);
+
+    // Convertir la diferencia en horas
+    $diferenciaEnHoras = ($diferencia->days * 24) + $diferencia->h + ($diferencia->i / 60);
+
+    // Si la fecha futura ya pasó, marcar como 'danger'
+    if ($fechaFutura <= $ahora) {
+        return 'danger text-danger';  // Si la fecha futura ya ha pasado
+    } elseif ($diferenciaEnHoras <= 1) {
+        return 'danger';  // Menos de 1 hora
+    } elseif ($diferenciaEnHoras <= 24) {
+        return 'warning';  // Mayor a 1 hora y menor o igual a 1 día
+    } else {
+        return 'success';  // Mayor a 1 día
+    }
+}
+
+function diffDays($fecha1)
+{
+    $fecha1 = Carbon::parse($fecha1);
+    $fecha2 = Carbon::parse(now());
+    $dias = $fecha1->diffInDays($fecha2);
+    return $dias;
+}
+function diffHours($fecha1)
+{
+    $fecha1 = Carbon::parse($fecha1);
+    $fecha2 = Carbon::parse(now());
+    $horas = $fecha1->diffInHours($fecha2);
+    return $horas;
+}
+function diffMinutes($fecha1)
+{
+    $fecha1 = Carbon::parse($fecha1);
+    $fecha2 = Carbon::parse(now());
+    $minutos = $fecha1->diffInMinutes($fecha2);
+    return $minutos;
 }
