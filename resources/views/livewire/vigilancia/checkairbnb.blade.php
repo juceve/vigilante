@@ -15,12 +15,22 @@
     <div class="row justify-content-center" wire:ignore>
         <div id="reader" style="width: 100%; display: none;"></div>
         <div id="status" class="d-none" style="margin-top: 10px; color: green;"></div>
+        <div class="input-group mb-3 mt-3" style="display: none;" id="search">
+            <input type="number" class="form-control" placeholder="Cod. Registro" aria-label="Cod. Registro"
+                aria-describedby="button-addon2" id="inputSearch" wire:model='search'>
+            <button class="btn btn-outline-primary" type="button" id="button-addon2" wire:click='buscarCod'>Buscar</button>
+        </div>
+        
         <div id="controls" class="d-grid" style="margin-top: 15px;">
             <button id="startScanner" class="btn btn-success" style="height: 70px">Verificar Codigo Qr <i
                     class="fas fa-camera"></i></button>
+            <button id="startKeyboard" class="btn btn-info mt-3" style="height: 70px" wire:click="$set('search', '')">Verificar Cod. Registro <i
+                    class="fas fa-keyboard"></i></button>
             <button id="reloadPage" class="btn btn-success" style="display: none;height: 50px">Verificar otro Codigo Qr
                 <i class="fas fa-camera"></i></button>
             <button id="cancelScanner" class="btn btn-danger" style="display: none;">Cancelar <i
+                    class="fas fa-ban"></i></button>
+            <button id="cancelScanner2" class="btn btn-danger" style="display: none;" wire:click="resetAll">Cancelar <i
                     class="fas fa-ban"></i></button>
         </div>
 
@@ -96,7 +106,8 @@
                     </table>
                 </div>
                 <div class="d-grid">
-                    <button class="btn text-white" style="font-size: 13px; background-color: lightslategrey" wire:click='exportarPDF'>
+                    <button class="btn text-white" style="font-size: 13px; background-color: lightslategrey"
+                        wire:click='exportarPDF'>
                         Descargar información completa <i class="fas fa-file-download"></i>
                     </button>
                 </div>
@@ -116,12 +127,12 @@
 
                 @case('ACTIVADO')
                     <div class="col-12 d-grid mb-3">
-                        <button class="btn btn-danger" 
-                            onclick="finalizar({{ $airbnbtraveler->id }})">FINALIZAR <i class="fas fa-power-off"></i></button>
+                        <button class="btn btn-danger" onclick="finalizar({{ $airbnbtraveler->id }})">FINALIZAR <i
+                                class="fas fa-power-off"></i></button>
                     </div>
                     @if ($mensaje != '')
                         <div class="col-12 d-grid mb-3">
-                            <button class="btn btn-primary"  wire:click='sendWhatsAppLink'>INFORMAR <i
+                            <button class="btn btn-primary" wire:click='sendWhatsAppLink'>INFORMAR <i
                                     class="fab fa-whatsapp"></i></button>
                         </div>
                         <div class="col-12 d-grid mb-3">
@@ -139,7 +150,7 @@
                     </div>
                     @if ($mensaje != '')
                         <div class="col-12 d-grid mb-3">
-                            <button class="btn btn-primary"  wire:click='sendWhatsAppLink'>INFORMAR <i
+                            <button class="btn btn-primary" wire:click='sendWhatsAppLink'>INFORMAR <i
                                     class="fab fa-whatsapp"></i></button>
                         </div>
                         <div class="col-12 d-grid mb-3">
@@ -153,9 +164,11 @@
         </div>
 
     @endif
-    <div class="d-grid mt-3">
-        <a href="{{ route('vigilancia.ctrlairbnb') }}" id="ctrlbutton" class="btn btn-warning" style="height: 70px; align-content:center">Control de Registros <i class="fas fa-clock"></i></a>
+    <div class="d-grid mt-3" wire:ignore>
+        <a href="{{ route('vigilancia.ctrlairbnb') }}" id="ctrlbutton" class="btn btn-warning"
+            style="height: 70px; align-content:center;">Control de Registros <i class="fas fa-clock"></i></a>
     </div>
+
 
 </div>
 @section('js')
@@ -177,9 +190,12 @@
             // Elementos HTML
             const readerDiv = document.getElementById("reader");
             const statusDiv = document.getElementById("status");
+            const search = document.getElementById("search");
             const startButton = document.getElementById("startScanner");
+            const keyButton = document.getElementById("startKeyboard");
             const reloadButton = document.getElementById("reloadPage");
             const cancelButton = document.getElementById("cancelScanner");
+            const cancelButton2 = document.getElementById("cancelScanner2");
             const ctrlButton = document.getElementById("ctrlbutton");
 
             // Variable de control para el estado del escaneo
@@ -190,6 +206,7 @@
                 isScanning = true; // Permitir escaneo
                 startButton.style.display = "none"; // Ocultar botón de inicio
                 ctrlButton.style.display = "none"; // Ocultar botón de inicio
+                keyButton.style.display = "none"; // Ocultar botón de inicio
                 cancelButton.style.display = "inline-block"; // Mostrar botón de cancelar
                 readerDiv.style.display = "block"; // Mostrar lector
 
@@ -222,6 +239,15 @@
                 });
             });
 
+            keyButton.addEventListener("click", () => {
+                startButton.style.display = "none"; // Ocultar botón de inicio
+                keyButton.style.display = "none"; // Ocultar botón de keyboard
+                ctrlButton.style.display = "none"; // Ocultar botón de control
+                cancelButton2.style.display = "inline-block"; // Mostrar botón de cancelar
+                search.style.display = ""; // Mostrar div search
+                document.getElementById('inputSearch').focus();
+            });
+
             // Función para detener el lector
             function detenerScanner() {
                 html5QrCode.stop().then(() => {
@@ -241,11 +267,13 @@
 
             // Evento del botón "Cancelar"
             cancelButton.addEventListener("click", () => {
-                isScanning = false; // Desactivar escaneo
-                statusDiv.innerText = "Escaneo cancelado.";
-                detenerScanner(); // Detener el lector
-                startButton.style.display = "inline-block"; // Mostrar botón de inicio
-                ctrlButton.style.display = "inline-block"; // Mostrar botón de inicio
+                location.reload(); // Recargar la página
+                
+            });
+            cancelButton2.addEventListener("click", () => {
+                location.reload(); // Recargar la página
+               
+
             });
 
             // Evento del botón "Recargar Página"

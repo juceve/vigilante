@@ -12,7 +12,7 @@ use SebastianBergmann\Environment\Console;
 
 class Checkairbnb extends Component
 {
-    public $status = '', $mensaje = '', $designacione_id = "", $designacione = null;
+    public $status = '', $mensaje = '', $designacione_id = "", $designacione = null, $search = '';
     public function render()
     {
 
@@ -29,6 +29,31 @@ class Checkairbnb extends Component
     }
 
     protected $listeners = ['buscarRegistro', 'activar', 'finalizar'];
+
+    public function buscarCod() {
+        if ($this->search!='') {
+           $cliente_id = $this->designacione->turno->cliente_id; 
+           $airbnbtraveler = Airbnbtraveler::find($this->search);
+            if ($airbnbtraveler) {
+                if ($airbnbtraveler->airbnblink->cliente_id == $cliente_id) {
+                    if ($airbnbtraveler->arrival_date <= date('Y-m-d H:i:s') && $airbnbtraveler->departure_date >= date('Y-m-d H:i:s')) {
+                        $this->airbnbtraveler = $airbnbtraveler;
+                        $this->status = $this->airbnbtraveler->status;
+                    } else {
+                        $this->emit('error', 'La fecha está fuera de los limites.');
+                    }
+                } else {
+                    $this->emit('error', 'El registro no corresponde a este establecimiento.');
+                }
+            } else {
+                $this->emit('error', 'No se encuentra el registro.');
+            }
+        }
+    }
+
+    public function resetAll(){        
+        $this->airbnbtraveler= new Airbnbtraveler();
+    }
 
     public function buscarRegistro($datos)
     {
