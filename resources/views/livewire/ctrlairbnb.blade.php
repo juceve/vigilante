@@ -1,5 +1,4 @@
 <div>
-
     <div class="card">
         <div class="card-header font-weight-bold bg-info text-white">LISTADO DE REGISTROS AIRBNB</div>
         <div class="card-body">
@@ -20,13 +19,13 @@
                     <input type="search" class="form-control form-control-sm" wire:model='search'
                         placeholder="Busqueda por nombre del Titular">
                 </div>
-                @if ($travelers->count()>0)
+                @if ($travelers->count() > 0)
                     <div class="col-12 col-md-3 mb-2">
                         <label style="color: white">
                             _sda
                         </label><br>
-                        <button class="btn btn-success btn-sm btn-block" wire:click='exporExcel'>Exportar Excel <i class="fa fa-file-excel-o"
-                                aria-hidden="true"></i></button>
+                        <button class="btn btn-success btn-sm btn-block" wire:click='exporExcel'>Exportar Excel <i
+                                class="fa fa-file-excel-o" aria-hidden="true"></i></button>
                     </div>
                 @endif
 
@@ -72,9 +71,9 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr>
-                                <td class="text-center" colspan="6"><i>No existen resultados</i></td>
-                            </tr>
+                                <tr>
+                                    <td class="text-center" colspan="6"><i>No existen resultados</i></td>
+                                </tr>
                             @endforelse
 
                         </tbody>

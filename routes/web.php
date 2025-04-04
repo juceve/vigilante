@@ -25,7 +25,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitaController;
 use App\Http\Controllers\WordToPDFController;
 use App\Http\Livewire\Admin\Admrondas;
-
+use App\Http\Livewire\Admin\CtrlAllAirbnb;
 use App\Http\Livewire\Admin\Diaslibres;
 use App\Http\Livewire\Admin\GenDocs;
 use App\Http\Livewire\Admin\ListadoCiteCobro;
@@ -135,6 +135,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/reg-novedades/{id}', RegNovedades::class)->middleware('can:admin.registros.novedades')->name('regnovedades');
     Route::get('admin/gen-docs', GenDocs::class)->name('gendocs');
     Route::get('admin/tareas', Registrostareas::class)->middleware('can:tareas.index')->name('admin.tareas');
+    Route::get('admin/ctrl-airbnb', CtrlAllAirbnb::class)->name('admin.ctrlallairbnb');
 
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');
     Route::resource('admin/empleados', EmpleadoController::class)->names('empleados');
