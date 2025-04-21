@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Airbnbcompanion;
 use App\Models\Airbnblink;
 use App\Models\Airbnbtraveler;
+use App\Models\Citecobro;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
@@ -14,16 +16,35 @@ class FormularioAirbnbController extends Controller
 {
     public function index($encryptedId)
     {
-        $link_id =  Crypt::decrypt($encryptedId);
-        $airbnblink = Airbnblink::find($link_id);
-        if (!$airbnblink) {
-            return;
+        try {
+            $link_id =  Crypt::decrypt($encryptedId);
+            $airbnblink = Airbnblink::find($link_id);
+            if (!$airbnblink) {
+                return;
+            }
+            $cliente = $airbnblink->cliente;
+            if ($airbnblink->vigencia >= now()) {
+                return view('customer.formulario_airbnb', compact('link_id', 'cliente'));
+            } else {
+                return view('customer.formulario_expirado', compact('link_id'));
+            }
+        } catch (DecryptException $e) {
+            return view('customer.formulario_cobroerror');
         }
-        $cliente = $airbnblink->cliente;
-        if ($airbnblink->vigencia >= now()) {
-            return view('customer.formulario_airbnb', compact('link_id', 'cliente'));
-        } else {
-            return view('customer.formulario_expirado', compact('link_id'));
+    }
+    public function cobro($encryptedId)
+    {
+        try {
+            $decryptedId = Crypt::decrypt($encryptedId);
+            $link_id =  Crypt::decrypt($encryptedId);
+            $citecobro = Citecobro::find($link_id);
+
+            if (!$citecobro) {
+                return;
+            }
+            return view('customer.formulario_cobro', compact('link_id', 'citecobro'));
+        } catch (DecryptException $e) {
+            return view('customer.formulario_cobroerror');
         }
     }
 
@@ -70,8 +91,8 @@ class FormularioAirbnbController extends Controller
         $airbnbtraveler = Airbnbtraveler::find($id);
         $data = $airbnbtraveler->toArray();
         $companions_count = $airbnbtraveler->airbnbcompanions->count();
-        $condominio=$airbnbtraveler->airbnblink->cliente->nombre;
-        $data['condominio']=$condominio;
+        $condominio = $airbnbtraveler->airbnblink->cliente->nombre;
+        $data['condominio'] = $condominio;
         $data['companions_count'] = $companions_count;
         $companions = array();
         if ($companions_count > 0) {
@@ -86,5 +107,4 @@ class FormularioAirbnbController extends Controller
             echo $pdf->stream();
         }, 'formularioairbnb.pdf');
     }
-
 }
