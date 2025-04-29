@@ -102,7 +102,7 @@ class ListadoCiteCobro extends Component
         $this->emit('renderizarpdf');
     }
 
-    public function registrar()
+      public function registrar()
     {
         DB::beginTransaction();
         try {
@@ -134,7 +134,7 @@ class ListadoCiteCobro extends Component
             DB::commit();
 
             $this->resetAll();
-            $datos = $citecobro->id;
+            $datos = $citecobro->id."|1";
             $this->emit('renderizarpdf', $datos);
             $this->emit('success', 'Cobro registrado correctamente.');
         } catch (\Throwable $th) {

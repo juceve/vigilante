@@ -6,7 +6,7 @@ $data = decodGet($data);
 $myArray = explode('^', $data);
 
 $datos1 = explode('|', $myArray[0]);
-$citecobro;
+$citecobro=false;
 $datos = [];
 $mescobro;
 $encryptedId = '';
@@ -15,9 +15,8 @@ if ($datos1[0] != 0) {
     $cite_id = $datos1[0];
 
     $encryptedId = Crypt::encrypt($cite_id);
-    $link = url('/') .'/formulario-cobro'.'/'.$encryptedId;
+    $link = url('/') . '/formulario-cobro' . '/' . $encryptedId;
     $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?data=' . urlencode($link) . '&size=130x130';
-    
 
     $citecobro = traeCitecobro($cite_id);
     if ($citecobro) {
@@ -39,7 +38,7 @@ if ($datos1[0] != 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cobro</title>
+    <title>{{$citecobro?$citecobro['cite']:"Vista Previa"}}</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/bs3/bootstrap.min.css') }}">
 
@@ -124,7 +123,7 @@ if ($datos1[0] != 0) {
             </p>
 
             <p style="margin-left: 3rem;margin-right: 3rem; margin-top: 8rem;text-align: center;">
-                @if ($encryptedId != '')
+                @if ($encryptedId != '' && $datos1[1] > 0)
                     <img src="{{ $qrUrl }}" alt="QR Code"><br>
                 @endif
 

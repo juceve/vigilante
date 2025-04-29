@@ -96,10 +96,13 @@
                                         <td class="text-left">{{ $citerecibo->cliente }}</td>
                                         <td>{{ $citerecibo->mescobro }}</td>
 
-                                        <td class="text-left" style="width: 150px;">
+                                        <td class="text-right">
                                             <a class="btn btn-sm btn-info "
-                                                href="{{ route('pdf.recibo', $citerecibo->id) }}" title="Reimprimir"
+                                                href="{{ route('pdf.recibo', $citerecibo->id."|0") }}" title="Reimprimir"
                                                 target="_blank"><i class="fa fa-fw fa-print"></i></a>
+                                            <a class="btn btn-sm btn-primary "
+                                                href="{{ route('pdf.recibo', $citerecibo->id."|1") }}" title="Reimprimir con Qr"
+                                                target="_blank"><i class="fa fa-fw fa-qrcode"></i></a>
                                             @if ($citerecibo->estado)
                                             <button class="btn btn-sm btn-warning" title="Editar"
                                                 wire:click='editar({{ $citerecibo->id }})' data-placement="left"

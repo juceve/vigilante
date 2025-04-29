@@ -198,6 +198,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware('throttle:10,1')->get('formulario-cobro/{link_id}', [FormularioAirbnbController::class, 'cobro'])->name('formcobro');
+Route::middleware('throttle:10,1')->get('formulario-recibo/{link_id}', [FormularioAirbnbController::class, 'recibo'])->name('formrecibo');
+Route::middleware('throttle:10,1')->get('formulario-informe/{link_id}', [FormularioAirbnbController::class, 'informe'])->name('forminforme');
 
 Route::middleware('throttle:10,1')->get('formulario-airbnb/{link_id}', [FormularioAirbnbController::class, 'index'])->name('formairbnb');
 Route::middleware('throttle:10,1')->get('register-success/{registro_id}', [FormularioAirbnbController::class, 'regsuccess'])->name('regsuccess');

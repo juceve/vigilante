@@ -116,7 +116,7 @@ class ListadoCiteRecibo extends Component
 
             $this->resetAll();
             $datos = $citecobro->id;
-            $this->emit('renderizarpdf', $datos);
+            $this->emit('renderizarpdf', $datos."|1");
             $this->emit('success', 'Cobro registrado correctamente.');
         } catch (\Throwable $th) {
             DB::rollBack();

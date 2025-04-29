@@ -102,10 +102,13 @@
                                             @endif
                                         </td>
 
-                                        <td align="left" style="width: 150px;">
+                                        <td align="left" style="width: 180px;">
                                             <a class="btn btn-sm btn-info "
-                                                href="{{ route('pdf.informe', $citeinforme->id) }}" title="Reimprimir"
+                                                href="{{ route('pdf.informe', $citeinforme->id."|0") }}" title="Reimprimir"
                                                 target="_blank"><i class="fa fa-fw fa-print"></i></a>
+                                            <a class="btn btn-sm btn-primary "
+                                                href="{{ route('pdf.informe', $citeinforme->id."|1") }}" title="Reimprimir con Qr"
+                                                target="_blank"><i class="fa fa-fw fa-qrcode"></i></a>
                                             @if ($citeinforme->estado)
                                             <button class="btn btn-sm btn-warning" title="Editar"
                                                 wire:click='editar({{ $citeinforme->id }})' data-placement="left"

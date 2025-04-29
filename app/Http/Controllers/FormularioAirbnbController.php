@@ -6,6 +6,8 @@ use App\Models\Airbnbcompanion;
 use App\Models\Airbnblink;
 use App\Models\Airbnbtraveler;
 use App\Models\Citecobro;
+use App\Models\Citeinforme;
+use App\Models\Citerecibo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
@@ -47,7 +49,37 @@ class FormularioAirbnbController extends Controller
             return view('customer.formulario_cobroerror');
         }
     }
+    public function recibo($encryptedId)
+    {
+        try {
+            $decryptedId = Crypt::decrypt($encryptedId);
+            $link_id =  Crypt::decrypt($encryptedId);
+            $citerecibo = Citerecibo::find($link_id);
 
+            if (!$citerecibo) {
+                return;
+            }
+            return view('customer.formulario_recibo', compact('link_id', 'citerecibo'));
+        } catch (DecryptException $e) {
+            return view('customer.formulario_cobroerror');
+        }
+    }
+    public function informe($encryptedId)
+    {
+        try {
+            $decryptedId = Crypt::decrypt($encryptedId);
+            $link_id =  Crypt::decrypt($encryptedId);
+            $citeinforme = Citeinforme::find($link_id);
+
+            if (!$citeinforme) {
+                return;
+            }
+            $puntos = explode('|', $citeinforme->puntos);
+            return view('customer.formulario_informe', compact('link_id', 'citeinforme','puntos'));
+        } catch (DecryptException $e) {
+            return view('customer.formulario_cobroerror');
+        }
+    }
     public function regsuccess($encryptedId)
     {
         $registro_id = Crypt::decrypt($encryptedId);

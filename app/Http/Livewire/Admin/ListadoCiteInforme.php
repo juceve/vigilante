@@ -127,7 +127,7 @@ class ListadoCiteInforme extends Component
             DB::commit();
 
             $this->resetAll();
-            $datos = $citeinforme->id;
+            $datos = $citeinforme->id."|1";
             $this->emit('renderizarpdf', $datos);
             $this->emit('success', 'Informe registrado correctamente.');
         } catch (\Throwable $th) {
