@@ -7,6 +7,7 @@ use App\Models\Oficina;
 use App\Models\Tipodocumento;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ClienteController
@@ -53,19 +54,26 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         request()->validate(Cliente::$rules);
+        DB::beginTransaction();
+        try {
 
-        $cliente = Cliente::create($request->all());
+            $cliente = Cliente::create($request->all());
 
-        $usuario = User::create([
-            "name" => $request->nombre,
-            "email" => $request->email,
-            "password" => bcrypt($request->nrodocumento),
-            "template" => 'CLIENTE',
-            "status" => true
-        ]);
-
-        return redirect()->route('clientes.index')
-            ->with('success', 'Cliente creado correctamente.');
+            // $usuario = User::create([
+            //     "name" => $request->nombre,
+            //     "email" => $request->email,
+            //     "password" => bcrypt($request->nrodocumento),
+            //     "template" => 'CLIENTE',
+            //     "status" => true
+            // ]);
+            DB::commit();
+            return redirect()->route('clientes.index')
+                ->with('success', 'Cliente creado correctamente.');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('clientes.create')
+                ->with('success', 'Ha ocurrido un error.');
+        }
     }
 
     /**
