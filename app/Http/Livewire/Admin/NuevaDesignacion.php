@@ -49,7 +49,9 @@ class NuevaDesignacion extends Component
         $empleados = DB::table('empleados')
             ->join('areas', 'areas.id', '=', 'empleados.area_id')
             ->join('oficinas', 'oficinas.id', '=', 'empleados.oficina_id')
+            ->join('users', 'users.id', '=', 'empleados.user_id')
             ->where('areas.template', '=', 'OPER')
+            ->where('users.status', '=', 1)
             ->select('empleados.*', 'oficinas.nombre as oficina')->get();
         $clientes = Cliente::all();
         $clientes->pluck('nombre', 'id');

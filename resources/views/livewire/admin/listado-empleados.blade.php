@@ -37,53 +37,65 @@
                     <th>Apellidos</th>
 
                     <th>Area</th>
+                    <th>Estado</th>
                     {{-- <th>Oficina</th> --}}
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 @php
-                $i=0;
+                    $i = 0;
                 @endphp
                 @foreach ($empleados as $empleado)
-                <tr>
-                    <td>{{ ++$i }}</td>
+                    <tr>
+                        <td>{{ ++$i }}</td>
 
-                    <td>{{ $empleado->nombres }}</td>
-                    <td>{{ $empleado->apellidos }}</td>
-                    <td>{{ $empleado->area->nombre }}</td>
-                    {{-- <td>{{ $empleado->oficina->nombre }}</td> --}}
-                    <td align="right">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-secondary btn-sm dropdown-toggle"
-                                data-toggle="dropdown">Opciones</button>
-                            {{-- <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                        <td>{{ $empleado->nombres }}</td>
+                        <td>{{ $empleado->apellidos }}</td>
+                        <td>{{ $empleado->area->nombre }}</td>
+                        <td>
+                            @if (!is_null($empleado->user_id))
+                                @if ($empleado->user->status)
+                                    <span class="badge badge-pill badge-primary">Activo</span>
+                                @else
+                                    <span class="badge badge-pill badge-secondary">Inactivo</span>
+                                @endif
+                            @else
+                                N/A
+                            @endif
+
+                        </td>
+                        <td align="right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle"
+                                    data-toggle="dropdown">Opciones</button>
+                                {{-- <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
                                 aria-expanded="false"> --}}
                                 <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div class="dropdown-menu" role="menu" style="">
-                                <form action="{{ route('empleados.destroy', $empleado->id) }}" method="POST"
-                                    class="delete" onsubmit="return false">
-                                    <a class="dropdown-item" href="{{ route('empleados.show', $empleado->id) }}"><i
-                                            class="fa fa-fw fa-eye text-secondary"></i> Info</a>
-                                    @can('empleados.edit')
-                                    <a class="dropdown-item" href="{{ route('empleados.edit', $empleado->id) }}"><i
-                                            class="fa fa-fw fa-edit text-secondary"></i> Editar</a>
-                                    @endcan
+                                </button>
+                                <div class="dropdown-menu" role="menu" style="">
+                                    <form action="{{ route('empleados.destroy', $empleado->id) }}" method="POST"
+                                        class="delete" onsubmit="return false">
+                                        <a class="dropdown-item" href="{{ route('empleados.show', $empleado->id) }}"><i
+                                                class="fa fa-fw fa-eye text-secondary"></i> Info</a>
+                                        @can('empleados.edit')
+                                            <a class="dropdown-item" href="{{ route('empleados.edit', $empleado->id) }}"><i
+                                                    class="fa fa-fw fa-edit text-secondary"></i> Editar</a>
+                                        @endcan
 
-                                    @csrf
-                                    @method('DELETE')
-                                    @can('empleados.destroy')
-                                    <button type="submit" class="dropdown-item">
-                                        <i class="fas fa-fw fa-trash text-secondary"></i>
-                                        Eliminar de la DB
-                                    </button>
-                                    @endcan
-                                </form>
+                                        @csrf
+                                        @method('DELETE')
+                                        @can('empleados.destroy')
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="fas fa-fw fa-trash text-secondary"></i>
+                                                Eliminar de la DB
+                                            </button>
+                                        @endcan
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>

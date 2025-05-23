@@ -297,15 +297,26 @@ return [
             'can'  => 'home',
         ],
         ['header' => 'Operativa'],
-
         [
-            'text'  =>  'Designaciones',
-            'route' =>  'designaciones.index',
-            'icon'  =>  'fas fa-user-clock',
-            'can'   =>  'designaciones.index',
+            'text'    => 'Designaciones',
+            'icon'    => 'fas fa-fw fa-user-clock',
+            'submenu' => [
+                [
+                    'text' => 'Registros',
+                    'route' =>  'designaciones.index',
+                    'icon'  =>  'fas fa-clipboard',
+                    'can'   =>  'designaciones.index',
+                ],
+                [
+                    'text' => 'Historial',
+                    'route' =>  'admin.designacione-guardias',
+                    'icon'  =>  'fas fa-history',
+                    'can'   =>  'designaciones.index',
+                ],
+
+
+            ],
         ],
-
-
         [
             'text'    => 'Registros',
             'icon'    => 'fas fa-fw fa-folder-open',

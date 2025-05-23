@@ -14,16 +14,16 @@ use App\Http\Controllers\FormularioAirbnbController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NovedadeController;
 use App\Http\Controllers\OficinaController;
-use App\Http\Controllers\PruebasController;
+
 use App\Http\Controllers\RegistroguardiaController;
 use App\Http\Controllers\RegrondaController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UbicacionController;
-use App\Http\Controllers\UserclienteController;
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VisitaController;
-use App\Http\Controllers\WordToPDFController;
+
 use App\Http\Livewire\Admin\Admrondas;
 use App\Http\Livewire\Admin\CtrlAllAirbnb;
 use App\Http\Livewire\Admin\Diaslibres;
@@ -34,7 +34,7 @@ use App\Http\Livewire\Admin\ListadoCiteInforme;
 use App\Http\Livewire\Admin\ListadoCiteMemorandum;
 use App\Http\Livewire\Admin\ListadoCiteRecibo;
 use App\Http\Livewire\Admin\Nuevoptctrl;
-use App\Http\Livewire\Admin\partials\PtCobro;
+
 use App\Http\Livewire\Admin\PuntosControl;
 use App\Http\Livewire\Admin\Regactividad;
 use App\Http\Livewire\Admin\Registroasistencias;
@@ -53,6 +53,7 @@ use App\Http\Livewire\Customer\Novedades as CustomerNovedades;
 use App\Http\Livewire\Customer\Recibos;
 use App\Http\Livewire\Customer\Rondas;
 use App\Http\Livewire\Customer\Visitas;
+
 use App\Http\Livewire\Vigilancia\Activacubrerelevos;
 use App\Http\Livewire\Vigilancia\Checkairbnb;
 use App\Http\Livewire\Vigilancia\HombreVivo;
@@ -111,7 +112,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('vigilancia/salidavisita/{visita_id}', SalidaVisita::class)->name('salidavisita');
     Route::get('vigilancia/tareas/{designacion}', Vtareas::class)->name('vigilancia.tareas');
     Route::get('vigilancia/airbnb/{designacione_id}', Checkairbnb::class)->name('vigilancia.airbnb');
-    Route::get('vigilancia/controlairbnb', function(){
+    Route::get('vigilancia/controlairbnb', function () {
         return view('vigilancia.listadoairbnb');
     })->name('vigilancia.ctrlairbnb');
 
@@ -120,6 +121,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/novedades', Registrosnovedades::class)->middleware('can:admin.registros.novedades')->name('admin.novedades');
     Route::get('admin/asistencias', Registroasistencias::class)->name('admin.asistencias');
 
+    Route::post('/designaciones-historial/exportar', [DesignacioneController::class, 'exportar'])->name('designaciones-historial.exportar');
 
     Route::get('admin/registro-actividad/{cliente_id?}', Regactividad::class)->middleware('can:admin.registros.panico')->name('admin.regactividad');
     Route::get('admin/turnos-cliente/{cliente_id}', TurnoCliente::class)->middleware('can:turnos.index')->name('admin.turnos-cliente');
@@ -136,6 +138,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/gen-docs', GenDocs::class)->name('gendocs');
     Route::get('admin/tareas', Registrostareas::class)->middleware('can:tareas.index')->name('admin.tareas');
     Route::get('admin/ctrl-airbnb', CtrlAllAirbnb::class)->name('admin.ctrlallairbnb');
+    Route::get('admin/designaciones/guardias', [DesignacioneController::class,'designacioneguardia'])->name('admin.designacione-guardias');
+    Route::get('admin/designaciones/selEmpleado/{empleado_id}', [DesignacioneController::class,'seleccionarEmpleado'])->name('admin.selempleado');
 
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');
     Route::resource('admin/empleados', EmpleadoController::class)->names('empleados');

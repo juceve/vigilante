@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\HistorialGuardiasExport;
 use App\Models\Designaciondia;
 use App\Models\Designacione;
+use App\Models\Empleado;
+use App\Models\Vwdesignacione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * Class DesignacioneController
@@ -16,7 +20,11 @@ class DesignacioneController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:designaciones.index')->only('index');
+        $this->middleware('can:designaciones.index')->only(
+            'index',
+            'designacioneguardia',
+            'seleccionarEmpleado'
+        );
         $this->middleware('can:designaciones.create')->only('create', 'store');
         $this->middleware('can:designaciones.edit')->only('edit', 'update');
         $this->middleware('can:designaciones.destroy')->only('destroy');
@@ -181,5 +189,39 @@ class DesignacioneController extends Controller
                 ->with('error', $th->getMessage());
             // ->with('error', 'Ha ocurrido un error');
         }
+    }
+
+    public function designacioneguardia()
+    {
+        $data = DB::select("SELECT e.id,CONCAT(e.nombres, ' ', e.apellidos) AS empleado,IF(e.cubrerelevos = 1, 'Sí', 'No') AS cubrerelevos, COALESCE(SUM(CASE WHEN vd.estado = 1 THEN 1 ELSE 0 END), 0) 
+        AS activos, COALESCE(SUM(CASE WHEN vd.estado = 0 THEN 1 ELSE 0 END), 0) AS inactivos
+FROM empleados e
+JOIN users u ON u.id = e.user_id
+LEFT JOIN vwdesignaciones vd ON vd.empleado_id = e.id
+WHERE 
+    e.area_id = 2
+    AND u.status = 1
+GROUP BY e.id, e.nombres, e.apellidos, e.cubrerelevos
+ORDER BY e.cubrerelevos ASC, empleado;");
+        $empleados = collect($data)->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'nombre' => $item->empleado
+            ];
+        });
+
+
+        return view('admin.designacione.guardias', compact('data', 'empleados'))->extends('adminlte::page');
+    }
+    public function seleccionarEmpleado($empleado_id)
+    {
+        $designaciones = Vwdesignacione::where('empleado_id', $empleado_id)->get();
+        return response()->json($designaciones);
+    }
+
+    public function exportar(Request $request)
+    {   
+        return Excel::download(new HistorialGuardiasExport($request), 'Reporte-Historial-Guardias.xlsx');
+
     }
 }
