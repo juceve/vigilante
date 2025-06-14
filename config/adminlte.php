@@ -440,7 +440,7 @@ return [
                     'text' => 'Cargos',
                     'route'  => 'rrhhcargos.index',
                     'can'   =>  'rrhhcargos.index',
-                    'icon' => 'fas fa-user-check'
+                    'icon' => 'fas fa-user-graduate'
                 ],
                 [
                     'text' => 'Tipo Contratos',

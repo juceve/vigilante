@@ -91,7 +91,7 @@
                                 <span class="input-group-text">Estado</span>
                             </div>
                             <select id="estado1" class="form-control">
-                                @foreach (\App\Models\RrhhAdelanto::estadoOptions() as $value => $label)
+                                @foreach ($optionsAdelantos as $value => $label)
                                     <option value="{{ $value }}">{{ $label }}</option>
                                 @endforeach
                             </select>

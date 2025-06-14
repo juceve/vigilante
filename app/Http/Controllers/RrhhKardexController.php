@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empleado;
+use App\Models\Rrhhadelanto;
 use App\Models\Rrhhcargo;
 use App\Models\Rrhhcontrato;
 use App\Models\Rrhhtipocontrato;
@@ -27,7 +28,8 @@ class RrhhKardexController extends Controller
             ->orderBy('fecha_inicio', 'asc') // más antiguo primero si hay solapamiento
             ->first();
         $tipopermisos = Rrhhtipopermiso::all();
-        return view('admin.kardex.kardex', compact('empleado',  'contratoActivo', 'tipopermisos'));
+        $optionsAdelantos = Rrhhadelanto::estadoOptions();
+        return view('admin.kardex.kardex', compact('empleado',  'contratoActivo', 'tipopermisos','optionsAdelantos'));
     }
     
 }
