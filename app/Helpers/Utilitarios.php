@@ -451,6 +451,13 @@ function traeCitecotizacion($cotizacion_id)
     return $citecotizacion->toArray();
 }
 
+function traeDetallesCotizacion($cotizacion_id)
+{
+    $citecotizacion = Citecotizacion::find($cotizacion_id);
+
+    return $citecotizacion->detalles->toArray();
+}
+
 function numLiteral($monto)
 {
     $conversiones = new ConversionNumeros();

@@ -110,9 +110,11 @@
                             <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">INFORMACIÓN
                                     GRAL.</a></li>
                             <li class="nav-item"><a class="nav-link " href="#contratos" data-toggle="tab">CONTRATOS</a></li>
-                            <li class="nav-item"><a class="nav-link nav-permisos" href="#timeline" data-toggle="tab">PERMISOS Y
+                            <li class="nav-item"><a class="nav-link nav-permisos" href="#permisos" data-toggle="tab">PERMISOS Y
                                     LICENCIAS</a></li>
-                            <li class="nav-item"><a class="nav-link nav-adelantos" href="#settings" data-toggle="tab">ADELANTOS</a>
+                            <li class="nav-item"><a class="nav-link nav-adelantos" href="#adelantos" data-toggle="tab">ADELANTOS</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link nav-bonos" href="#bonos" data-toggle="tab">BONOS</a>
                             </li>
                         </ul>
                     </div><!-- /.card-header -->
@@ -126,13 +128,16 @@
                                 @livewire('kardex.contratos', ['empleado_id' => $empleado->id])
                             </div>
                             <!-- /.tab-pane -->
-                            <div class="tab-pane" id="timeline">
+                            <div class="tab-pane" id="permisos">
                                 @include('admin.kardex.licenciasypermisos')
                             </div>
                             <!-- /.tab-pane -->
 
-                            <div class="tab-pane" id="settings">
+                            <div class="tab-pane" id="adelantos">
                                 @include('admin.kardex.adelantos')
+                            </div>
+                            <div class="tab-pane" id="bonos">
+                                @include('admin.kardex.bonos')
                             </div>
                             <!-- /.tab-pane -->
                         </div>

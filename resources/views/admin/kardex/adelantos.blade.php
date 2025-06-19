@@ -4,7 +4,7 @@
     </div>
     <div class="col-12 col-md-3 mb-2">
         @if ($contratoActivo)
-            <button class="btn btn-success btn-sm btn-block" data-toggle="modal" data-target="#modalAdelantos">
+            <button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modalAdelantos">
                 Nuevo <i class="fas fa-plus"></i>
             </button>
         @endif
@@ -13,7 +13,7 @@
 </div>
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-sm" id="tabla-adelantos" style="width: 100%">
-        <thead class="table-success">
+        <thead class="table-info">
             <tr>
                 <th>ID</th>
                 <th>Fecha</th>
@@ -107,7 +107,7 @@
                 <button type="button" id="btnEdit1" class="btn btn-warning d-none"
                     onclick="updateAdelanto()">Actualizar Adelanto
                     <i class="fas fa-save"></i></button>
-                <button type="button" id="btnRegist1" class="btn btn-success" onclick="registrarAdelanto()">Registrar
+                <button type="button" id="btnRegist1" class="btn btn-info" onclick="registrarAdelanto()">Registrar
                     Adelanto <i class="fas fa-save"></i></button>
             </div>
         </div>

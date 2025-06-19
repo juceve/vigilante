@@ -4,7 +4,7 @@
     </div>
     <div class="col-12 col-md-3 mb-2">
         @if ($contratoActivo)
-            <button class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-target="#modalPermisos">
+            <button class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modalPermisos">
                 Nuevo <i class="fas fa-plus"></i>
             </button>
         @endif
@@ -13,7 +13,7 @@
 </div>
 <div class="table-responsive" >
     <table class="table table-bordered table-striped table-sm" id="tabla-permisos" style="width: 100%">
-        <thead class="table-primary">
+        <thead class="table-info">
             <tr>
                 <th>ID</th>
                 <th>Tipo</th>
@@ -110,7 +110,7 @@
                     Cerrar</button>
                 <button type="button" class="btn btn-warning d-none" id="btnEdit"
                     onclick="updatePermiso()">Actualizar permiso <i class="fas fa-save"></i></button>
-                <button type="button" class="btn btn-primary" id="btnRegist" onclick="registrarPermiso()">Registrar
+                <button type="button" class="btn btn-info" id="btnRegist" onclick="registrarPermiso()">Registrar
                     permiso <i class="fas fa-save"></i></button>
 
             </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Citecotizacion;
+use App\Models\Detallecotizacione;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
@@ -14,7 +15,9 @@ class ListadoCiteCotizacion extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $destinatario = "", $cargo = "", $monto = "", $fecha = "", $updCiteId = "";
+    public $destinatario = "", $cargo = "", $monto = "0", $fecha = "", $updCiteId = "";
+
+    public $detalle = '', $cantidad = 1, $precio = 0, $detalles = [];
 
     public $busqueda = "", $filas = 5, $gestion;
     public function render()
@@ -28,6 +31,28 @@ class ListadoCiteCotizacion extends Component
     }
 
     protected $listeners = ['anular'];
+
+    public function addDetalle()
+    {
+        $this->validate([
+            'detalle' => 'required',
+            'cantidad' => 'required',
+            'precio' => 'required',
+        ]);
+
+        $this->detalles[] = array($this->detalle, $this->cantidad, $this->precio);
+        $this->monto += ($this->precio * $this->cantidad);
+        $this->reset('detalle', 'cantidad', 'precio');
+        $this->emit('toast-success', 'Detalle agregado!');
+    }
+
+    public function delDetalle($i)
+    {
+        $this->monto -= ($this->detalles[$i][1] * $this->detalles[$i][2]);
+        unset($this->detalles[$i]);
+        $this->detalles = array_values($this->detalles);
+        $this->emit('toast-warning', 'Detalle eliminado!');
+    }
 
     public function mount()
     {
@@ -50,7 +75,10 @@ class ListadoCiteCotizacion extends Component
             'destinatario',
             'cargo',
             'monto',
-
+            'detalle',
+            'cantidad',
+            'precio',
+            'detalles'
         );
     }
 
@@ -92,9 +120,19 @@ class ListadoCiteCotizacion extends Component
 
             ]);
 
+            foreach ($this->detalles as $detalle) {
+                $detallecotizacion = Detallecotizacione::create([
+                    'citecotizacion_id' => $citecotizacion->id,
+                    'detalle' => $detalle[0],
+                    'cantidad' => $detalle[1],
+                    'precio' => $detalle[2],
+                ]);
+            }
+
             DB::commit();
 
             $this->resetAll();
+            
             $datos = $citecotizacion->id;
             $this->emit('renderizarpdf', $datos);
             $this->emit('success', 'Cotización registrado correctamente.');
@@ -114,6 +152,11 @@ class ListadoCiteCotizacion extends Component
         $this->cargo = $citecotizacion->cargo;
         $this->monto = $citecotizacion->monto;
         $this->fecha = $citecotizacion->fecha;
+        $detalles = [];
+        foreach ($citecotizacion->detalles as $detalle) {
+            $detalles[] = array($detalle->detalle, $detalle->cantidad, $detalle->precio);
+        }
+        $this->detalles = $detalles;
     }
 
     public function actualizar()
@@ -121,7 +164,11 @@ class ListadoCiteCotizacion extends Component
         DB::beginTransaction();
         try {
 
-            $citecotizacion = Citecotizacion::find($this->updCiteId)->update([
+            $citecotizacion = Citecotizacion::find($this->updCiteId);
+            foreach ($citecotizacion->detalles as $detalle) {
+                $detalle->delete();
+            }
+            $citecotizacion->update([
 
                 'fecha' => $this->fecha,
                 'fechaliteral' => fechaEs($this->fecha),
@@ -131,9 +178,19 @@ class ListadoCiteCotizacion extends Component
 
             ]);
 
+            foreach ($this->detalles as $detalle) {
+                $detallecotizacion = Detallecotizacione::create([
+                    'citecotizacion_id' => $citecotizacion->id,
+                    'detalle' => $detalle[0],
+                    'cantidad' => $detalle[1],
+                    'precio' => $detalle[2],
+                ]);
+            }
+
             DB::commit();
 
             $this->resetAll();
+            
             $this->emit('success', 'Cotización actualizado correctamente.');
         } catch (\Throwable $th) {
             DB::rollBack();

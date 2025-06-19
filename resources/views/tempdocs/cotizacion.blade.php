@@ -7,11 +7,12 @@ $myArray = explode('^', $data);
 
 $datos1 = explode('|', $myArray[0]);
 $citecotizacion;
+$detalles;
 $datos = [];
 if ($datos1[0] != 0) {
     $cite_id = $datos1[0];
     $citecotizacion = traeCitecotizacion($cite_id);
-
+    $detalles = traeDetallesCotizacion($cite_id);
     $datos = [$citecotizacion['cite'], $citecotizacion['fechaliteral'], $citecotizacion['destinatario'], $citecotizacion['cargo'], $citecotizacion['monto']];
 } else {
     $datos = explode('|', $myArray[1]);
@@ -46,6 +47,7 @@ if ($datos1[0] != 0) {
 </head>
 
 <body>
+
     <div class="contenido">
         <img src="{{ asset('images/flayer.jpg') }}" style="width: 100%; height: 100%">
         <div class="row" style="width: 100%;margin-right: 3rem">
@@ -217,17 +219,50 @@ if ($datos1[0] != 0) {
 
             “BLACK BIRD” Empresa de Seguridad y Vigilancia le ofrece:
             Seguridad y Vigilancia las 24 hrs. con Supervisión o Rondas continuas por parte de la Empresa, Controlando
-            Asistencia, Calidad y Cumplimiento de nuestros Guardias.
+            Asistencia, Calidad y Cumplimiento de nuestros Guardias. <br><br>
+            A continuación se detalla lo solicitado:
         </p>
+        @php
+            $i = 0;
+        @endphp
+        @if (count($detalles) > 0)
+            <div style="margin-left: 3rem;margin-right: 3rem; margin-top: 2rem;text-align: justify;">
+                <table class="table table-bordered" style="font-size: 12px;">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 8%">N°</th>
+                            <th>DETALLE</th>
+                            <th class="text-right" style="width: 15%">PRECIO UNIT.</th>
+                            <th class="text-center" style="width: 15%">CANTIDAD</th>
+                            <th class="text-right" style="width: 15%">SUBTOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($detalles as $detalle)
+                            <tr>
+                                <td class="text-center">{{ ++$i }}</td>
+                                <td>{{ $detalle['detalle'] }}</td>
+                                <td class="text-right">{{ number_format($detalle['precio'], 2, '.') }}</td>
+                                <td class="text-center">{{ $detalle['cantidad'] }}</td>
+                                <td class="text-right">
+                                    {{ number_format($detalle['cantidad'] * $detalle['precio'], 2, '.') }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
 
-        <h4 style="margin-left: 3rem;margin-right: 3rem; margin-top: 3rem;text-align: center;">
+        {{-- <h4 style="margin-left: 3rem;margin-right: 3rem; margin-top: 3rem;text-align: center;">
             <u>
                 <strong>Costo Mensual por Guardia de Seguridad turno de 12 Hrs</strong>
             </u>
-        </h4>
-
+        </h4> --}}
+        <p style="margin-left: 3rem;margin-right: 3rem; margin-top: 2rem;text-align: justify;">
+            <strong>COSTO TOTAL: {{ $datos[4] }} Bs. - <i>{{ numLiteral($datos[4]) }}</i></strong>
+        </p>
         <p style="margin-left: 3rem;margin-right: 3rem; margin-top: 1rem;text-align: center;">
-        <h4 class="text-center"> &#8226; {{ $datos[4] }} Bs. ({{ numLiteral($datos[4]) }})</h4>
+
         </p>
 
         <p style="margin-left: 3rem;margin-right: 3rem; margin-top: 2rem;text-align: left;">

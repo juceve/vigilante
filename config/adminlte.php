@@ -455,6 +455,12 @@ return [
                     'icon' => 'fas fa-folder-plus'
                 ],
                 [
+                    'text' => 'Tipo de Bonos',
+                    'route'  => 'rrhhtipobonos.index',
+                    // 'can'   =>  'rrhhtipobonos.index',
+                    'icon' => 'fas fa-funnel-dollar'
+                ],
+                [
                     'text' => 'Estados Asistencia',
                     'route'  => 'rrhhestados.index',
                     'can'   =>  'rrhhestados.index',
