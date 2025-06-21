@@ -22,7 +22,9 @@ use App\Http\Controllers\RrhhadelantoController;
 use App\Http\Controllers\RrhhasistenciaController;
 use App\Http\Controllers\RrhhbonoController;
 use App\Http\Controllers\RrhhcargoController;
+use App\Http\Controllers\RrhhdotacionController;
 use App\Http\Controllers\RrhhestadoController;
+use App\Http\Controllers\RrhhestadodotacionController;
 use App\Http\Controllers\RrhhKardexController;
 use App\Http\Controllers\RrhhpermisoController;
 use App\Http\Controllers\RrhhtipobonoController;
@@ -140,17 +142,21 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/designaciones-historial/exportar', [DesignacioneController::class, 'exportar'])->name('designaciones-historial.exportar');
 
     Route::post('bonos/store', [RrhhbonoController::class, 'store'])->name('bonos.store');
+    Route::post('dotaciones/store', [RrhhdotacionController::class, 'store'])->name('dotaciones.store');
     Route::post('adelantos/store', [RrhhadelantoController::class, 'store'])->name('adelantos.store');
     Route::post('permisos/store', [RrhhpermisoController::class, 'store'])->name('permisos.store');
+    Route::post('dotaciones/edit', [RrhhdotacionController::class, 'edit'])->name('dotaciones.edit');
     Route::post('bonos/edit', [RrhhbonoController::class, 'edit'])->name('bonos.edit');
     Route::post('adelantos/edit', [RrhhadelantoController::class, 'edit'])->name('adelantos.edit');
     Route::post('permisos/edit', [RrhhpermisoController::class, 'edit'])->name('permisos.edit');
+    Route::post('dotaciones/update', [RrhhdotacionController::class, 'update'])->name('dotaciones.update');
     Route::post('bonos/update', [RrhhbonoController::class, 'update'])->name('bonos.update');
     Route::post('adelantos/update', [RrhhadelantoController::class, 'update'])->name('adelantos.update');
     Route::post('permisos/update', [RrhhpermisoController::class, 'update'])->name('permisos.update');
     Route::post('asistencias/guardar', [RrhhasistenciaController::class, 'guardar'])->name('asistencias.guardar');
 
     Route::get('admin/rrhh/asistencias/reporte', [RrhhasistenciaController::class, 'reporteAjax'])->name('asistencias.data');
+    Route::get('dotaciones/data/{contrato_id}', [RrhhdotacionController::class, 'data'])->name('dotaciones.data');
     Route::get('bonos/data/{contrato_id}', [RrhhbonoController::class, 'data'])->name('bonos.data');
     Route::get('adelantos/data/{contrato_id}', [RrhhadelantoController::class, 'data'])->name('adelantos.data');
     Route::get('permisos/data/{contrato_id}', [RrhhpermisoController::class, 'data'])->name('permisos.data');
@@ -185,6 +191,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('admin/rrhh/tipo-permisos', RrhhtipopermisoController::class)->names('rrhhtipopermisos');
     Route::resource('admin/rrhh/cargos', RrhhcargoController::class)->names('rrhhcargos');
     Route::resource('admin/rrhh/tipo-bonos', RrhhtipobonoController::class)->names('rrhhtipobonos');
+    Route::resource('admin/rrhh/estado-dotaciones', RrhhestadodotacionController::class)->names('rrhhestadodotacions');
     // Route::resource('admin/tareas', TareaController::class)->names('tareas');
 
     Route::get('/ubicacion/{lat}/{lng}', function (string $lat, string $lng) {

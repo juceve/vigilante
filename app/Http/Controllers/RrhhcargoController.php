@@ -18,10 +18,10 @@ class RrhhcargoController extends Controller
      */
     public function index()
     {
-        $rrhhcargos = Rrhhcargo::paginate();
+        $rrhhcargos = Rrhhcargo::all();
 
         return view('rrhhcargo.index', compact('rrhhcargos'))
-            ->with('i', (request()->input('page', 1) - 1) * $rrhhcargos->perPage());
+            ->with('i', 0);
     }
 
     /**

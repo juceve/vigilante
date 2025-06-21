@@ -14,10 +14,17 @@ class CitecotizacionController extends Controller
         // dd($data);
         if (is_null($data) || $data == "undefined") {
             $data = Session::get('data-citecotizacion');
-        }
-        $pdf = Pdf::loadView('tempdocs.cotizacion', compact('data'))
+            $data_detalles = Session::get('data-detalles');
+             $pdf = Pdf::loadView('tempdocs.cotizacion', compact('data','data_detalles'))
             ->setPaper('letter', 'portrait');
 
         return $pdf->stream();
+        }else {
+             $pdf = Pdf::loadView('tempdocs.cotizacion', compact('data'))
+            ->setPaper('letter', 'portrait');
+
+        return $pdf->stream();
+        }
+       
     }
 }

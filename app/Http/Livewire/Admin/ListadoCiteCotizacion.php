@@ -85,12 +85,14 @@ class ListadoCiteCotizacion extends Component
     public function previa()
     {
         $data = [];
-        $data[] = 0;
-
+        foreach ($this->detalles as $item) {
+            $data[] = array('detalle' => $item[0], 'cantidad' => $item[1], 'precio' => $item[2]);
+        }
         $datos = '0^0|' . fechaEs($this->fecha) . '|' . $this->destinatario . '|' .  $this->cargo . '|' . $this->monto;
 
         $datos = codGet($datos);
         Session::put('data-citecotizacion', $datos);
+        Session::put('data-detalles', $data);
 
         $this->emit('renderizarpdf');
     }
@@ -132,7 +134,7 @@ class ListadoCiteCotizacion extends Component
             DB::commit();
 
             $this->resetAll();
-            
+
             $datos = $citecotizacion->id;
             $this->emit('renderizarpdf', $datos);
             $this->emit('success', 'Cotización registrado correctamente.');
@@ -150,12 +152,14 @@ class ListadoCiteCotizacion extends Component
         $this->updCiteId = $citecotizacion_id;
         $this->destinatario = $citecotizacion->destinatario;
         $this->cargo = $citecotizacion->cargo;
-        $this->monto = $citecotizacion->monto;
         $this->fecha = $citecotizacion->fecha;
         $detalles = [];
+        $total = 0;
         foreach ($citecotizacion->detalles as $detalle) {
             $detalles[] = array($detalle->detalle, $detalle->cantidad, $detalle->precio);
+            $total += ($detalle->cantidad * $detalle->precio);
         }
+        $this->monto = $total;
         $this->detalles = $detalles;
     }
 
@@ -190,7 +194,7 @@ class ListadoCiteCotizacion extends Component
             DB::commit();
 
             $this->resetAll();
-            
+
             $this->emit('success', 'Cotización actualizado correctamente.');
         } catch (\Throwable $th) {
             DB::rollBack();

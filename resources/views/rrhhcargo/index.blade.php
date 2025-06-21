@@ -31,7 +31,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover dataTable">
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
@@ -50,7 +50,7 @@
                                             <td>{{ $rrhhcargo->nombre }}</td>
                                             <td>{{ $rrhhcargo->descripcion }}</td>
 
-                                            <td>
+                                            <td class="text-right">
                                                 <form action="{{ route('rrhhcargos.destroy', $rrhhcargo->id) }}" class="delete" onsubmit="return false"
                                                     method="POST">
                                                     <a class="btn btn-sm btn-primary "
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $rrhhcargos->links() !!}
+                
             </div>
         </div>
     </div>

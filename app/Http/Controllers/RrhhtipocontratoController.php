@@ -18,10 +18,10 @@ class RrhhtipocontratoController extends Controller
      */
     public function index()
     {
-        $rrhhtipocontratos = Rrhhtipocontrato::paginate();
+        $rrhhtipocontratos = Rrhhtipocontrato::all();
 
         return view('rrhhtipocontrato.index', compact('rrhhtipocontratos'))
-            ->with('i', (request()->input('page', 1) - 1) * $rrhhtipocontratos->perPage());
+            ->with('i', 0);
     }
 
     /**

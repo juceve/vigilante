@@ -457,8 +457,14 @@ return [
                 [
                     'text' => 'Tipo de Bonos',
                     'route'  => 'rrhhtipobonos.index',
-                    // 'can'   =>  'rrhhtipobonos.index',
+                    'can'   =>  'rrhhtipobonos.index',
                     'icon' => 'fas fa-funnel-dollar'
+                ],
+                [
+                    'text' => 'Estado Dotaciones',
+                    'route'  => 'rrhhestadodotacions.index',
+                    'can'   =>  'rrhhestadodotacions.index',
+                    'icon' => 'fas fa-toolbox'
                 ],
                 [
                     'text' => 'Estados Asistencia',

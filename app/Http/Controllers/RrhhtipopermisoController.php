@@ -18,10 +18,10 @@ class RrhhtipopermisoController extends Controller
      */
     public function index()
     {
-        $rrhhtipopermisos = Rrhhtipopermiso::paginate();
+        $rrhhtipopermisos = Rrhhtipopermiso::all();
 
         return view('rrhhtipopermiso.index', compact('rrhhtipopermisos'))
-            ->with('i', (request()->input('page', 1) - 1) * $rrhhtipopermisos->perPage());
+            ->with('i', 0);
     }
 
     /**

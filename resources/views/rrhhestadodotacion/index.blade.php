@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
 @section('title')
-    Tipo de Bonos
+    Estado Dotaciones
 @endsection
 @section('content_header')
-    <h4>Tipo de Bonos</h4>
+    <h4>Estado Dotaciones</h4>
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -15,12 +15,12 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                Listado de Tipos de Bono
+                                Listado de Estados
                             </span>
 
                             <div class="float-right">
-                                @can('rrhhtipobonos.create')
-                                    <a href="{{ route('rrhhtipobonos.create') }}" class="btn btn-info btn-sm float-right"
+                                @can('rrhhestadodotacions.create')
+                                    <a href="{{ route('rrhhestadodotacions.create') }}" class="btn btn-info btn-sm float-right"
                                         data-placement="left">
                                         Nuevo <i class="fas fa-plus"></i>
                                     </a>
@@ -35,34 +35,26 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-
-                                        <th>Nombre</th>
-                                        <th>Nombre Corto</th>
-                                        <th class="text-right">Monto</th>
+                                        
+										<th>Nombre</th>
 
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($rrhhtipobonos as $rrhhtipobono)
+                                    @foreach ($rrhhestadodotacions as $rrhhestadodotacion)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-
-                                            <td>{{ $rrhhtipobono->nombre }}</td>
-                                            <td>{{ $rrhhtipobono->nombre_corto }}</td>
-                                            <td class="text-right">{{ number_format($rrhhtipobono->monto,2,'.') }}</td>
+                                            
+											<td>{{ $rrhhestadodotacion->nombre }}</td>
 
                                             <td class="text-right">
-                                                <form action="{{ route('rrhhtipobonos.destroy', $rrhhtipobono->id) }}" class="delete" onsubmit="return false"
-                                                    method="POST">
+                                                <form action="{{ route('rrhhestadodotacions.destroy',$rrhhestadodotacion->id) }}" class="delete" onsubmit="return false" method="POST">
                                                    
-                                                    <a class="btn btn-sm btn-success"
-                                                        href="{{ route('rrhhtipobonos.edit', $rrhhtipobono->id) }}" title="Editar"><i
-                                                            class="fa fa-fw fa-edit"></i></a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('rrhhestadodotacions.edit',$rrhhestadodotacion->id) }}" title="Editar"><i class="fa fa-fw fa-edit"></i></a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" title="Eliminar DB"><i
-                                                            class="fa fa-fw fa-trash"></i></button>
+                                                    <button type="submit" class="btn btn-danger btn-sm" title="Eliminar DB"><i class="fa fa-fw fa-trash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>

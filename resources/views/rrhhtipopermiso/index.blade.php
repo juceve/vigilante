@@ -31,7 +31,7 @@ Tipo Permiso
 
                 <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover dataTable">
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
@@ -51,7 +51,7 @@ Tipo Permiso
 											<td>{{ $rrhhtipopermiso->nombre }}</td>
 											<td>{{ $rrhhtipopermiso->nombre_corto }}</td>
 
-                                            <td>
+                                            <td class="text-right">
                                                 <form action="{{ route('rrhhtipopermisos.destroy',$rrhhtipopermiso->id) }}" class="delete" onsubmit="return false" method="POST">
                                                     <a class="btn btn-sm btn-primary " href="{{ route('rrhhtipopermisos.show',$rrhhtipopermiso->id) }}" title="Ver info">
                                                         <i class="fa fa-fw fa-eye"></i>                                                    
@@ -71,7 +71,7 @@ Tipo Permiso
                         </div>
                     </div>
                 </div>
-                {!! $rrhhtipopermisos->links() !!}
+                
             </div>
         </div>
     </div>

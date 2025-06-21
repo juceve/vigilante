@@ -102,5 +102,15 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'rrhhestados.destroy',  'grupo' => 'ESTADOS ASISTENCIA', 'descripcion' => 'Eliminar'])->assignRole([$role]);
 
         Permission::create(['name' => 'rrhhctrlasistencias',  'grupo' => 'CONTROL ASISTENCIA', 'descripcion' => 'Realizar controles'])->assignRole([$role]);
+        
+        Permission::create(['name' => 'rrhhestadodotaciones.index',  'grupo' => 'ESTADOS DOTACIONES', 'descripcion' => 'Ver listado'])->assignRole([$role]);
+        Permission::create(['name' => 'rrhhestadodotaciones.create',  'grupo' => 'ESTADOS DOTACIONES', 'descripcion' => 'Crear'])->assignRole([$role]);
+        Permission::create(['name' => 'rrhhestadodotaciones.edit',  'grupo' => 'ESTADOS DOTACIONES', 'descripcion' => 'Editar'])->assignRole([$role]);
+        Permission::create(['name' => 'rrhhestadodotaciones.destroy',  'grupo' => 'ESTADOS DOTACIONES', 'descripcion' => 'Eliminar'])->assignRole([$role]);
+       
+        Permission::create(['name' => 'rrhhestipobonos.index',  'grupo' => 'TIPO BONOS', 'descripcion' => 'Ver listado'])->assignRole([$role]);
+        Permission::create(['name' => 'rrhhestipobonos.create',  'grupo' => 'TIPO BONOS', 'descripcion' => 'Crear'])->assignRole([$role]);
+        Permission::create(['name' => 'rrhhestipobonos.edit',  'grupo' => 'TIPO BONOS', 'descripcion' => 'Editar'])->assignRole([$role]);
+        Permission::create(['name' => 'rrhhestipobonos.destroy',  'grupo' => 'TIPO BONOS', 'descripcion' => 'Eliminar'])->assignRole([$role]);
     }
 }

@@ -624,6 +624,8 @@
 @yield('js3')
 @yield('js4')
 @yield('js5')
+@yield('js6')
+@yield('js7')
 </body>
 
 </html>

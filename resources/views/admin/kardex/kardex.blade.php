@@ -20,6 +20,19 @@
     </div>
 @endsection
 @section('content')
+    <style>
+        #tabsWrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        #tabsWrapper {
+            -ms-overflow-style: none;
+            /* IE */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+    </style>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3">
@@ -50,7 +63,8 @@
                                 <b>Email:</b> <a class="float-right">{{ $empleado->email }}</a>
                             </li>
                             <li class="list-group-item">
-                                <b>Contrato Vigente:</b> <a class="float-right">{{ $contratoActivo?cerosIzq($contratoActivo->id):'Sin definir'  }}</a>
+                                <b>Contrato Vigente:</b> <a
+                                    class="float-right">{{ $contratoActivo ? cerosIzq($contratoActivo->id) : 'Sin definir' }}</a>
                             </li>
                         </ul>
 
@@ -105,19 +119,34 @@
             <!-- /.col -->
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header p-2">
-                        <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">INFORMACIÓN
-                                    GRAL.</a></li>
-                            <li class="nav-item"><a class="nav-link " href="#contratos" data-toggle="tab">CONTRATOS</a></li>
-                            <li class="nav-item"><a class="nav-link nav-permisos" href="#permisos" data-toggle="tab">PERMISOS Y
-                                    LICENCIAS</a></li>
-                            <li class="nav-item"><a class="nav-link nav-adelantos" href="#adelantos" data-toggle="tab">ADELANTOS</a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link nav-bonos" href="#bonos" data-toggle="tab">BONOS</a>
-                            </li>
-                        </ul>
-                    </div><!-- /.card-header -->
+                   
+                    <div class="card-header p-2 d-flex align-items-center">
+                        <button class="btn btn-sm btn-light mr-2" id="scrollTabsLeft">&laquo;</button>
+
+                        <div class="flex-grow-1 position-relative" style="overflow: hidden;">
+                            <div id="tabsWrapper" style="overflow-x: auto; white-space: nowrap; scroll-behavior: smooth;">
+                                <ul class="nav nav-pills flex-nowrap mb-0" id="tabNav" style="white-space: nowrap;">
+                                    <li class="nav-item d-inline-block "><a class="nav-link active" href="#activity"
+                                            data-toggle="tab">INFORMACIÓN GRAL.</a></li>
+                                    <li class="nav-item d-inline-block"><a class="nav-link" href="#contratos"
+                                            data-toggle="tab">CONTRATOS</a></li>
+                                    <li class="nav-item d-inline-block nav-permisos"><a class="nav-link" href="#permisos"
+                                            data-toggle="tab">PERMISOS Y LICENCIAS</a></li>
+                                    <li class="nav-item d-inline-block nav-adelantos"><a class="nav-link" href="#adelantos"
+                                            data-toggle="tab">ADELANTOS</a></li>
+                                    <li class="nav-item d-inline-block nav-bonos"><a class="nav-link" href="#bonos"
+                                            data-toggle="tab">BONOS Y DESCUENTOS</a>
+                                    <li class="nav-item d-inline-block nav-dotaciones"><a class="nav-link" href="#dotaciones"
+                                            data-toggle="tab">DOTACIONES</a>
+                                        <!-- Más si querés -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-sm btn-light ml-2" id="scrollTabsRight">&raquo;</button>
+                    </div>
+
+
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="active tab-pane" id="activity">
@@ -139,6 +168,9 @@
                             <div class="tab-pane" id="bonos">
                                 @include('admin.kardex.bonos')
                             </div>
+                            <div class="tab-pane" id="dotaciones">
+                                  @include('admin.kardex.dotaciones')
+                            </div>
                             <!-- /.tab-pane -->
                         </div>
                         <!-- /.tab-content -->
@@ -150,4 +182,29 @@
         </div>
         <!-- /.row -->
     </div><!-- /.container-fluid -->
+@endsection
+@section('js6')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabsWrapper = document.getElementById('tabsWrapper');
+            const scrollLeft = document.getElementById('scrollTabsLeft');
+            const scrollRight = document.getElementById('scrollTabsRight');
+
+            const scrollAmount = 150;
+
+            scrollLeft.addEventListener('click', () => {
+                tabsWrapper.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            });
+
+            scrollRight.addEventListener('click', () => {
+                tabsWrapper.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 @endsection

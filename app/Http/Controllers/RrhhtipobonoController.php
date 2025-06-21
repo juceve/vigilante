@@ -18,10 +18,10 @@ class RrhhtipobonoController extends Controller
      */
     public function index()
     {
-        $rrhhtipobonos = Rrhhtipobono::paginate();
+        $rrhhtipobonos = Rrhhtipobono::all();
 
         return view('rrhhtipobono.index', compact('rrhhtipobonos'))
-            ->with('i', (request()->input('page', 1) - 1) * $rrhhtipobonos->perPage());
+            ->with('i', 0);
     }
 
     /**

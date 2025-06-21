@@ -21,10 +21,10 @@ class RrhhestadoController extends Controller
 
     public function index()
     {
-        $rrhhestados = Rrhhestado::paginate();
+        $rrhhestados = Rrhhestado::all();
 
         return view('admin.rrhhestado.index', compact('rrhhestados'))
-            ->with('i', (request()->input('page', 1) - 1) * $rrhhestados->perPage());
+            ->with('i', 0);
     }
 
     /**

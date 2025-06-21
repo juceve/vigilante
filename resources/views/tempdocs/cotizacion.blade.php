@@ -16,6 +16,7 @@ if ($datos1[0] != 0) {
     $datos = [$citecotizacion['cite'], $citecotizacion['fechaliteral'], $citecotizacion['destinatario'], $citecotizacion['cargo'], $citecotizacion['monto']];
 } else {
     $datos = explode('|', $myArray[1]);
+    $detalles = $data_detalles;
 }
 ?>
 

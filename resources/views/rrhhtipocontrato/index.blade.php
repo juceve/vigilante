@@ -31,7 +31,7 @@ Tipo Contrato
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover dataTable">
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
@@ -60,7 +60,7 @@ Tipo Contrato
                                                 @endif
                                             </td>
 
-                                            <td>
+                                            <td class="text-right">
                                                 <form action="{{ route('rrhhtipocontratos.destroy',$rrhhtipocontrato->id) }}" class="delete" onsubmit="return false" method="POST">
                                                     <a class="btn btn-sm btn-primary " href="{{ route('rrhhtipocontratos.show',$rrhhtipocontrato->id) }}" title="Ver info"><i class="fa fa-fw fa-eye"></i>
                                                     </a>
@@ -77,7 +77,7 @@ Tipo Contrato
                         </div>
                     </div>
                 </div>
-                {!! $rrhhtipocontratos->links() !!}
+                
             </div>
         </div>
     </div>
