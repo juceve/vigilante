@@ -46,8 +46,9 @@ use App\Http\Livewire\Admin\ListadoCiteCotizacion;
 use App\Http\Livewire\Admin\ListadoCiteInforme;
 use App\Http\Livewire\Admin\ListadoCiteMemorandum;
 use App\Http\Livewire\Admin\ListadoCiteRecibo;
+use App\Http\Livewire\Admin\ManageSueldos;
 use App\Http\Livewire\Admin\Nuevoptctrl;
-
+use App\Http\Livewire\Admin\ProcesarSueldo;
 use App\Http\Livewire\Admin\PuntosControl;
 use App\Http\Livewire\Admin\Regactividad;
 use App\Http\Livewire\Admin\Registroasistencias;
@@ -138,6 +139,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/rondas', Registrosronda::class)->middleware('can:admin.registros.rondas')->name('admin.rondas');
     Route::get('admin/novedades', Registrosnovedades::class)->middleware('can:admin.registros.novedades')->name('admin.novedades');
     Route::get('admin/asistencias', Registroasistencias::class)->name('admin.asistencias');
+    Route::get('admin/sueldos', ManageSueldos::class)->name('admin.sueldos');
+    Route::get('admin/{rrhhsueldo_id}/procesar-sueldos', ProcesarSueldo::class)->name('admin.procesarsueldos');
+    
 
     Route::post('/designaciones-historial/exportar', [DesignacioneController::class, 'exportar'])->name('designaciones-historial.exportar');
 
@@ -178,7 +182,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/tareas', Registrostareas::class)->middleware('can:tareas.index')->name('admin.tareas');
     Route::get('admin/ctrl-airbnb', CtrlAllAirbnb::class)->name('admin.ctrlallairbnb');
     Route::get('admin/designaciones/guardias', [DesignacioneController::class, 'designacioneguardia'])->name('admin.designacione-guardias');
-    Route::get('admin/designaciones/selEmpleado/{empleado_id}', [DesignacioneController::class, 'seleccionarEmpleado'])->name('admin.selempleado');
+    Route::get('admin/designaciones/selEmpleado/{empleado_id}', [DesignacioneController::class, 'seleccionarEmpleado'])->name('admin.selempleado');    
 
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');
     Route::resource('admin/empleados', EmpleadoController::class)->names('empleados');
