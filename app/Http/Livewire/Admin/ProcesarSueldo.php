@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Rrhhcontrato;
 use App\Models\Empleado;
 use App\Models\Rrhhsueldo;
@@ -11,14 +12,27 @@ use App\Models\Rrhhbono;
 use App\Models\Rrhhasistencia;
 use App\Models\Rrhhestado;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Models\Rrhhsueldoempleado;
+use App\Models\Rrhhpermiso;
+use Barryvdh\DomPDF\Facade\Pdf; // Asegúrate de tener este use
+use Illuminate\Support\Facades\Session;
 
 class ProcesarSueldo extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $contratosVigentes = null, $alertasSolapamiento;
     public $rrhhsueldo;
     public $searchEmpleado = '';
     public $procesado = false;
     public $calcularHastaHoy = false;
+    public $perPage = 7;
+    public $procesando = false;
+
+    protected $listeners = ['finalizarProceso'];
 
     public function mount($rrhhsueldo_id)
     {
@@ -184,7 +198,7 @@ class ProcesarSueldo extends Component
                 ->whereDate('fecha', '>=', $fechaInicio)
                 ->whereDate('fecha', '<=', $fechaFin)
                 ->get()
-                ->sum(function($bono) {
+                ->sum(function ($bono) {
                     return $bono->cantidad * $bono->monto;
                 });
 
@@ -194,23 +208,155 @@ class ProcesarSueldo extends Component
             // Líquido pagable
             $contrato->total_liquido_pagable = $contrato->salario_asistencia - $adelantos + $bonos;
 
+            // Rango del mes a analizar
+            $inicioMes = Carbon::create($gestion, $mes, 1)->startOfDay();
+            $finMes = Carbon::create($gestion, $mes, 1)->endOfMonth()->endOfDay();
+
+            // Trae todos los permisos del empleado que se cruzan con el mes
+            $permisos = Rrhhpermiso::where('empleado_id', $contrato->empleado_id)
+                ->where(function ($q) use ($inicioMes, $finMes) {
+                    $q->whereDate('fecha_inicio', '<=', $finMes)
+                        ->whereDate('fecha_fin', '>=', $inicioMes);
+                })
+                ->get();
+
+            $totalPermisos = 0;
+            foreach ($permisos as $permiso) {
+                $inicioPermiso = Carbon::parse($permiso->fecha_inicio)->startOfDay();
+                $finPermiso = Carbon::parse($permiso->fecha_fin)->endOfDay();
+
+                // Calcula el rango efectivo dentro del mes
+                $inicio = $inicioPermiso->greaterThan($inicioMes) ? $inicioPermiso : $inicioMes;
+                $fin = $finPermiso->lessThan($finMes) ? $finPermiso : $finMes;
+
+                // Suma los días (incluyendo ambos extremos)
+                $dias = $inicio->diffInDays($fin) + 1;
+                $totalPermisos += $dias;
+            }
+
+            $contrato->total_permisos = $totalPermisos;
+
             return $contrato;
         });
 
         $this->procesado = true;
     }
 
+
+
+    public function finalizarProceso()
+    {
+        if (!$this->procesando) {
+            $this->procesando = true;
+
+            // Procesa los sueldos antes de guardar
+            $this->procesarSueldos();
+
+            DB::beginTransaction();
+            try {
+                // Elimina registros previos para este sueldo (opcional pero recomendado)
+                Rrhhsueldoempleado::where('rrhhsueldo_id', $this->rrhhsueldo->id)->delete();
+
+                $gestion = (int) $this->rrhhsueldo->gestion;
+                $mes = (int) $this->rrhhsueldo->mes;
+
+                $sueldos = [];
+
+                foreach ($this->contratosVigentes as $contrato) {
+                    // Rango del mes a analizar
+                    $inicioMes = Carbon::create($gestion, $mes, 1)->startOfDay();
+                    $finMes = Carbon::create($gestion, $mes, 1)->endOfMonth()->endOfDay();
+
+                    // Trae todos los permisos del empleado que se cruzan con el mes
+                    $permisos = Rrhhpermiso::where('empleado_id', $contrato->empleado_id)
+                        ->where(function ($q) use ($inicioMes, $finMes) {
+                            $q->whereDate('fecha_inicio', '<=', $finMes)
+                                ->whereDate('fecha_fin', '>=', $inicioMes);
+                        })
+                        ->get();
+
+                    $totalPermisos = 0;
+                    foreach ($permisos as $permiso) {
+                        $inicioPermiso = Carbon::parse($permiso->fecha_inicio)->startOfDay();
+                        $finPermiso = Carbon::parse($permiso->fecha_fin)->endOfDay();
+
+                        // Calcula el rango efectivo dentro del mes
+                        $inicio = $inicioPermiso->greaterThan($inicioMes) ? $inicioPermiso : $inicioMes;
+                        $fin = $finPermiso->lessThan($finMes) ? $finPermiso : $finMes;
+
+                        // Suma los días (incluyendo ambos extremos)
+                        $dias = $inicio->diffInDays($fin) + 1;
+                        $totalPermisos += $dias;
+                    }
+
+                    $sueldo = Rrhhsueldoempleado::create([
+                        'rrhhsueldo_id'        => $this->rrhhsueldo->id,
+                        'empleado_id'          => $contrato->empleado_id,
+                        'rrhhcontrato_id'      => $contrato->id,
+                        'nombreempleado'       => trim(($contrato->empleado->nombres ?? '') . ' ' . ($contrato->empleado->apellidos ?? '')),
+                        'total_permisos'       => $totalPermisos,
+                        'total_adelantos'      => $contrato->total_adelantos ? ($contrato->total_adelantos * -1) : 0, // Negativo si resta
+                        'total_bonosdescuentos' => $contrato->total_bonos ?? 0,     // Puede ser positivo o negativo
+                        'total_ctrlasistencias' => $contrato->total_ctrl_asist ?? 0, // Negativo si descuenta
+                        'salario_mes'          => $contrato->salario_asistencia ?? 0,
+                        'liquido_pagable'      => $contrato->total_liquido_pagable ?? 0,
+                    ]);
+
+                    $sueldos[] = $sueldo->toArray();
+                }
+
+                // Cambiar estado del sueldo a PROCESADO y guardar
+                $this->rrhhsueldo->estado = 'PROCESADO';
+                $this->rrhhsueldo->save();
+
+                DB::commit();
+
+                // Emitir evento para abrir el PDF
+                // $this->emit('abrirPdfSueldos', $this->rrhhsueldo->id);
+
+                $this->emit('renderizarpdf', $this->rrhhsueldo->id);
+
+
+
+                // Redireccionar (el mensaje ya lo tienes configurado)
+                return redirect()->route('admin.sueldos')->with('success', 'Sueldos finalizados y registrados correctamente.');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                $this->emit('error', 'Ha ocurrido un error: ' . $e->getMessage());
+            }
+        }
+    }
+
     public function getContratosFiltradosProperty()
     {
-        if (empty($this->searchEmpleado)) {
-            return $this->contratosVigentes;
+        $contratos = $this->contratosVigentes;
+
+        if (!empty($this->searchEmpleado)) {
+            $busqueda = mb_strtolower($this->searchEmpleado);
+            $contratos = $contratos->filter(function ($contrato) use ($busqueda) {
+                $nombre = mb_strtolower($contrato->empleado->nombres ?? '');
+                $apellidos = mb_strtolower($contrato->empleado->apellidos ?? '');
+                return strpos($nombre, $busqueda) !== false || strpos($apellidos, $busqueda) !== false;
+            });
         }
-        $busqueda = mb_strtolower($this->searchEmpleado);
-        return $this->contratosVigentes->filter(function ($contrato) use ($busqueda) {
-            $nombre = mb_strtolower($contrato->empleado->nombres ?? '');
-            $apellidos = mb_strtolower($contrato->empleado->apellidos ?? '');
-            return strpos($nombre, $busqueda) !== false || strpos($apellidos, $busqueda) !== false;
-        });
+
+        // Convierte a colección paginada manualmente
+        $page = $this->page ?? 1;
+        $perPage = $this->perPage;
+        $items = $contratos->slice(($page - 1) * $perPage, $perPage)->values();
+
+        return new \Illuminate\Pagination\LengthAwarePaginator(
+            $items,
+            $contratos->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+    }
+
+    public function updatingSearchEmpleado()
+    {
+        $this->resetPage();
     }
 
     public function render()

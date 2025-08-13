@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('empleado_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('rrhhcontrato_id')->nullable()->constrained()->nullOnDelete();
             $table->string('nombreempleado',70)->nullable();
-            $table->decimal('total_permisos', 10, 2)->default(0);
+            $table->integer('total_permisos')->default(0);
             $table->decimal('total_adelantos', 10, 2)->default(0);
             $table->decimal('total_bonosdescuentos', 10, 2)->default(0);
             $table->decimal('total_ctrlasistencias', 10, 2)->default(0);

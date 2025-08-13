@@ -22,6 +22,7 @@ use App\Http\Controllers\RrhhadelantoController;
 use App\Http\Controllers\RrhhasistenciaController;
 use App\Http\Controllers\RrhhbonoController;
 use App\Http\Controllers\RrhhcargoController;
+use App\Http\Controllers\RrhdotacionController;
 use App\Http\Controllers\RrhhdotacionController;
 use App\Http\Controllers\RrhhestadoController;
 use App\Http\Controllers\RrhhestadodotacionController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\RrhhpermisoController;
 use App\Http\Controllers\RrhhtipobonoController;
 use App\Http\Controllers\RrhhtipocontratoController;
 use App\Http\Controllers\RrhhtipopermisoController;
+use App\Http\Controllers\SueldoController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UbicacionController;
 use App\Http\Controllers\UploadsController;
@@ -141,7 +143,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/asistencias', Registroasistencias::class)->name('admin.asistencias');
     Route::get('admin/sueldos', ManageSueldos::class)->name('admin.sueldos');
     Route::get('admin/{rrhhsueldo_id}/procesar-sueldos', ProcesarSueldo::class)->name('admin.procesarsueldos');
-    
+
 
     Route::post('/designaciones-historial/exportar', [DesignacioneController::class, 'exportar'])->name('designaciones-historial.exportar');
 
@@ -182,7 +184,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/tareas', Registrostareas::class)->middleware('can:tareas.index')->name('admin.tareas');
     Route::get('admin/ctrl-airbnb', CtrlAllAirbnb::class)->name('admin.ctrlallairbnb');
     Route::get('admin/designaciones/guardias', [DesignacioneController::class, 'designacioneguardia'])->name('admin.designacione-guardias');
-    Route::get('admin/designaciones/selEmpleado/{empleado_id}', [DesignacioneController::class, 'seleccionarEmpleado'])->name('admin.selempleado');    
+    Route::get('admin/designaciones/selEmpleado/{empleado_id}', [DesignacioneController::class, 'seleccionarEmpleado'])->name('admin.selempleado');
 
     Route::resource('registroguardias', RegistroguardiaController::class)->names('registroguardias');
     Route::resource('admin/empleados', EmpleadoController::class)->names('empleados');
@@ -209,7 +211,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pdf/novedades/', [NovedadeController::class, 'pdfNovedades'])->name('pdf.novedades');
     Route::get('pdf/tareas/', [TareaController::class, 'pdfTareas'])->name('pdf.tareas');
     Route::get('pdf/asistencias/', [AsistenciaController::class, 'pdfAsistencia'])->name('pdf.asistencias');
-
+    Route::get('admin/pdf/sueldos/{id}', [SueldoController::class, 'previsualizacion'])->name('pdf.sueldos');
 
     Route::get('pdf/informe/{data}', [CiteinformeController::class, 'previsualizacion'])->name('pdf.informe');
     Route::get('admin/citesinforme', ListadoCiteInforme::class)->middleware('can:admin.generador.informe')->name('admin.citesinformes');

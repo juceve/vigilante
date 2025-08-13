@@ -29,27 +29,28 @@
             </h5>
         </div>
     @endsection
-
+    {{-- @dump($contratosVigentes) --}}
     <div class="container-fluid">
         {{-- Buscador --}}
         <div class="row mb-3">
-            <div class="col-md-4">
+            <div class="col-md-4 mb-2">
                 <div class="input-group">
-                    <input wire:model.debounce.500ms="searchEmpleado" type="text" class="form-control"
+                    <input wire:model.debounce.500ms="searchEmpleado" type="search" class="form-control"
                         placeholder="Buscar empleado por nombre o apellido...">
                     <div class="input-group-append">
                         <span class="input-group-text bg-primary text-white"><i class="fas fa-search"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 text-right">
+            <div class="col-md-8 text-right mb-2">
                 <div class="d-inline-block align-middle mr-3">
-                    <input type="checkbox" id="calcularHastaHoy" wire:model="calcularHastaHoy" style="vertical-align: middle;">
+                    <input type="checkbox" id="calcularHastaHoy" wire:model="calcularHastaHoy"
+                        style="vertical-align: middle;">
                     <label for="calcularHastaHoy" style="vertical-align: middle; margin-bottom: 0; margin-left: 4px;">
                         Calcular hasta hoy
                     </label>
                 </div>
-                <button class="btn btn-success" wire:click="procesarSueldos">
+                <button class="btn btn-primary" wire:click="procesarSueldos">
                     <i class="fas fa-cogs"></i> Procesar Sueldos
                 </button>
             </div>
@@ -70,14 +71,14 @@
 
         <div class="card card-primary card-outline shadow">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-2">
+                {{-- <div class="d-flex justify-content-between align-items-center mb-2">
                     <div>
                         <strong>Total registros:</strong>
                         <span class="text-primary font-weight-bold">
                             {{ $this->contratosFiltrados->count() }}
                         </span>
                     </div>
-                </div>
+                </div> --}}
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover mb-0">
                         <thead class="thead-light">
@@ -85,7 +86,7 @@
                                 <th class="text-center">Nro.</th>
                                 <th>Empleado</th>
                                 <th class="text-center">Salario Asistencia</th>
-                                <th class="text-center">Total Permisos</th>
+                                <th class="text-center">Total Permisos</th> <!-- NUEVA COLUMNA -->
                                 <th class="text-center">Total Adelantos</th>
                                 <th class="text-center">Total Bonos</th>
                                 <th class="text-center">Total Ctrl Asist.</th>
@@ -93,20 +94,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $i = 1; @endphp
+                            @php $i = ($this->contratosFiltrados->currentPage() - 1) * $this->contratosFiltrados->perPage() + 1; @endphp
                             @forelse($this->contratosFiltrados as $contrato)
                                 <tr>
                                     <td class="text-center align-middle text-muted">{{ $i++ }}</td>
                                     <td>
                                         <div class="font-weight-bold text-primary" style="font-size: 1.08em;">
-                                            {{ $contrato->empleado->nombres ?? '' }} {{ $contrato->empleado->apellidos ?? '' }}
+                                            {{ $contrato->empleado->nombres ?? '' }}
+                                            {{ $contrato->empleado->apellidos ?? '' }}
                                         </div>
                                         <div class="text-secondary" style="font-size: 0.97em;">
-                                            {{ $contrato->rrhhcargo->nombre ?? '-' }} &mdash; {{ $contrato->rrhhtipocontrato->nombre ?? '-' }}
+                                            {{ $contrato->rrhhcargo->nombre ?? '-' }} &mdash;
+                                            {{ $contrato->rrhhtipocontrato->nombre ?? '-' }}
                                         </div>
                                         <div class="text-dark" style="font-size: 0.97em;">
                                             <span class="font-italic">Sueldo:</span>
-                                            <span class="font-weight-bold">{{ number_format($contrato->salario_basico, 2) }}</span>
+                                            <span
+                                                class="font-weight-bold">{{ number_format($contrato->salario_basico, 2) }}</span>
                                         </div>
                                     </td>
                                     <td class="text-right align-middle text-info font-weight-bold">
@@ -114,32 +118,41 @@
                                             {{ $procesado ? number_format($contrato->salario_asistencia, 2) : number_format($contrato->salario_basico, 2) }}
                                         </span>
                                     </td>
-                                    <td class="text-right align-middle text-muted">
-                                        <span style="font-size: 0.98em;">0.00</span>
+
+                                    <td
+                                        class="text-center align-middle text-warning font-weight-bold">
+                                        <span style="font-size: 0.98em;">
+                                            {{ $procesado ? ($contrato->total_permisos ?? 0) : 0 }}
+                                        </span>
                                     </td>
-                                    <td class="text-right align-middle {{ $procesado && $contrato->total_adelantos > 0 ? 'text-danger font-weight-bold' : 'text-muted' }}">
+
+                                    <td
+                                        class="text-right align-middle {{ $procesado && $contrato->total_adelantos > 0 ? 'text-danger font-weight-bold' : 'text-muted' }}">
                                         <span style="font-size: 0.98em;">
                                             {{ $procesado ? number_format(abs($contrato->total_adelantos), 2) : '0.00' }}
                                         </span>
                                     </td>
-                                    <td class="text-right align-middle
-                                        @if($procesado && $contrato->total_bonos > 0) text-success font-weight-bold
+                                    <td
+                                        class="text-right align-middle
+                                        @if ($procesado && $contrato->total_bonos > 0) text-success font-weight-bold
                                         @elseif($procesado && $contrato->total_bonos < 0) text-danger font-weight-bold
                                         @else text-muted @endif">
                                         <span style="font-size: 0.98em;">
                                             {{ $procesado ? number_format(abs($contrato->total_bonos), 2) : '0.00' }}
                                         </span>
                                     </td>
-                                    <td class="text-right align-middle
-                                        @if($procesado && $contrato->total_ctrl_asist > 0) text-danger font-weight-bold
+                                    <td
+                                        class="text-right align-middle
+                                        @if ($procesado && $contrato->total_ctrl_asist > 0) text-danger font-weight-bold
                                         @elseif($procesado && $contrato->total_ctrl_asist < 0) text-success font-weight-bold
                                         @else text-muted @endif">
                                         <span style="font-size: 0.98em;">
                                             {{ $procesado ? number_format(abs($contrato->total_ctrl_asist), 2) : '0.00' }}
                                         </span>
                                     </td>
-                                    <td class="text-right align-middle font-weight-bold
-                                        @if($procesado && $contrato->total_liquido_pagable > 0) text-primary
+                                    <td
+                                        class="text-right align-middle font-weight-bold
+                                        @if ($procesado && $contrato->total_liquido_pagable > 0) text-primary
                                         @elseif($procesado && $contrato->total_liquido_pagable <= 0) text-danger
                                         @else text-dark @endif">
                                         <span style="font-size: 1.05em;">
@@ -149,17 +162,36 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-muted">No hay contratos vigentes para este periodo.</td>
+                                    <td colspan="8" class="text-center text-muted">No hay contratos vigentes para
+                                        este periodo.</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
+                    <div class="float-right mt-3">
+                        {{ $this->contratosFiltrados->links() }}
+                    </div>
                 </div>
+                @if ($procesado)
+                    <div class="row mt-3">
+                        <div class="col-12 col-md-6"></div>
+                        <div class="col-12 col-md-3 mb-3">
+                            <button class="btn btn-secondary btn-block" onclick="cancelarProceso()"><i
+                                    class="fas fa-ban"></i> Cancelar</button>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <button class="btn btn-success btn-block" onclick="confirmarFinalizarProceso()">
+                                Finalizar Proceso <i class="fas fa-save"></i>
+                            </button>
+                        </div>
+                    </div>
+                @endif
+
             </div>
         </div>
     </div> {{-- cierre de .container-fluid --}}
 
-    <div wire:loading wire:target="procesarSueldos">
+    <div wire:loading wire:target="procesarSueldos,finalizarProceso">
         <div
             style="
             position: fixed;
@@ -183,3 +215,46 @@
 
     </div>
 </div> {{-- cierre del div principal --}}
+@section('js')
+    <script>
+        function cancelarProceso() {
+            Swal.fire({
+                title: "Cancelar Proceso",
+                text: "No podrás revertir esto, se perderá todos los resultados.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Sí, continuar",
+                cancelButtonText: "No, cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('admin.sueldos') }}";
+                }
+            });
+        }
+
+        function confirmarFinalizarProceso() {
+            Swal.fire({
+                title: "¿Finalizar Proceso?",
+                text: "¿Está seguro de finalizar y registrar estos sueldos? Esta acción no se puede deshacer.",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Sí, finalizar",
+                cancelButtonText: "No, cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.finalizarProceso();
+                }
+            });
+        }
+    </script>
+    <script>
+        Livewire.on('renderizarpdf', id => {
+            var win = window.open("../pdf/sueldos/" + id, '_blank');
+            win.focus();
+        });
+    </script>
+@endsection
