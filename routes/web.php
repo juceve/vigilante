@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\CitecobroController;
 use App\Http\Controllers\CitecotizacionController;
 use App\Http\Controllers\CiteinformeController;
@@ -251,6 +252,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('customer/cobros', Cobros::class)->name('customer.cobros');
     Route::get('customer/recibos', Recibos::class)->name('customer.recibos');
     Route::get('customer/links', Links::class)->name('customer.links');
+
 });
 
 Route::middleware('throttle:10,1')->get('formulario-cobro/{link_id}', [FormularioAirbnbController::class, 'cobro'])->name('formcobro');

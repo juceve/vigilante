@@ -333,13 +333,13 @@ return [
                     'can'   =>  'rrhhsueldos.index',
                     'icon' => 'fas fa-fw fa-dollar-sign'
                 ],
-                 [
+                [
                     'text'  =>  'Control Asistencias',
                     'route' =>  'rrhhctrlasistencias',
                     'icon'  =>  'fas fa-user-clock',
                     'can'   =>  'rrhhctrlasistencias',
                 ],
-                 [
+                [
                     'text'  =>  'Asistencias Web',
                     'route' =>  'admin.asistencias',
                     'icon'  =>  'fas fa-mobile-alt',
@@ -351,7 +351,7 @@ return [
             'text'    => 'Registros',
             'icon'    => 'fas fa-fw fa-folder-open',
             'submenu' => [
-               
+
                 [
                     'text'  =>  'Pánico',
                     'route' =>  'admin.regactividad',
@@ -420,28 +420,20 @@ return [
                     'icon' => 'fas fa-fw fa-file-pdf'
                 ],
             ],
+
         ],
 
-
-        ['header' => 'Mantenimiento'],
         [
             'text' => 'Clientes',
             'url'  => 'admin/clientes',
             'can'   =>  'clientes.index',
             'icon' => 'fas fa-fw fa-address-book'
         ],
-
+        ['header' => 'Mantenimiento'],        
         [
-            'text'    => 'Configuraciones',
+            'text'    => 'Administración',
             'icon'    => 'fas fa-fw fa-cog',
             'submenu' => [
-                [
-                    'text' => 'Oficinas',
-                    'url'  => 'admin/oficinas',
-                    'can'   =>  'oficinas.index',
-                    'icon' => 'fas fa-fw fa-list'
-                ],
-
                 [
                     'text' => 'Cargos',
                     'route'  => 'rrhhcargos.index',
@@ -478,12 +470,34 @@ return [
                     'can'   =>  'rrhhestados.index',
                     'icon' => 'fas fa-exclamation'
                 ],
+            ]
+        ],
+        [
+            'text'    => 'Conf. Inicial',
+            'icon'    => 'fas fa-fw fa-cog',
+            'submenu' => [
+                [
+                    'text' => 'Oficinas',
+                    'url'  => 'admin/oficinas',
+                    'can'   =>  'oficinas.index',
+                    'icon' => 'fas fa-fw fa-list'
+                ],
                 [
                     'text' => 'Areas Laborales',
                     'url'  => 'admin/areas',
                     'can'   =>  'areas.index',
                     'icon' => 'fas fa-fw fa-warehouse'
                 ],
+            ]
+        ],
+        [
+            'text'    => 'Sistema',
+            'icon'    => 'fas fa-fw fa-cog',
+            'submenu' => [
+
+
+
+
                 [
                     'text' => 'Usuarios Sistema',
                     'url'  => 'admin/users',

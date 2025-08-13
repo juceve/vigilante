@@ -86,7 +86,8 @@
         @foreach ($boletas as $b)
             <div class="boleta">
                 <div class="titulo">{{ $appName }}</div>
-                <div class="titulo">Boleta de Pago</div>
+                <div class="titulo">Boleta de Pago NRO° {{ str_pad($b->id, 6, '0', STR_PAD_LEFT) }}</div>
+                
 
                 <div class="campo">
                     <span>Gestión: {{ $rrhhsueldo->gestion }}</span>

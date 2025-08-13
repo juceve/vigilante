@@ -17,6 +17,7 @@ use App\Models\Rrhhsueldoempleado;
 use App\Models\Rrhhpermiso;
 use Barryvdh\DomPDF\Facade\Pdf; // Asegúrate de tener este use
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Collection;
 
 class ProcesarSueldo extends Component
 {
@@ -44,77 +45,61 @@ class ProcesarSueldo extends Component
         $inicioMes = Carbon::create($gestion, $mes, 1)->startOfDay();
         $finMes = Carbon::create($gestion, $mes, 1)->endOfMonth()->endOfDay();
 
-        // Detectar empleados con contratos solapados en el rango
-        $contratosSolapados = RrhhContrato::select('empleado_id')
-            ->where('activo', true)
+        // Trae todos los contratos que caen en el mes, sin importar si están activos
+        $contratosEnMes = RrhhContrato::with(['empleado', 'rrhhtipocontrato', 'rrhhcargo'])
             ->whereDate('fecha_inicio', '<=', $finMes)
             ->where(function ($q) use ($inicioMes) {
                 $q->whereNull('fecha_fin')
                     ->orWhereDate('fecha_fin', '>=', $inicioMes);
             })
-            ->groupBy('empleado_id')
-            ->havingRaw('COUNT(*) > 1')
-            ->pluck('empleado_id')
-            ->toArray();
+            ->get();
 
-        if (count($contratosSolapados) > 0) {
-            $this->alertasSolapamiento = Empleado::whereIn('id', $contratosSolapados)->get();
+        // Detecta solapamientos reales
+        $alertasSolapamiento = collect();
+        $contratosPorEmpleado = $contratosEnMes->groupBy('empleado_id');
+        foreach ($contratosPorEmpleado as $empleado_id => $contratos) {
+            $contratos = $contratos->sortBy('fecha_inicio')->values();
+            for ($i = 0; $i < $contratos->count() - 1; $i++) {
+                $a = $contratos[$i];
+                $b = $contratos[$i + 1];
+                $a_fin = $a->fecha_fin ? Carbon::parse($a->fecha_fin) : $finMes;
+                $b_ini = Carbon::parse($b->fecha_inicio);
+                if ($a_fin >= $b_ini) {
+                    $alertasSolapamiento->push($empleado_id);
+                    break;
+                }
+            }
+        }
+        if ($alertasSolapamiento->count() > 0) {
+            $this->alertasSolapamiento = Empleado::whereIn('id', $alertasSolapamiento)->get();
         }
 
-        // Traer solo el contrato vigente correcto por empleado
-        $this->contratosVigentes = RrhhContrato::with(['empleado', 'rrhhtipocontrato', 'rrhhcargo'])
-            ->where('activo', true)
-            ->whereDate('fecha_inicio', '<=', $finMes)
-            ->where(function ($q) use ($inicioMes) {
-                $q->whereNull('fecha_fin')
-                    ->orWhereDate('fecha_fin', '>=', $inicioMes);
-            })
-            ->whereIn('id', function ($query) use ($finMes, $inicioMes) {
-                $query->select('id')
-                    ->from('rrhhcontratos as c2')
-                    ->where('activo', true)
-                    ->whereDate('fecha_inicio', '<=', $finMes)
-                    ->where(function ($q) use ($inicioMes) {
-                        $q->whereNull('fecha_fin')
-                            ->orWhereDate('fecha_fin', '>=', $inicioMes);
-                    })
-                    ->whereRaw('c2.id = (
-                    SELECT cc.id
-                    FROM rrhhcontratos cc
-                    WHERE cc.empleado_id = c2.empleado_id
-                      AND cc.activo = 1
-                      AND cc.fecha_inicio <= ?
-                      AND (cc.fecha_fin IS NULL OR cc.fecha_fin >= ?)
-                    ORDER BY cc.fecha_inicio ASC, cc.id ASC
-                    LIMIT 1
-                )', [$finMes, $inicioMes]);
-            })
-            ->get()
-            ->map(function ($contrato) {
-                $fechaInicio = $contrato->fecha_inicio instanceof Carbon
-                    ? $contrato->fecha_inicio
-                    : Carbon::parse($contrato->fecha_inicio);
+        // Procesa todos los contratos cumplidos
+        $this->contratosVigentes = $contratosEnMes->map(function ($contrato) {
+            $fechaInicio = $contrato->fecha_inicio instanceof Carbon
+                ? $contrato->fecha_inicio
+                : Carbon::parse($contrato->fecha_inicio);
 
-                $gestionContrato = $fechaInicio->year;
-                $mesContrato = $fechaInicio->month;
+            $gestionContrato = $fechaInicio->year;
+            $mesContrato = $fechaInicio->month;
 
-                if (
-                    $gestionContrato == $this->rrhhsueldo->gestion &&
-                    $mesContrato == $this->rrhhsueldo->mes
-                ) {
-                    $contrato->inicio_mes = ($fechaInicio->day == 1)
-                        ? 'MES COMPLETO'
-                        : 'INICIO PARCIAL';
-                } else {
-                    $contrato->inicio_mes = 'MES COMPLETO';
-                }
-                // Inicializa totales en 0
-                $contrato->total_adelantos = 0;
-                $contrato->total_bonos = 0;
-                $contrato->total_ctrl_asist = 0;
-                $contrato->total_liquido_pagable = $contrato->salario_basico;
-                return $contrato;
-            });
+            if (
+                $gestionContrato == $this->rrhhsueldo->gestion &&
+                $mesContrato == $this->rrhhsueldo->mes
+            ) {
+                $contrato->inicio_mes = ($fechaInicio->day == 1)
+                    ? 'MES COMPLETO'
+                    : 'INICIO PARCIAL';
+            } else {
+                $contrato->inicio_mes = 'MES COMPLETO';
+            }
+            // Inicializa totales en 0
+            $contrato->total_adelantos = 0;
+            $contrato->total_bonos = 0;
+            $contrato->total_ctrl_asist = 0;
+            $contrato->total_liquido_pagable = $contrato->salario_basico;
+            return $contrato;
+        });
     }
 
     public function procesarSueldos()
@@ -195,17 +180,18 @@ class ProcesarSueldo extends Component
             $contrato->total_ctrl_asist = round(-$diferenciaTotal, 2);
 
             // Adelantos
-            $fechaInicio = $fechaInicioMes->format('Y-m-d');
-            $fechaFin = $fechaFinMes->format('Y-m-d');
+            $fechaInicioVigencia = $fechaInicioCalculo->format('Y-m-d');
+            $fechaFinVigencia = $fechaFinCalculo->format('Y-m-d');
+
             $adelantos = Rrhhadelanto::where('empleado_id', $contrato->empleado_id)
-                ->whereDate('fecha', '>=', $fechaInicio)
-                ->whereDate('fecha', '<=', $fechaFin)
+                ->whereDate('fecha', '>=', $fechaInicioVigencia)
+                ->whereDate('fecha', '<=', $fechaFinVigencia)
                 ->sum('monto');
 
             // Bonos (cantidad * monto)
             $bonos = Rrhhbono::where('empleado_id', $contrato->empleado_id)
-                ->whereDate('fecha', '>=', $fechaInicio)
-                ->whereDate('fecha', '<=', $fechaFin)
+                ->whereDate('fecha', '>=', $fechaInicioVigencia)
+                ->whereDate('fecha', '<=', $fechaFinVigencia)
                 ->get()
                 ->sum(function ($bono) {
                     return $bono->cantidad * $bono->monto;
