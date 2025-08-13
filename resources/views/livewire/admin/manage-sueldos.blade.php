@@ -7,9 +7,12 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h4>Sueldos</h4>
                 <div class="">
-                    <button class="btn btn-primary" wire:click="openCreateModal" data-toggle="modal" data-target="#modalSueldo">
-                        <i class="fa fa-plus"></i> Nuevo
-                    </button>
+                    @can('rrhhsueldos.procesar')
+                        <button class="btn btn-primary" wire:click="openCreateModal" data-toggle="modal" data-target="#modalSueldo">
+                            <i class="fa fa-plus"></i> Nuevo
+                        </button>
+                    @endcan
+
                 </div>
             </div>
         </div>
@@ -139,14 +142,35 @@
                                         @endif
                                     </td>
                                     <td class="text-right">
-                                        <a href="{{route('admin.procesarsueldos', $sueldo->id)}}" class="btn btn-info btn-sm" title="Procesar"><i
-                                                class="fa fa-cogs"></i></a>
-                                        <button class="btn btn-warning btn-sm" title="Editar"
-                                            wire:click="openEditModal({{ $sueldo->id }})" data-toggle="modal"
-                                            data-target="#modalSueldo"><i class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm" title="Eliminar" wire:click="confirmDelete({{ $sueldo->id }})">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
+                                        @if ($sueldo->estado === 'CREADO')
+                                            @can('rrhhsueldos.procesar')
+                                                <a href="{{ route('admin.procesarsueldos', $sueldo->id) }}"
+                                                    class="btn btn-info btn-sm" title="Procesar">
+                                                    <i class="fa fa-cogs"></i>
+                                                </a>
+                                            @endcan
+                                        @elseif ($sueldo->estado === 'PROCESADO')
+                                            <a href="{{ route('pdf.sueldos', $sueldo->id) }}"
+                                                class="btn btn-primary btn-sm" title="Resumen PDF" target="_blank">
+                                                <i class="fa fa-file-pdf px-1"></i>
+                                            </a>
+                                            <a href="{{ route('pdf.boletas', $sueldo->id) }}"
+                                                class="btn btn-success btn-sm" title="Generar Boletas" target="_blank">
+                                                <i class="fa fa-file-signature"></i>
+                                            </a>
+                                        @endif
+                                        @can('rrhhsueldos.edit')
+                                            <button class="btn btn-warning btn-sm" title="Editar"
+                                                wire:click="openEditModal({{ $sueldo->id }})" data-toggle="modal"
+                                                data-target="#modalSueldo"><i class="fa fa-edit"></i></button>
+                                        @endcan
+                                        @can('rrhhsueldos.destroy')
+                                            <button class="btn btn-danger btn-sm" title="Eliminar"
+                                                wire:click="confirmDelete({{ $sueldo->id }})">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        @endcan
+
                                     </td>
                                 </tr>
                             @empty
@@ -247,8 +271,8 @@
         }
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            window.addEventListener('swal:confirm-delete', function () {
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('swal:confirm-delete', function() {
                 Swal.fire({
                     title: '¿Está seguro?',
                     text: 'Esta acción no se puede deshacer.',

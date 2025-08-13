@@ -112,5 +112,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'rrhhestipobonos.create',  'grupo' => 'TIPO BONOS', 'descripcion' => 'Crear'])->assignRole([$role]);
         Permission::create(['name' => 'rrhhestipobonos.edit',  'grupo' => 'TIPO BONOS', 'descripcion' => 'Editar'])->assignRole([$role]);
         Permission::create(['name' => 'rrhhestipobonos.destroy',  'grupo' => 'TIPO BONOS', 'descripcion' => 'Eliminar'])->assignRole([$role]);
+        
+        Permission::create(['name' => 'rrhhsueldos.index',  'grupo' => 'SUELDOS', 'descripcion' => 'Listado'])->assignRole([$role]);
+        Permission::create(['name' => 'rrhhsueldos.procesar',  'grupo' => 'SUELDOS', 'descripcion' => 'Procesar'])->assignRole([$role]);
+        Permission::create(['name' => 'rrhhsueldos.edit',  'grupo' => 'SUELDOS', 'descripcion' => 'Editar'])->assignRole([$role]);
+        Permission::create(['name' => 'rrhhsueldos.destroy',  'grupo' => 'SUELDOS', 'descripcion' => 'Eliminar'])->assignRole([$role]);
     }
 }

@@ -141,8 +141,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin/rondas', Registrosronda::class)->middleware('can:admin.registros.rondas')->name('admin.rondas');
     Route::get('admin/novedades', Registrosnovedades::class)->middleware('can:admin.registros.novedades')->name('admin.novedades');
     Route::get('admin/asistencias', Registroasistencias::class)->name('admin.asistencias');
-    Route::get('admin/sueldos', ManageSueldos::class)->name('admin.sueldos');
-    Route::get('admin/{rrhhsueldo_id}/procesar-sueldos', ProcesarSueldo::class)->name('admin.procesarsueldos');
+    Route::get('admin/sueldos', ManageSueldos::class)->middleware('can:rrhhsueldos.index')->name('admin.sueldos');
+    Route::get('admin/{rrhhsueldo_id}/procesar-sueldos', ProcesarSueldo::class)->middleware('can:rrhhsueldos.procesar')->name('admin.procesarsueldos');
 
 
     Route::post('/designaciones-historial/exportar', [DesignacioneController::class, 'exportar'])->name('designaciones-historial.exportar');
@@ -212,6 +212,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pdf/tareas/', [TareaController::class, 'pdfTareas'])->name('pdf.tareas');
     Route::get('pdf/asistencias/', [AsistenciaController::class, 'pdfAsistencia'])->name('pdf.asistencias');
     Route::get('admin/pdf/sueldos/{id}', [SueldoController::class, 'previsualizacion'])->name('pdf.sueldos');
+    Route::get('admin/pdf/boletas-sueldo/{id}', [SueldoController::class, 'boletas'])->name('pdf.boletas');
 
     Route::get('pdf/informe/{data}', [CiteinformeController::class, 'previsualizacion'])->name('pdf.informe');
     Route::get('admin/citesinforme', ListadoCiteInforme::class)->middleware('can:admin.generador.informe')->name('admin.citesinformes');

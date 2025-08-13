@@ -43,13 +43,7 @@
                 </div>
             </div>
             <div class="col-md-8 text-right mb-2">
-                <div class="d-inline-block align-middle mr-3">
-                    <input type="checkbox" id="calcularHastaHoy" wire:model="calcularHastaHoy"
-                        style="vertical-align: middle;">
-                    <label for="calcularHastaHoy" style="vertical-align: middle; margin-bottom: 0; margin-left: 4px;">
-                        Calcular hasta hoy
-                    </label>
-                </div>
+               
                 <button class="btn btn-primary" wire:click="procesarSueldos">
                     <i class="fas fa-cogs"></i> Procesar Sueldos
                 </button>
@@ -103,14 +97,17 @@
                                             {{ $contrato->empleado->nombres ?? '' }}
                                             {{ $contrato->empleado->apellidos ?? '' }}
                                         </div>
-                                        <div class="text-secondary" style="font-size: 0.97em;">
+                                        <div class="text-secondary" style="font-size: 0.90em;">
                                             {{ $contrato->rrhhcargo->nombre ?? '-' }} &mdash;
                                             {{ $contrato->rrhhtipocontrato->nombre ?? '-' }}
                                         </div>
-                                        <div class="text-dark" style="font-size: 0.97em;">
+                                        <div class="text-muted" style="font-size: 0.88em;">
+                                            <span class="font-italic">Inicio contrato:</span>
+                                            <span>{{ \Carbon\Carbon::parse($contrato->fecha_inicio)->format('d/m/Y') }}</span>
+                                        </div>
+                                        <div class="text-dark" style="font-size: 0.90em;">
                                             <span class="font-italic">Sueldo:</span>
-                                            <span
-                                                class="font-weight-bold">{{ number_format($contrato->salario_basico, 2) }}</span>
+                                            <span class="font-weight-bold">{{ number_format($contrato->salario_basico, 2) }}</span>
                                         </div>
                                     </td>
                                     <td class="text-right align-middle text-info font-weight-bold">

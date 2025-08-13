@@ -150,25 +150,27 @@ class ProcesarSueldo extends Component
                 ? $contrato->salario_basico / $cantidadDiasContrato
                 : 0;
 
-            // Días realmente trabajados en el periodo seleccionado
-            $diasTrabajadosMes = $fechaFinMes->day - $diaInicio + 1;
+            // Determina el rango real de días a calcular
+            $fechaFinContrato = $contrato->fecha_fin ? Carbon::parse($contrato->fecha_fin) : null;
+            $fechaInicioCalculo = $fechaInicioContrato->greaterThan($fechaInicioMes) ? $fechaInicioContrato : $fechaInicioMes;
+            $fechaFinCalculo = $fechaFinContrato
+                ? ($fechaFinContrato->lessThan($fechaFinMes) ? $fechaFinContrato : $fechaFinMes)
+                : $fechaFinMes;
 
-            // Salario básico proporcional solo si es hasta hoy, si no, es el salario completo
             if ($this->calcularHastaHoy) {
-                $salarioBasicoProporcional = $cantidadDiasContrato > 0
-                    ? round($contrato->salario_basico * ($diasTrabajadosMes / $cantidadDiasContrato), 2)
-                    : 0;
-            } else {
-                $salarioBasicoProporcional = $contrato->salario_basico;
+                $fechaFinCalculo = min($fechaFinCalculo, Carbon::today());
             }
 
-            // Cálculo de asistencia
+            // Cálculo de asistencia y días realmente trabajados
+            $diasTrabajadosMes = 0;
             $diferenciaTotal = 0;
-            for ($dia = $diaInicio; $dia <= $fechaFinMes->day; $dia++) {
-                $fechaActual = Carbon::create($gestion, $mes, $dia)->format('Y-m-d');
+            $fechaActual = $fechaInicioCalculo->copy();
+
+            while ($fechaActual->lte($fechaFinCalculo)) {
+                $diasTrabajadosMes++;
 
                 $asistencia = Rrhhasistencia::where('empleado_id', $contrato->empleado_id)
-                    ->whereDate('fecha', $fechaActual)
+                    ->whereDate('fecha', $fechaActual->format('Y-m-d'))
                     ->first();
 
                 if ($asistencia) {
@@ -179,10 +181,17 @@ class ProcesarSueldo extends Component
                 }
 
                 $diferenciaTotal += $valorDia * ($factor - 1);
+
+                $fechaActual->addDay();
             }
 
+            // Salario básico proporcional SIEMPRE por los días realmente trabajados
+            $salarioBasicoProporcional = $cantidadDiasContrato > 0
+                ? round($contrato->salario_basico * min($diasTrabajadosMes, $cantidadDiasContrato) / $cantidadDiasContrato, 2)
+                : 0;
+
             // Salario ajustado por asistencia y proporcionalidad
-            $contrato->salario_asistencia = round($salarioBasicoProporcional + $diferenciaTotal, 2);
+            $contrato->salario_asistencia = round(min($salarioBasicoProporcional + $diferenciaTotal, $contrato->salario_basico), 2);
             $contrato->total_ctrl_asist = round(-$diferenciaTotal, 2);
 
             // Adelantos

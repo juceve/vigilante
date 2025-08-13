@@ -77,7 +77,7 @@
                 <th>Adelantos</th>
                 <th>Bonos/Descuentos</th>
                 <th>Ctrl. Asist.</th>
-                <th>Salario Mes</th>
+                <th>Basico</th>
                 <th>Líquido Pagable</th>
             </tr>
         </thead>
